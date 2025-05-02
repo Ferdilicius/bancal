@@ -16,7 +16,7 @@
 
     {{ $slot }}
     
-    @include('layouts.footer')
+    @include('layouts.bancal.footer')
 
     @livewireScripts
 </body>
