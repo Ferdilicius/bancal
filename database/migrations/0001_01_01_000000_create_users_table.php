@@ -20,6 +20,11 @@ return new class extends Migration
             $table->rememberToken();
             $table->foreignId('current_team_id')->nullable();
             $table->string('profile_photo_path', 2048)->nullable();
+            $table->string('google_uid')->unique()->nullable();
+            $table->string('facebook_uid')->unique()->nullable();
+            $table->string('dni_cif')->unique()->nullable();
+            $table->string('dni_cif_url', 2048)->nullable();
+            $table->foreignId('user_type_id')->constrained('user_types')->onDelete('cascade');
             $table->timestamps();
         });
 
