@@ -1,13 +1,4 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bancal</title>
-    <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.10.2/dist/cdn.min.js" defer></script>
-    <script src="https://cdn.tailwindcss.com"></script>
-</head>
-<body class="bg-gray-100">
+<div class="bg-gray-100">
     <header class="bg-[#9E203F] text-white p-4 hidden md:block">
         <div class="container mx-auto flex justify-between items-center">
             <!-- Logo de la fresa -->
@@ -34,9 +25,6 @@
             </nav>
         </div>
 
-
-        
-
         <!-- Menú desplegable en móviles -->
         <div x-show="open" class="md:hidden bg-gray-100 mt-2 p-4">
             <a href="pagina_usuario.html" class="block py-2 hover:bg-gray-200">Usuario</a>
@@ -54,5 +42,4 @@
             </div>
         </div>
     </header>
-</body>
-</html>
+</div>
