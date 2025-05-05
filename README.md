@@ -15,11 +15,21 @@ ________________________________________________________________________________
 -BORRAR TODAS LAS MIGRACIONES Y CREARLAS DE NUEVO Y EJECTUAR LOS SEEDERS.
 
 php artisan migrate:fresh --seed
+_________________________________________________________________________________
+
+-CREAR UNA MIGRACIÓN Y CON MODELO
+
+//sin modelo
+php artisan make:migration create_nombre_de_la_tabla_table
+
+//con modelo
+php artisan make:model NombreDelModelo -m
 ___________________________________________________________________________________
 
--CREAR UNA MIGRACIÓN
+-CREAR FACTORY Y SEEDER
 
-php artisan make:migration create_nombre_de_la_tabla_table
+//solo un factory
+php artisan make:factory NombreDelModeloFactory
 ___________________________________________________________________________________
 
 -SI EMPIEZAS DESDE 0

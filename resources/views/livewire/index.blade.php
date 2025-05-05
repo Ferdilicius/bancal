@@ -1,12 +1,39 @@
 @section('title', 'Bancal - Página Principal')
 
-<div class="container mx-auto mt-5 px-4 sm:px-6 lg:px-8">
-    <h1 class="text-center text-2xl sm:text-4xl font-bold text-gray-800">Bienvenido a Bancal</h1>
-    <p class="text-center text-base sm:text-lg text-gray-600 mt-2">Esta es la página principal de nuestra aplicación.</p>
-    <div class="flex flex-col sm:flex-row justify-center mt-6 space-y-4 sm:space-y-0 sm:space-x-4">
-        <button type="button"
-            class="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded transition duration-200">Explorar</button>
-        <button type="button"
-            class="bg-gray-500 hover:bg-gray-600 text-white font-semibold py-2 px-4 rounded transition duration-200">Contacto</button>
+<div>
+<div class="block sm:hidden">
+    <video class="w-full w-screen h-screen object-cover" autoplay muted loop>
+        <source src="{{ asset('videos/hero_mobile.mp4') }}" type="video/mp4">
+        Tu navegador no soporta la reproducción de vídeos.
+    </video>
+</div>
+
+<!-- Barra animada -->
+<div class="block sm:hidden bg-salmon text-white text-center py-4 overflow-hidden relative">
+    <div class="animate-marquee whitespace-nowrap">
+        <span class="text-lg font-bold">¡Bienvenido a Bancal! Disfruta de nuestra plataforma. </span>
     </div>
 </div>
+
+<style>
+    @keyframes marquee {
+        0% {
+            transform: translateX(100%);
+        }
+        50% {
+            transform: translateX(-100%);
+        }
+        100% {
+            transform: translateX(-100%);
+        }
+    }
+
+    .animate-marquee {
+        display: inline-block;
+        animation: marquee 10s linear infinite;
+    }
+
+    .bg-salmon {
+        background-color: #FA8072; /* Color salmón */
+    }
+</style>

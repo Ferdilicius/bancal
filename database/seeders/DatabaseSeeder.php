@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use App\Models\User;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
 
 class DatabaseSeeder extends Seeder
 {
@@ -13,12 +14,18 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
+        DB::table('user_types')->insert([
+            ['name' => 'Empresa'],
+            ['name' => 'Particular'],
+        ]);
+
         User::factory(10)->create();
 
         User::factory()->create([
             'name' => 'Test',
             'email' => 'test@example.com',
             'password' => '1',
+            'user_type_id' => 1,
         ]);
 
     }
