@@ -13,31 +13,29 @@
     <div class="animate-marquee whitespace-nowrap">
         <span class="text-lg font-bold">¡Bienvenido a Bancal! Disfruta de nuestra plataforma. </span>
     </div>
-<<<<<<< HEAD
+
+    <style>
+        @keyframes marquee {
+            0% {
+                transform: translateX(100%);
+            }
+            50% {
+                transform: translateX(-100%);
+            }
+            100% {
+                transform: translateX(-100%);
+            }
+        }
+    
+        .animate-marquee {
+            display: inline-block;
+            animation: marquee 10s linear infinite;
+        }
+    
+        .bg-salmon {
+            background-color: #FA8072; /* Color salmón */
+        }
+    </style>
 </div>
 
-<style>
-    @keyframes marquee {
-        0% {
-            transform: translateX(100%);
-        }
-        50% {
-            transform: translateX(-100%);
-        }
-        100% {
-            transform: translateX(-100%);
-        }
-    }
 
-    .animate-marquee {
-        display: inline-block;
-        animation: marquee 10s linear infinite;
-    }
-
-    .bg-salmon {
-        background-color: #FA8072; /* Color salmón */
-    }
-</style>
-=======
-</div>
->>>>>>> 5e268d1a80b1e948b9d3112a09e5a2a0565b9e1d

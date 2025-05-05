@@ -64,4 +64,20 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+
+    /**
+     * Get the user type associated with the user.
+     */
+    public function userType()
+    {
+        return $this->belongsTo(UserType::class);
+    }
+
+    /**
+     * Get the products associated with the user.
+     */
+    public function products()
+    {
+        return $this->hasMany(Product::class);
+    }
 }
