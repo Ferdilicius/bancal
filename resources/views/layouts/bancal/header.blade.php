@@ -7,7 +7,7 @@
             <a href="{{ url('/') }}">
                 <img src="{{ asset('images/la_fresa.png') }}" alt="Bancal" class="h-10 md:h-14">
             </a>
-
+            
             <!-- User and Cart Icons -->
             <nav class="hidden md:flex space-x-4">
                 <a href="{{ route('profile.show') }}">
@@ -37,7 +37,7 @@
         </div>
 
         <!-- Mobile Dropdown Menu -->
-        <div x-show="open" @click.away="open = false" class="bg-gray-100 mt-2 p-4">
+        <div x-show="open" x-cloak @click.away="open = false" class="bg-gray-100 mt-2 p-4">
             <a href="{{ route('profile.show') }}" class="block py-2 hover:bg-gray-200">Usuario</a>
             <a href="" class="block py-2 hover:bg-gray-200">Carrito</a>
         </div>
