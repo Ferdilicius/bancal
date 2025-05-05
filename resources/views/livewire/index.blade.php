@@ -13,6 +13,7 @@
     <div class="animate-marquee whitespace-nowrap">
         <span class="text-lg font-bold">¡Bienvenido a Bancal! Disfruta de nuestra plataforma. </span>
     </div>
+<<<<<<< HEAD
 </div>
 
 <style>
@@ -37,3 +38,6 @@
         background-color: #FA8072; /* Color salmón */
     }
 </style>
+=======
+</div>
+>>>>>>> 5e268d1a80b1e948b9d3112a09e5a2a0565b9e1d
