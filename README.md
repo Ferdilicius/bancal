@@ -48,4 +48,11 @@ npm install
 php artisan key:generate
 ___________________________________________________________________________________
 
-Stream Hands Up de MEOVV en Spotify
+Cuando se realice un commit, se añadirá, al principio, una palabra determinada para conocer, a simple vista, de qué se trata dicho commit:
+
+> feat: para nuevas funcionalidades
+> fix: para correcciones de errores
+> docs: para modificaciones en la documentación
+> style: para modificaciones en el código de estilo
+> refactor: para refactorizaciones
+> test: para tests

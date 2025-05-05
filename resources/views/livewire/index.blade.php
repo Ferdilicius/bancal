@@ -1,6 +1,8 @@
 @section('title', 'Bancal - Página Principal')
 
-<!-- Hero Section -->
+@vite('resources/css/index.css')
+
+<!-- Hero -->
 <div>
     <div class="relative top-0 block md:hidden">
         <video class="w-screen h-screen object-cover" autoplay muted loop>
@@ -8,5 +10,12 @@
             Tu navegador no soporta la reproducción de vídeos.
         </video>
     </div>
+<!-- Barra animada: ¿Quiénes somos? -->
+<div class="bg-[#9E203F] text-white text-center py-4 overflow-hidden relative">
+    <div class="animate-marquee whitespace-nowrap">
+        <span class="text-lg font-bold">¡Bienvenido a Bancal! Disfruta de nuestra plataforma. </span>
+    </div>
+</div>
+
     <livewire:mostrar-todos />
 </div>
