@@ -2,7 +2,9 @@
 
 namespace Database\Seeders;
 
+use App\Models\Product;
 use App\Models\User;
+use App\Models\UserType;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
@@ -14,19 +16,10 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        DB::table('user_types')->insert([
-            ['name' => 'Empresa'],
-            ['name' => 'Particular'],
-        ]);
+        $this->call(UserTypeSeeder::class);
 
-        User::factory(10)->create();
+        $this->call(UserSeeder::class);
 
-        User::factory()->create([
-            'name' => 'Test',
-            'email' => 'test@example.com',
-            'password' => '1',
-            'user_type_id' => 1,
-        ]);
-
+        $this->call(ProductSeeder::class);
     }
 }

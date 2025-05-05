@@ -15,8 +15,10 @@
     @include('layouts.bancal.header')
 
     {{ $slot }}
-    
+
     @include('layouts.bancal.footer')
+
+    <script src="https://kit.fontawesome.com/ad6539a3b4.js" crossorigin="anonymous"></script>
 
     @livewireScripts
 </body>

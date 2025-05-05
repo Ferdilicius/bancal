@@ -25,6 +25,7 @@ return new class extends Migration
             $table->string('dni_cif')->unique()->nullable();
             $table->string('dni_cif_url', 2048)->nullable();
             $table->foreignId('user_type_id')->constrained('user_types')->onDelete('cascade');
+            $table->string('phone')->nullable(); 
             $table->timestamps();
         });
 
