@@ -8,5 +8,5 @@
             Tu navegador no soporta la reproducción de vídeos.
         </video>
     </div>
-    @livewire('mostrar-todos')
+    <livewire:mostrar-todos />
 </div>
