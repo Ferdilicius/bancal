@@ -1,14 +1,41 @@
 @section('title', 'Bancal - Página Principal')
 
-<div class="container mx-auto mt-10 px-6 sm:px-8 lg:px-12">
-    <h1 class="text-center text-3xl sm:text-5xl font-extrabold text-gray-900 leading-tight">
-        Bienvenido a Bancal
-    </h1>
-    <p class="text-center text-lg sm:text-xl text-gray-700 mt-4">
-        Esta es la página principal de nuestra aplicación.
-
-        <i class="fa-solid fa-cloud text-blue-500"></i>
-    </p>
-
-    @livewire('MostrarTodos')
+<div>
+<div class="block sm:hidden">
+    <video class="w-full w-screen h-screen object-cover" autoplay muted loop>
+        <source src="{{ asset('videos/hero_mobile.mp4') }}" type="video/mp4">
+        Tu navegador no soporta la reproducción de vídeos.
+    </video>
 </div>
+
+<!-- Barra animada -->
+<div class="block sm:hidden bg-salmon text-white text-center py-4 overflow-hidden relative">
+    <div class="animate-marquee whitespace-nowrap">
+        <span class="text-lg font-bold">¡Bienvenido a Bancal! Disfruta de nuestra plataforma. </span>
+    </div>
+
+    <style>
+        @keyframes marquee {
+            0% {
+                transform: translateX(100%);
+            }
+            50% {
+                transform: translateX(-100%);
+            }
+            100% {
+                transform: translateX(-100%);
+            }
+        }
+    
+        .animate-marquee {
+            display: inline-block;
+            animation: marquee 10s linear infinite;
+        }
+    
+        .bg-salmon {
+            background-color: #FA8072; /* Color salmón */
+        }
+    </style>
+</div>
+
+

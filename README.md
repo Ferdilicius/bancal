@@ -47,3 +47,5 @@ npm install
 
 php artisan key:generate
 ___________________________________________________________________________________
+
+Stream Hands Up de MEOVV en Spotify
