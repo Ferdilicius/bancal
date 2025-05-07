@@ -18,6 +18,8 @@ return new class extends Migration
             $table->integer('quantity')->default(0);
             $table->float('price');
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
+            $table->string('image')->nullable();
+            $table->integer('status')->default(0);
             $table->timestamps();
         });
         
