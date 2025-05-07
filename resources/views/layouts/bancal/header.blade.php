@@ -9,12 +9,16 @@
             </a>
 
             <!-- User and Cart Icons -->
-            <nav class="hidden md:flex space-x-4">
+            <nav class="hidden md:flex space-x-2">
                 <a href="{{ route('profile.show') }}" class="mr-4">
-                    <i class="fa-solid fa-user text-3xl"></i>
+                    <button class="w-14 h-14 bg-white rounded-full flex items-center justify-center hover:shadow-[inset_0_0_10px_rgba(0,0,0,0.75)]">
+                        <i class="fa-solid fa-user text-[#9E203F] text-3xl"></i>
+                    </button>
                 </a>
                 <a href="#" class="ml-4">
-                    <i class="fa-solid fa-cart-shopping text-3xl"></i>
+                    <button class="w-14 h-14 bg-white rounded-full flex items-center justify-center hover:shadow-[0_0_10px_rgba(0,0,0,0.75)]">
+                        <i class="fa-solid fa-cart-shopping text-[#9E203F] text-3xl"></i>
+                    </button>
                 </a>
             </nav>
         </div>
@@ -30,13 +34,29 @@
                 </a>
             </div>
 
+            <!-- Search Bar Mobile -->
+            <div class="flex-grow mx-4">
+                <div class="relative">
+                    <input 
+                        type="text" 
+                        placeholder="EXPLORAR BANCALES" 
+                        class="w-full h-7 px-4 pl-10 bg-white text-[#9E203F] rounded-full placeholder-[#9E203F] placeholder:mb-[3px] focus:outline-none focus:ring-2 focus:ring-[#9E203F] font-semibold text-sm"
+                    />
+                    <i class="fa-solid fa-magnifying-glass absolute left-3 top-1/2 transform -translate-y-1/2 text-[#9E203F]"></i>
+                </div>
+            </div>
+
             <!-- Mobile Menu Button -->
-            <nav class="flex space-x-4 md:hidden">
-                <a href="{{ route('profile.show') }}" class="mr-4">
-                    <i class="fa-solid fa-user text-2xl"></i>
+            <nav class="flex space-x-2 md:hidden">
+                <a href="{{ route('profile.show') }}" class="mr-2">
+                    <button class="w-10 h-10 bg-white rounded-full flex items-center justify-center hover:shadow-[inset_0_0_8px_rgba(0,0,0,0.75)]">
+                        <i class="fa-solid fa-user text-[#9E203F] text-xl"></i>
+                    </button>
                 </a>
-                <a href="#" class="ml-4">
-                    <i class="fa-solid fa-cart-shopping text-2xl"></i>
+                <a href="#" class="ml-2">
+                    <button class="w-10 h-10 bg-white rounded-full flex items-center justify-center hover:shadow-[0_0_8px_rgba(0,0,0,0.75)]">
+                        <i class="fa-solid fa-cart-shopping text-[#9E203F] text-xl"></i>
+                    </button>
                 </a>
             </nav>
         </div>
