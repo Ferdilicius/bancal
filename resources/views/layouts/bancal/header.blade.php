@@ -1,7 +1,7 @@
 <div class="bg-gray-100">
 
     <!-- Desktop Header -->
-    <header x-data="{ open: false }" class="bg-[#9E203F] text-white p-4 hidden md:block">
+    <header x-data="{ open: false }" class="absolute top-0 left-0 w-full bg-transparent text-white p-4 hidden md:block z-10">
         <div class="container mx-auto flex justify-between items-center">
             <!-- Logo -->
             <a href="{{ url('/') }}">
