@@ -5,21 +5,33 @@
         <div class="container mx-auto flex justify-between items-center">
             <!-- Logo -->
             <a href="{{ url('/') }}">
-                <img src="{{ asset('static/img/iconFresa.svg') }}" alt="Bancal" class="h-20 md:h-28">
+            <img src="{{ asset('static/img/iconFresa.svg') }}" alt="Bancal" class="h-20 md:h-28">
             </a>
+
+            <!-- Search Bar Desktop -->
+            <div class="flex-grow mx-4 flex justify-center">
+            <div class="relative w-3/4">
+                <input 
+                type="text" 
+                placeholder="EXPLORAR BANCALES" 
+                class="w-full h-10 px-4 pl-10 bg-white text-[#9E203F] rounded-full placeholder-[#9E203F] placeholder:mb-[3px] focus:outline-none focus:ring-2 focus:ring-[#9E203F] font-semibold text-base"
+                />
+                <i class="fa-solid fa-magnifying-glass absolute left-3 top-1/2 transform -translate-y-1/2 text-[#9E203F]"></i>
+            </div>
+            </div>
 
             <!-- User and Cart Icons -->
             <nav class="hidden md:flex space-x-2">
-                <a href="{{ route('profile.show') }}" class="mr-4">
-                    <button class="w-14 h-14 bg-white rounded-full flex items-center justify-center hover:shadow-[inset_0_0_10px_rgba(0,0,0,0.75)]">
-                        <i class="fa-solid fa-user text-[#9E203F] text-3xl"></i>
-                    </button>
-                </a>
-                <a href="#" class="ml-4">
-                    <button class="w-14 h-14 bg-white rounded-full flex items-center justify-center hover:shadow-[0_0_10px_rgba(0,0,0,0.75)]">
-                        <i class="fa-solid fa-cart-shopping text-[#9E203F] text-3xl"></i>
-                    </button>
-                </a>
+            <a href="{{ route('profile.show') }}" class="mr-4">
+                <button class="w-14 h-14 bg-white rounded-full flex items-center justify-center hover:shadow-[inset_0_0_10px_rgba(0,0,0,0.75)]">
+                <i class="fa-solid fa-user text-[#9E203F] text-3xl"></i>
+                </button>
+            </a>
+            <a href="#" class="ml-4">
+                <button class="w-14 h-14 bg-white rounded-full flex items-center justify-center hover:shadow-[0_0_10px_rgba(0,0,0,0.75)]">
+                <i class="fa-solid fa-cart-shopping text-[#9E203F] text-3xl"></i>
+                </button>
+            </a>
             </nav>
         </div>
     </header>
