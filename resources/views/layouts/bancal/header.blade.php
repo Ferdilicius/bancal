@@ -5,16 +5,20 @@
         <div class="container mx-auto flex justify-between items-center">
             <!-- Logo -->
             <a href="{{ url('/') }}">
-                <img src="{{ asset('images/la_fresa.png') }}" alt="Bancal" class="h-10 md:h-14">
+                <img src="{{ asset('static/img/iconFresa.svg') }}" alt="Bancal" class="h-20 md:h-28">
             </a>
-            
+
             <!-- User and Cart Icons -->
-            <nav class="hidden md:flex space-x-4">
-                <a href="{{ route('profile.show') }}">
-                    <img src="{{ asset('images/icono_usuario.png') }}" alt="Usuario" class="h-8">
+            <nav class="hidden md:flex space-x-2">
+                <a href="{{ route('profile.show') }}" class="mr-4">
+                    <button class="w-14 h-14 bg-white rounded-full flex items-center justify-center hover:shadow-[inset_0_0_10px_rgba(0,0,0,0.75)]">
+                        <i class="fa-solid fa-user text-[#9E203F] text-3xl"></i>
+                    </button>
                 </a>
-                <a href="">
-                    <img src="{{ asset('images/icono_carrito.png') }}" alt="Carrito" class="h-8">
+                <a href="#" class="ml-4">
+                    <button class="w-14 h-14 bg-white rounded-full flex items-center justify-center hover:shadow-[0_0_10px_rgba(0,0,0,0.75)]">
+                        <i class="fa-solid fa-cart-shopping text-[#9E203F] text-3xl"></i>
+                    </button>
                 </a>
             </nav>
         </div>
@@ -24,22 +28,37 @@
     <header x-data="{ open: false }" class="absolute top-0 left-0 w-full bg-transparent text-white p-4 md:hidden z-10">
         <div class="container mx-auto flex justify-between items-center">
             <!-- Logo -->
-            <a href="{{ url('/') }}">
-                <img src="{{ asset('images/la_fresa.png') }}" alt="Bancal" class="h-10">
-            </a>
+            <div>
+                <a href="{{ url('/') }}">
+                    <img src="{{ asset('static/img/iconFresa.svg') }}" alt="Bancal" class="h-16 w-16">
+                </a>
+            </div>
+
+            <!-- Search Bar Mobile -->
+            <div class="flex-grow mx-4">
+                <div class="relative">
+                    <input 
+                        type="text" 
+                        placeholder="EXPLORAR BANCALES" 
+                        class="w-full h-7 px-4 pl-10 bg-white text-[#9E203F] rounded-full placeholder-[#9E203F] placeholder:mb-[3px] focus:outline-none focus:ring-2 focus:ring-[#9E203F] font-semibold text-sm"
+                    />
+                    <i class="fa-solid fa-magnifying-glass absolute left-3 top-1/2 transform -translate-y-1/2 text-[#9E203F]"></i>
+                </div>
+            </div>
 
             <!-- Mobile Menu Button -->
-            <button @click="open = !open" class="focus:outline-none">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" />
-                </svg>
-            </button>
-        </div>
-
-        <!-- Mobile Dropdown Menu -->
-        <div x-show="open" x-cloak @click.away="open = false" class="bg-gray-100 mt-2 p-4">
-            <a href="{{ route('profile.show') }}" class="block py-2 hover:bg-gray-200">Usuario</a>
-            <a href="" class="block py-2 hover:bg-gray-200">Carrito</a>
+            <nav class="flex space-x-2 md:hidden">
+                <a href="{{ route('profile.show') }}" class="mr-2">
+                    <button class="w-10 h-10 bg-white rounded-full flex items-center justify-center hover:shadow-[inset_0_0_8px_rgba(0,0,0,0.75)]">
+                        <i class="fa-solid fa-user text-[#9E203F] text-xl"></i>
+                    </button>
+                </a>
+                <a href="#" class="ml-2">
+                    <button class="w-10 h-10 bg-white rounded-full flex items-center justify-center hover:shadow-[0_0_8px_rgba(0,0,0,0.75)]">
+                        <i class="fa-solid fa-cart-shopping text-[#9E203F] text-xl"></i>
+                    </button>
+                </a>
+            </nav>
         </div>
     </header>
 </div>

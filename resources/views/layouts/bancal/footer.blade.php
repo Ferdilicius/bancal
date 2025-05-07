@@ -1,16 +1,17 @@
-<footer class="bg-gray-800 text-white p-4 text-center mt-auto">
-    <p>&copy; {{ date('Y') }} Bancal. All rights reserved.</p>
+<footer class="bg-[#9E203F] text-white p-6 mt-auto">
+    <div class="container mx-auto text-center">
+        <p class="text-sm md:text-base">&copy; {{ date('Y') }} Bancal. Todos los derechos reservados.</p>
+        <div class="flex justify-center space-x-4 mt-4">
+            <!-- Redes sociales -->
+            <a href="#" class="text-white hover:text-gray-300">
+                <i class="fa-brands fa-facebook text-xl"></i>
+            </a>    
+            <a href="#" class="text-white hover:text-gray-300">
+                <i class="fa-brands fa-twitter text-xl"></i>
+            </a>
+            <a href="#" class="text-white hover:text-gray-300">
+                <i class="fa-brands fa-instagram text-xl"></i>
+            </a>
+        </div>
+    </div>
 </footer>
-
-<style>
-    body {
-        display: flex;
-        flex-direction: column;
-        min-height: 100vh;
-        margin: 0;
-    }
-
-    footer {
-        flex-shrink: 0;
-    }
-</style>

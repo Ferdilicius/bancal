@@ -4,23 +4,25 @@
         <!-- Lista de Users -->
         <div class="bg-white shadow-lg rounded-lg p-6">
             <h2 class="text-2xl font-semibold text-gray-700 mb-4">Lista de Users</h2>
-            <table class="table-auto w-full border border-gray-200 rounded-lg overflow-hidden">
-                <thead>
-                    <tr class="bg-gray-100 text-gray-600 uppercase text-sm leading-normal">
-                        <th class="border border-gray-200 px-4 py-2 text-left">ID</th>
-                        <th class="border border-gray-200 px-4 py-2 text-left">Nombre</th>
-                        <th class="border border-gray-200 px-4 py-2 text-left">Tipo de Usuario</th>
-                    </tr>
-                </thead>
-                <tbody class="text-gray-700 text-sm">
-                    @foreach ($users as $user)
-                        <tr class="hover:bg-gray-50">
-                            <td class="border border-gray-200 px-4 py-2">{{ $user->id }}</td>
-                            <td class="border border-gray-200 px-4 py-2">{{ $user->name }}</td>
-                            <td class="border border-gray-200 px-4 py-2">{{ $user->userType->name }}</td>
+            <div class="overflow-x-auto">
+                <table class="table-auto w-full border border-gray-200 rounded-lg">
+                    <thead>
+                        <tr class="bg-gray-100 text-gray-600 uppercase text-sm leading-normal">
+                            <th class="border border-gray-200 px-4 py-2 text-left">ID</th>
+                            <th class="border border-gray-200 px-4 py-2 text-left">Nombre</th>
+                            <th class="border border-gray-200 px-4 py-2 text-left">Tipo de Usuario</th>
                         </tr>
-                    @endforeach
-                </tbody>
+                    </thead>
+                    <tbody class="text-gray-700 text-sm">
+                        @foreach ($users as $user)
+                            <tr class="hover:bg-gray-50">
+                                <td class="border border-gray-200 px-4 py-2">{{ $user->id }}</td>
+                                <td class="border border-gray-200 px-4 py-2">{{ $user->name }}</td>
+                                <td class="border border-gray-200 px-4 py-2">{{ $user->userType->name }}</td>
+                            </tr>
+                        @endforeach
+                </table>
+            </div>
             </table>
         </div>
 
@@ -48,26 +50,28 @@
         <!-- Lista de Productos -->
         <div class="bg-white shadow-lg rounded-lg p-6">
             <h2 class="text-2xl font-semibold text-gray-700 mb-4">Lista de Productos</h2>
-            <table class="table-auto w-full border border-gray-200 rounded-lg overflow-hidden">
-                <thead>
-                    <tr class="bg-gray-100 text-gray-600 uppercase text-sm leading-normal">
-                        <th class="border border-gray-200 px-4 py-2 text-left">ID</th>
-                        <th class="border border-gray-200 px-4 py-2 text-left">Nombre</th>
-                        <th class="border border-gray-200 px-4 py-2 text-left">Precio</th>
-                        <th class="border border-gray-200 px-4 py-2 text-left">Usuario</th>
-                    </tr>
-                </thead>
-                <tbody class="text-gray-700 text-sm">
-                    @foreach ($products as $product)
-                        <tr class="hover:bg-gray-50">
-                            <td class="border border-gray-200 px-4 py-2">{{ $product->id }}</td>
-                            <td class="border border-gray-200 px-4 py-2">{{ $product->name }}</td>
-                            <td class="border border-gray-200 px-4 py-2">{{ $product->price }}</td>
-                            <td class="border border-gray-200 px-4 py-2">{{ $product->user->name }}</td>
+            <div class="overflow-x-auto">
+                <table class="table-auto w-full border border-gray-200 rounded-lg">
+                    <thead>
+                        <tr class="bg-gray-100 text-gray-600 uppercase text-sm leading-normal">
+                            <th class="border border-gray-200 px-4 py-2 text-left">ID</th>
+                            <th class="border border-gray-200 px-4 py-2 text-left">Nombre</th>
+                            <th class="border border-gray-200 px-4 py-2 text-left">Precio</th>
+                            <th class="border border-gray-200 px-4 py-2 text-left">Usuario</th>
                         </tr>
-                    @endforeach
-                </tbody>
-            </table>
+                    </thead>
+                    <tbody class="text-gray-700 text-sm">
+                        @foreach ($products as $product)
+                            <tr class="hover:bg-gray-50">
+                                <td class="border border-gray-200 px-4 py-2">{{ $product->id }}</td>
+                                <td class="border border-gray-200 px-4 py-2">{{ $product->name }}</td>
+                                <td class="border border-gray-200 px-4 py-2">{{ $product->price }}</td>
+                                <td class="border border-gray-200 px-4 py-2">{{ $product->user->name }}</td>
+                            </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
 </div>
