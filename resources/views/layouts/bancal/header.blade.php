@@ -5,7 +5,7 @@
         <div class="container mx-auto flex justify-between items-center">
             <!-- Logo -->
             <a href="{{ url('/') }}">
-                <img src="{{ asset('img/iconFresa.svg') }}" alt="Bancal" class="h-20 md:h-28">
+                <img src="{{ asset('static/img/iconFresa.svg') }}" alt="Bancal" class="h-20 md:h-28">
             </a>
 
             <!-- User and Cart Icons -->
@@ -26,7 +26,7 @@
             <!-- Logo -->
             <div>
                 <a href="{{ url('/') }}">
-                    <img src="{{ asset('img/iconFresa.svg') }}" alt="Bancal" class="h-16 w-16">
+                    <img src="{{ asset('static/img/iconFresa.svg') }}" alt="Bancal" class="h-16 w-16">
                 </a>
             </div>
 

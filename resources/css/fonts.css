@@ -1,0 +1,83 @@
+
+/* DynaPuff */
+
+@font-face {
+    font-family: 'DynaPuff_Bold';
+    src: url('/public/static/fonts/DynaPuff/DynaPuff-Bold.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'DynaPuff_Regular';
+    src: url('/public/static/fonts/DynaPuff/DynaPuff-Regular.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'DynaPuff_Medium';
+    src: url('/public/static/fonts/DynaPuff/DynaPuff-Medium.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'DynaPuff_SemiBold';
+    src: url('/public/static/fonts/DynaPuff/DynaPuff-SemiBold.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+/* DynaPuff_SemiCondensed */
+
+@font-face {
+    font-family: 'DynaPuff_SC_Regular';
+    src: url('/public/static/fonts/DynaPuff/DynaPuff_SemiCondensed-Regular.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'DynaPuff_SC_Medium';
+    src: url('/public/static/fonts/DynaPuff/DynaPuff_SemiCondensed-Medium.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'DynaPuff_SC_SemiBold';
+    src: url('/public/static/fonts/DynaPuff/DynaPuff_SemiCondensed-SemiBold.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'DynaPuff_SC_Bold';
+    src: url('/public/static/fonts/DynaPuff/DynaPuff_SemiCondensed-Bold.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+/* DynaPuff_Condesed */
+
+@font-face {
+    font-family: 'DynaPuff_Cond_Regular';
+    src: url('/public/static/fonts/DynaPuff/DynaPuff_SemiCondensed-Bold.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'DynaPuff_Cond_Medium';
+    src: url('/public/static/fonts/DynaPuff/DynaPuff-Medium.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'DynaPuff_Cond_SemiBold';
+    src: url('/public/static/fonts/DynaPuff/DynaPuff_Condensed-SemiBold.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'DynaPuff_Cond_Bold';
+    src: url('/public/static/fonts/DynaPuff/DynaPuff_Condensed-Bold.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
