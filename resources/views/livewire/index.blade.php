@@ -13,7 +13,7 @@
 <!-- Barra animada: ¿Quiénes somos? -->
 <div class="bg-[#9E203F] text-white text-center py-4 overflow-hidden relative">
     <div class="animate-marquee whitespace-nowrap">
-        <span class="text-lg font-bold">¡Bienvenido a Bancal! Disfruta de nuestra plataforma. </span>
+        <span class="banner">¿Qué es Bancal? ¿Qué es Bancal? </span>
     </div>
 </div>
 
