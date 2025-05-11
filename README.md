@@ -57,4 +57,3 @@ style: para modificaciones en el código de estilo
 refactor: para refactorizaciones
 chore: para cambios en la organización de las carpetas
 
-

@@ -40,10 +40,32 @@ class ProductFactory extends Factory
         'Brócoli',
         'Coliflor',
         'Apio',
-        'Rábanos'
+        'Rábanos',
+        'Calabaza',
+        'Pepino',
+        'Albahaca',
+        'Cilantro',
+        'Perejil',
+        'Tomillo',
+        'Romero',
+        'Fresas',
+        'Cereza',
+        'Granada',
+        'Higos',
+        'Mango',
+        'Chirimoya',
+        'Guayaba',
+        'Maracuyá',
+        'Lima',
+        'Limón',
+        'Mandarina',
+        'Coco',
+        'Almendras',
+        'Nueces',
+        'Avellanas',
+        'Pistachos',
+        'Anacardos'
     ];
-
-
 
     /**
      * Define the model's default state.
@@ -57,6 +79,8 @@ class ProductFactory extends Factory
             'description' => $this->faker->sentence(6, true) . ' Fresco y de alta calidad, ideal para tu cocina.',
             'quantity' => $this->faker->numberBetween(0, 100),
             'price' => $this->faker->randomFloat(2, 0.5, 20),
+            'status' => $this->faker->randomElement([0, 1]),
+            'image' => $this->faker->image('public/img', 640, 480, 'food', false),
             'user_id' => User::factory(),
         ];
     }

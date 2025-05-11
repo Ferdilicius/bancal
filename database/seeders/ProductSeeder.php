@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use App\Models\Product;
+use App\Models\User;
 
 class ProductSeeder extends Seeder
 {
@@ -14,16 +15,12 @@ class ProductSeeder extends Seeder
 	 */
 	public function run()
 	{
-		$faker = \Faker\Factory::create();
+		$users = User::all();
 
-		Product::factory()->count(12)->create();
-
-		Product::factory()->create([
-			'name' => $faker->word,
-			'description' => $faker->sentence,
-			'quantity' => $faker->numberBetween(0, 100),
-			'price' => $faker->randomFloat(2, 10, 1000),
-			'user_id' => 1,
-		]);
+		foreach ($users as $user) {
+			Product::factory()->count(3)->create([
+				'user_id' => $user->id,
+			]);
+		}
 	}
 }

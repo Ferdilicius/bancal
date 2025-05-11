@@ -6,20 +6,22 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>@yield('title', 'Default Title')</title>
+    <link rel="icon" href="{{ asset('static/img/iconFresa.svg') }}" type="image/x-icon">
 
-    @vite(['resources/css/app.css', 'resources/js/app.js'])
+    @vite(['resources/css/app.css', 'resources/css/fonts.css', 'resources/js/app.js'])
 
     @livewireStyles
 </head>
 
-<body>
-    @include('layouts.bancal.header')
+<body class="h-full m-0 flex flex-col" style="font-family: 'DynaPuff_Regular', sans-serif;">
 
-    <main>
+    @include('partials.header')
+
+    <main class="flex-1">
         {{ $slot }}
     </main>
 
-    @include('layouts.bancal.footer')
+    @include('partials.footer')
 
     <script src="https://kit.fontawesome.com/ad6539a3b4.js" crossorigin="anonymous"></script>
 
