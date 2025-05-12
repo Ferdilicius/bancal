@@ -80,7 +80,6 @@ class ProductFactory extends Factory
             'quantity' => $this->faker->numberBetween(0, 100),
             'price' => $this->faker->randomFloat(2, 0.5, 20),
             'status' => $this->faker->randomElement([0, 1]),
-            'image' => $this->faker->image('public/img', 640, 480, 'food', false),
             'user_id' => User::factory(),
         ];
     }
