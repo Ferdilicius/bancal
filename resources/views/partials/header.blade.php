@@ -4,7 +4,7 @@
     <header x-data="{ open: false }" class="top-0 left-0 w-full bg-transparent text-white p-4 hidden md:block z-10">
         <div class="container mx-auto flex justify-between items-center">
             <!-- Logo -->
-            <a href="{{ url('/') }}">
+            <a href="{{ route('home') }}">
                 <img src="{{ asset('static/img/iconFresa.svg') }}" alt="Bancal" class="h-20 md:h-28">
             </a>
 
@@ -13,6 +13,23 @@
 
             <!-- User and Cart Icons -->
             <nav class="hidden md:flex space-x-4">
+
+                <!-- Products Link -->
+                <a href="{{ route('products') }}" class="ml-4">
+                    <button
+                        class="w-14 h-14 bg-white rounded-full flex items-center justify-center hover:shadow-[0_0_10px_rgba(0,0,0,0.75)]">
+                        <i class="fa-solid fa-box text-[#9E203F] text-3xl"></i>
+                    </button>
+                </a>
+
+                <!-- Cart Icon -->
+                <a href="{{ route('shopping.cart') }}" class="ml-4">
+                    <button
+                        class="w-14 h-14 bg-white rounded-full flex items-center justify-center hover:shadow-[0_0_10px_rgba(0,0,0,0.75)]">
+                        <i class="fa-solid fa-cart-shopping text-[#9E203F] text-3xl"></i>
+                    </button>
+                </a>
+
                 <!-- User Dropdown -->
                 <div x-data="{ dropdownOpen: false }" class="relative">
                     <button @click="dropdownOpen = !dropdownOpen"
@@ -27,37 +44,33 @@
                     <div x-show="dropdownOpen" @click.away="dropdownOpen = false"
                         class="absolute right-0 mt-3 w-56 bg-white rounded-xl shadow-xl z-20 overflow-hidden">
                         @auth
+                            <a href="{{ route('my-account') }}"
+                                class="block px-6 py-3 text-base text-[#9E203F] hover:bg-gray-100 hover:text-[#7A162E] transition-colors duration-200">
+                                <i class="fa-solid fa-user-circle mr-2"></i> Mi Perfil
+                            </a>
                             <a href="{{ route('profile.show') }}"
                                 class="block px-6 py-3 text-base text-[#9E203F] hover:bg-gray-100 hover:text-[#7A162E] transition-colors duration-200">
-                                Profile
+                                <i class="fa-solid fa-gear mr-2"></i> Configuración
                             </a>
                             <form method="POST" action="{{ route('logout') }}">
                                 @csrf
                                 <button type="submit"
                                     class="block w-full text-left px-6 py-3 text-base text-[#9E203F] hover:bg-gray-100 hover:text-[#7A162E] transition-colors duration-200">
-                                    Logout
+                                    <i class="fa-solid fa-right-from-bracket mr-2"></i> Logout
                                 </button>
                             </form>
                         @else
                             <a href="{{ route('login') }}"
                                 class="block px-6 py-3 text-base text-[#9E203F] hover:bg-gray-100 hover:text-[#7A162E] transition-colors duration-200">
-                                Login
+                                <i class="fa-solid fa-right-to-bracket mr-2"></i> Login
                             </a>
                             <a href="{{ route('register') }}"
                                 class="block px-6 py-3 text-base text-[#9E203F] hover:bg-gray-100 hover:text-[#7A162E] transition-colors duration-200">
-                                Register
+                                <i class="fa-solid fa-user-plus mr-2"></i> Register
                             </a>
                         @endauth
                     </div>
                 </div>
-
-                <!-- Cart Icon -->
-                <a href="#" class="ml-4">
-                    <button
-                        class="w-14 h-14 bg-white rounded-full flex items-center justify-center hover:shadow-[0_0_10px_rgba(0,0,0,0.75)]">
-                        <i class="fa-solid fa-cart-shopping text-[#9E203F] text-3xl"></i>
-                    </button>
-                </a>
             </nav>
         </div>
     </header>

@@ -1,7 +1,7 @@
 <x-guest-layout>
     <x-authentication-card>
         <x-slot name="logo">
-            <a href="{{ route('index') }}">
+            <a href="{{ route('home') }}">
                 <img src="{{ asset('static/img/iconFresa.svg') }}" alt="Logo" class="w-24 h-24">
             </a>
         </x-slot>

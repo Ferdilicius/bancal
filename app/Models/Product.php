@@ -9,7 +9,7 @@ class Product extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['name', 'price', 'description', 'quantity', 'user_id'];
+    protected $fillable = ['name', 'price', 'description', 'quantity', 'user_id', 'image', 'status'];
 
     public function user()
     {

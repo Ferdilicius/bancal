@@ -57,3 +57,5 @@ style: para modificaciones en el código de estilo
 refactor: para refactorizaciones
 chore: para cambios en la organización de las carpetas
 
+EL CARITO SE GUARDA SOLAMENTE EN LA BASE DE DATOS CUANDO ESTE LOGGEADO
+SI NO LO ESTÁ SE GUARDARÁ EN LA CACHE O MEMORIA DEL NAVEGADOR (ANGULAR)

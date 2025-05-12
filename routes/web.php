@@ -2,23 +2,43 @@
 
 use Illuminate\Support\Facades\Route;
 
+use App\Livewire\PublicProfile;
+use App\Livewire\ShoppingCart;
+use App\Livewire\MyAccount;
+
 use App\Http\Controllers\Auth\RegisterController;
 
-use App\Livewire\Products;
-use App\Livewire\ProductShow;
+use App\Livewire\Product\Index as ProductIndex;
+use App\Livewire\Product\Show as ProductShow;
+use App\Livewire\Product\Create as ProductCreate;
+use App\Livewire\Product\Edit as ProductEdit;
 
-Route::get('/custom-register', [RegisterController::class, 'show'])->name('custom.register');
-Route::post('/custom-register', [RegisterController::class, 'store'])->name('custom.register.store');
 
-Route::get('/', function () {
-    return view('bancal.index');
-})->name('index');
-
-Route::get('/contacto', function () {
-    return view('bancal.contacto');
+// Authentication Routes
+Route::controller(RegisterController::class)->group(function () {
+    Route::get('/custom-register', 'show')->name('custom.register');
+    Route::post('/custom-register', 'store')->name('custom.register.store');
 });
 
+// Public Pages
+Route::get('/', fn() => view('bancal.home'))->name('home');
+Route::get('/contacto', fn() => view('bancal.contacto'));
+
+// Account Management
+Route::get('/my-account', MyAccount::class)
+    ->name('my-account')
+    ->middleware('auth');
+
+// Product Routes
 Route::prefix('productos')->group(function () {
-    Route::get('/', Products::class)->name('products');
+    Route::get('/', ProductIndex::class)->name('products');
     Route::get('/{product}', ProductShow::class)->name('product.show');
+    Route::get('/crear', ProductCreate::class)->name('product.create')->middleware('auth');
+    Route::get('/editar/{product}', ProductEdit::class)->name('product.edit')->middleware('auth');
 });
+
+// Profile Route
+Route::get('/perfil-publico/{user}', PublicProfile::class)->name('public.profile');
+
+// Shopping Cart
+Route::get('/carrito-de-la-compra', ShoppingCart::class)->name('shopping.cart');
