@@ -30,6 +30,9 @@ ________________________________________________________________________________
 
 //solo un factory
 php artisan make:factory NombreDelModeloFactory
+
+// crear seeder
+php artisan make:seeder NombreDelModeloSeeder
 ___________________________________________________________________________________
 
 -SI EMPIEZAS DESDE 0
