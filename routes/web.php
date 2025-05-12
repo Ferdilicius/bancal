@@ -32,9 +32,9 @@ Route::get('/my-account', MyAccount::class)
 // Product Routes
 Route::prefix('productos')->group(function () {
     Route::get('/', ProductIndex::class)->name('products');
-    Route::get('/{product}', ProductShow::class)->name('product.show');
     Route::get('/crear', ProductCreate::class)->name('product.create')->middleware('auth');
     Route::get('/editar/{product}', ProductEdit::class)->name('product.edit')->middleware('auth');
+    Route::get('/{product}', ProductShow::class)->name('product.show');
 });
 
 // Profile Route
