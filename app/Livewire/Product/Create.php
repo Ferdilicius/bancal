@@ -2,9 +2,9 @@
 
 namespace App\Livewire\Product;
 
-use App\Models\Product;
 use Livewire\Component;
 use Livewire\WithFileUploads;
+use App\Models\Product;
 
 class Create extends Component
 {
@@ -16,14 +16,13 @@ class Create extends Component
     public $price;
     public $image;
     public $status;
-    public $user_id;
 
     protected $rules = [
         'name' => 'required|string|max:255',
         'description' => 'nullable|string',
         'quantity' => 'required|integer|min:0',
         'price' => 'required|numeric|min:0',
-        'image' => 'nullable|image|max:1024',
+        'image' => 'nullable|image|max:1024', // Máximo 1MB
         'status' => 'required|boolean',
     ];
 
@@ -45,12 +44,7 @@ class Create extends Component
 
         session()->flash('message', 'Producto creado exitosamente.');
 
-        $this->resetForm();
-    }
-
-    private function resetForm()
-    {
-        $this->reset(['name', 'description', 'quantity', 'price', 'image', 'status']);
+        return redirect()->route('my-account');
     }
 
     public function render()
