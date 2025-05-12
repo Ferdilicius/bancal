@@ -75,12 +75,13 @@ class ProductFactory extends Factory
     public function definition(): array
     {
         return [
-            'name' => $this->faker->randomElement($this->productNames),
+            'name' => $this->faker->unique()->randomElement($this->productNames),
             'description' => $this->faker->sentence(6, true) . ' Fresco y de alta calidad, ideal para tu cocina.',
             'quantity' => $this->faker->numberBetween(0, 100),
             'price' => $this->faker->randomFloat(2, 0.5, 20),
             'status' => $this->faker->randomElement([0, 1]),
             'user_id' => User::factory(),
+            'category_id' => $this->faker->numberBetween(1, 7)
         ];
     }
 }
