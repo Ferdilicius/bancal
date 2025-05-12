@@ -16,5 +16,11 @@ class DatabaseSeeder extends Seeder
 
         $this->call(ProductSeeder::class);
 
+<<<<<<< HEAD
+        $this->call(AddressTypeSeeder::class);
+
+        $this->call(AddressSeeder::class);
+=======
+>>>>>>> 6684643ade7598efa8bbdbf04b4ec01d8a30c251
     }
 }

@@ -81,6 +81,7 @@ class ProductFactory extends Factory
             'price' => $this->faker->randomFloat(2, 0.5, 20),
             'status' => $this->faker->randomElement([0, 1]),
             'user_id' => User::factory(),
+            'category_id' => $this->faker->numberBetween(1, 7)
         ];
     }
 }
