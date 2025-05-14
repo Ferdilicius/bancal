@@ -15,7 +15,11 @@
 
         <!-- Desktop Hero Image -->
         <div class="relative top-0 hidden md:block">
-            <img src="{{ asset('static/img/hero_desktop.jpg') }}" alt="Hero Image" class="w-screen object-cover">
+            <video class="w-screen h-screen object-cover" autoplay muted loop>
+                <source src="{{ asset('videos/hero_desktop.mp4') }}" type="video/mp4">
+                Tu navegador no soporta la reproducción de vídeos.
+            </video>
+            {{-- <img src="{{ asset('static/img/hero_desktop.jpg') }}" alt="Hero Image" class="w-screen object-cover"> --}}
         </div>
 
         <!-- Animated Banner: ¿Quiénes somos? -->
