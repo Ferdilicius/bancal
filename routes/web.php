@@ -3,8 +3,8 @@
 use Illuminate\Support\Facades\Route;
 
 use App\Livewire\PublicProfile;
+use App\Livewire\PrivateProfile;
 use App\Livewire\ShoppingCart;
-use App\Livewire\MyAccount;
 
 use App\Http\Controllers\Auth\RegisterController;
 
@@ -22,11 +22,11 @@ Route::controller(RegisterController::class)->group(function () {
 
 // Public Pages
 Route::get('/', fn() => view('bancal.home'))->name('home');
-Route::get('/contacto', fn() => view('bancal.contacto'));
+Route::get('/contacto', fn() => view('bancal.contacto'))->name('contact');
 
 // Account Management
-Route::get('/my-account', MyAccount::class)
-    ->name('my-account')
+Route::get('/perfil-privado', PrivateProfile::class)
+    ->name('private-profile')
     ->middleware('auth');
 
 // Product Routes
@@ -34,6 +34,7 @@ Route::prefix('productos')->group(function () {
     Route::get('/', ProductIndex::class)->name('products');
     Route::get('/crear', ProductCreate::class)->name('product.create')->middleware('auth');
     Route::get('/editar/{product}', ProductEdit::class)->name('product.edit')->middleware('auth');
+    Route::delete('productos/eliminar/{product}', [ProductEdit::class, 'deleteProduct'])->name('product.delete')->middleware('auth');
     Route::get('/{product}', ProductShow::class)->name('product.show');
 });
 

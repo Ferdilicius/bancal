@@ -1,3 +1,5 @@
+@section('title', 'Carrito de la compra')
+
 <div class="shopping-cart">
     <h2>Shopping Cart</h2>
     <table class="table-auto w-full border-collapse border border-gray-300">

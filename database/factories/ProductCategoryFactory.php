@@ -4,9 +4,6 @@ namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
 
-/**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\CategoriaProducto>
- */
 class ProductCategoryFactory extends Factory
 {
 
@@ -24,7 +21,7 @@ class ProductCategoryFactory extends Factory
     public function definition(): array
     {
         return [
-            'nombre' => array_shift($this->productCategoryNames)
+            'name' => array_shift($this->productCategoryNames)
         ];
     }
 }

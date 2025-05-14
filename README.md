@@ -24,6 +24,9 @@ php artisan make:migration create_nombre_de_la_tabla_table
 
 //con modelo
 php artisan make:model NombreDelModelo -m
+
+//con modelo y factory
+php artisan make:model NombreDelModelo -mf
 ___________________________________________________________________________________
 
 -CREAR FACTORY Y SEEDER

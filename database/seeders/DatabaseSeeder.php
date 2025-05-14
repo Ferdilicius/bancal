@@ -19,5 +19,7 @@ class DatabaseSeeder extends Seeder
         $this->call(AddressTypeSeeder::class);
 
         $this->call(AddressSeeder::class);
+        
+        $this->call(PayMethodSeeder::class);
     }
 }
