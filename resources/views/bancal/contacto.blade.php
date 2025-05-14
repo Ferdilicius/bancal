@@ -1,3 +1,5 @@
+@section('title', 'Contacto')
+
 <x-app-layout>
     <div class="p-6 bg-gray-100 rounded-lg shadow-md max-w-lg mx-auto mt-10">
         <h1 class="text-2xl font-bold text-gray-800 mb-4">Contacto</h1>
