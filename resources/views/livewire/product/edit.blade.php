@@ -39,7 +39,7 @@
 
         <div>
             <label for="image" class="block text-sm font-semibold text-gray-700">Imagen</label>
-            <input type="file" id="image" wire:model="image"
+            <input type="file" id="image" wire:model="image" accept="image/*"
                 class="mt-2 block w-full text-gray-700 border-gray-300 rounded-lg shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
             @error('image')
                 <span class="text-sm text-red-500 mt-1">{{ $message }}</span>
@@ -55,6 +55,20 @@
                 <option value="1">Activo</option>
             </select>
             @error('status')
+                <span class="text-sm text-red-500 mt-1">{{ $message }}</span>
+            @enderror
+        </div>
+
+        <div>
+            <label for="category_id" class="block text-sm font-semibold text-gray-700">Categoría</label>
+            <select id="category_id" wire:model="category_id"
+                class="mt-2 block w-full border-gray-300 rounded-lg shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                <option value="" selected>Selecciona una categoría</option>
+                @foreach ($categories as $category)
+                    <option value="{{ $category->id }}">{{ $category->name }}</option>
+                @endforeach
+            </select>
+            @error('category_id')
                 <span class="text-sm text-red-500 mt-1">{{ $message }}</span>
             @enderror
         </div>

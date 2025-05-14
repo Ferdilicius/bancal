@@ -5,7 +5,7 @@ namespace App\Livewire;
 use Livewire\Component;
 use Illuminate\Support\Facades\Auth;
 
-class MyAccount extends Component
+class PrivateProfile extends Component
 {
     public $user;
     public $products;
@@ -18,6 +18,6 @@ class MyAccount extends Component
 
     public function render()
     {
-        return view('livewire.my-account')->layout('layouts.app');
+        return view('livewire.private-profile')->layout('layouts.app');
     }
 }

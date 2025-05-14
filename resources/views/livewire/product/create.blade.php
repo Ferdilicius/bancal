@@ -3,7 +3,7 @@
     <form wire:submit.prevent="storeProduct" class="space-y-8">
         <div>
             <label for="name" class="block text-sm font-semibold text-gray-700">Nombre del Producto</label>
-            <input type="text" id="name" wire:model="name" required
+            <input type="text" id="name" wire:model="name"
                 class="mt-2 block w-full border-gray-300 rounded-lg shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
             @error('name')
                 <span class="text-sm text-red-500 mt-1">{{ $message }}</span>
@@ -21,7 +21,7 @@
 
         <div>
             <label for="quantity" class="block text-sm font-semibold text-gray-700">Cantidad</label>
-            <input type="number" id="quantity" wire:model="quantity" min="0" required
+            <input type="number" id="quantity" wire:model="quantity" min="0"
                 class="mt-2 block w-full border-gray-300 rounded-lg shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
             @error('quantity')
                 <span class="text-sm text-red-500 mt-1">{{ $message }}</span>
@@ -30,7 +30,7 @@
 
         <div>
             <label for="price" class="block text-sm font-semibold text-gray-700">Precio</label>
-            <input type="number" id="price" wire:model="price" step="0.01" required
+            <input type="number" id="price" wire:model="price" step="0.01" 
                 class="mt-2 block w-full border-gray-300 rounded-lg shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
             @error('price')
                 <span class="text-sm text-red-500 mt-1">{{ $message }}</span>
@@ -55,6 +55,20 @@
                 <option value="1">Activo</option>
             </select>
             @error('status')
+                <span class="text-sm text-red-500 mt-1">{{ $message }}</span>
+            @enderror
+        </div>
+
+        <div>
+            <label for="category_id" class="block text-sm font-semibold text-gray-700">Categoría</label>
+            <select id="category_id" wire:model="category_id"
+                class="mt-2 block w-full border-gray-300 rounded-lg shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                <option value="" selected>Selecciona una categoría</option>
+                @foreach ($this->categories as $category)
+                    <option value="{{ $category->id }}">{{ $category->name }}</option>
+                @endforeach
+            </select>
+            @error('category_id')
                 <span class="text-sm text-red-500 mt-1">{{ $message }}</span>
             @enderror
         </div>

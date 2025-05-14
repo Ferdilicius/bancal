@@ -44,7 +44,7 @@
                     <div x-show="dropdownOpen" @click.away="dropdownOpen = false"
                         class="absolute right-0 mt-3 w-56 bg-white rounded-xl shadow-xl z-20 overflow-hidden">
                         @auth
-                            <a href="{{ route('my-account') }}"
+                            <a href="{{ route('private-profile') }}"
                                 class="block px-6 py-3 text-base text-[#9E203F] hover:bg-gray-100 hover:text-[#7A162E] transition-colors duration-200">
                                 <i class="fa-solid fa-user-circle mr-2"></i> Mi Perfil
                             </a>
