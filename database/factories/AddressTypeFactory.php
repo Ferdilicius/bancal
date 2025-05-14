@@ -4,20 +4,18 @@ namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
 
-/**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Model>
- */
 class AddressTypeFactory extends Factory
 {
-    /**
-     * Define the model's default state.
-     *
-     * @return array<string, mixed>
-     */
+    protected $addressTypesNames = [
+        'Bancal',
+        'Huero urbano privado',
+        'Huerto urbano público',
+        'Huerto escolar'
+    ];
     public function definition(): array
     {
         return [
-			'name' => $this->faker->word,
+			'name' => $this->faker->unique()->randomElement($this->addressTypesNames)
 		];
     }
 }
