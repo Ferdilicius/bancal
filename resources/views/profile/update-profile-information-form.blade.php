@@ -64,6 +64,16 @@
             <x-label for="email" value="{{ __('Email') }}" />
             <x-input id="email" type="email" class="mt-1 block w-full" wire:model="state.email" required autocomplete="username" />
             <x-input-error for="email" class="mt-2" />
+        </div>
+
+        <!-- Interés -->
+        <div class="col-span-6 sm:col-span-4">
+            <x-label for="interest" value="{{ __('Interés') }}" />
+            <select id="state.user_type" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" wire:model="state.user_type" required>
+                <option value="vendedor">{{ __('Particular') }}</option>
+                <option value="comprador">{{ __('Empresa') }}</option>
+            </select>
+            <x-input-error for="interest" class="mt-2" />
 
             @if (Laravel\Fortify\Features::enabled(Laravel\Fortify\Features::emailVerification()) && ! $this->user->hasVerifiedEmail())
                 <p class="text-sm mt-2">
@@ -85,11 +95,11 @@
 
     <x-slot name="actions">
         <x-action-message class="me-3" on="saved">
-            {{ __('Saved.') }}
+            {{ __('Los cambios han sido guardados.') }}
         </x-action-message>
 
         <x-button wire:loading.attr="disabled" wire:target="photo">
-            {{ __('Save') }}
+            {{ __('Guardar cambios') }}
         </x-button>
     </x-slot>
 </x-form-section>

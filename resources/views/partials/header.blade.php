@@ -17,7 +17,7 @@
                 <!-- Products Link -->
                 <a href="{{ route('products') }}" class="ml-4">
                     <button
-                        class="w-14 h-14 bg-white rounded-full flex items-center justify-center hover:shadow-[0_0_10px_rgba(0,0,0,0.75)]">
+                        class="w-14 h-14 bg-white rounded-full flex items-center justify-center hover:shadow-[0_0_10px_rgba(158,32,63,0.75)]">
                         <i class="fa-solid fa-box text-[#9E203F] text-3xl"></i>
                     </button>
                 </a>
@@ -25,7 +25,7 @@
                 <!-- Cart Icon -->
                 <a href="{{ route('shopping.cart') }}" class="ml-4">
                     <button
-                        class="w-14 h-14 bg-white rounded-full flex items-center justify-center hover:shadow-[0_0_10px_rgba(0,0,0,0.75)]">
+                        class="w-14 h-14 bg-white rounded-full flex items-center justify-center hover:shadow-[0_0_10px_rgba(158,32,63,0.75)]">
                         <i class="fa-solid fa-cart-shopping text-[#9E203F] text-3xl"></i>
                     </button>
                 </a>
@@ -33,7 +33,7 @@
                 <!-- User Dropdown -->
                 <div x-data="{ dropdownOpen: false }" class="relative">
                     <button @click="dropdownOpen = !dropdownOpen"
-                        class="w-14 h-14 bg-white rounded-full flex items-center justify-center shadow-lg hover:shadow-[inset_0_0_15px_rgba(0,0,0,0.75)] transition-all duration-300">
+                        class="w-14 h-14 bg-white rounded-full flex items-center justify-center shadow-lg hover:shadow-[0_0_10px_rgba(158,32,63,0.75)] transition-all duration-300">
                         @auth
                             <img src="{{ Auth::user()->profile_photo_url }}" alt="{{ Auth::user()->name }}"
                                 class="w-12 h-12 rounded-full object-cover">
@@ -98,7 +98,7 @@
                 <!-- User Icon -->
                 <a href="{{ route('profile.show') }}">
                     <button
-                        class="w-10 h-10 bg-white rounded-full flex items-center justify-center hover:shadow-[inset_0_0_8px_rgba(0,0,0,0.75)]">
+                        class="w-10 h-10 bg-white rounded-full flex items-center justify-center">
                         <i class="fa-solid fa-user text-[#9E203F] text-xl"></i>
                     </button>
                 </a>
@@ -106,7 +106,7 @@
                 <!-- Cart Icon -->
                 <a href="#">
                     <button
-                        class="w-10 h-10 bg-white rounded-full flex items-center justify-center hover:shadow-[0_0_8px_rgba(0,0,0,0.75)]">
+                        class="w-10 h-10 bg-white rounded-full flex items-center justify-center">
                         <i class="fa-solid fa-cart-shopping text-[#9E203F] text-xl"></i>
                     </button>
                 </a>
