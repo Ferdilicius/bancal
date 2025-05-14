@@ -22,7 +22,7 @@ Route::controller(RegisterController::class)->group(function () {
 
 // Public Pages
 Route::get('/', fn() => view('bancal.home'))->name('home');
-Route::get('/contacto', fn() => view('bancal.contacto'));
+Route::get('/contacto', fn() => view('bancal.contacto'))->name('contact');
 
 // Account Management
 Route::get('/my-account', MyAccount::class)
