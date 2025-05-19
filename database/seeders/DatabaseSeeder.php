@@ -3,12 +3,14 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Storage;
 
 class DatabaseSeeder extends Seeder
 {
     public function run(): void
     {
-        $this->call(UserTypeSeeder::class);
+        Storage::deleteDirectory('public/storage');
+        Storage::makeDirectory('public/storage');
 
         $this->call(UserSeeder::class);
 
@@ -19,7 +21,7 @@ class DatabaseSeeder extends Seeder
         $this->call(AddressTypeSeeder::class);
 
         $this->call(AddressSeeder::class);
-        
+
         $this->call(PayMethodSeeder::class);
     }
 }

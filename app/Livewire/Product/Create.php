@@ -16,7 +16,7 @@ class Create extends Component
     public $description;
     public $quantity;
     public $price;
-    public $image;
+    public $images = [];
     public $status;
     public $category_id;
     public $categories;
@@ -32,7 +32,7 @@ class Create extends Component
         'description' => 'nullable|string',
         'quantity' => 'required|integer|min:0',
         'price' => 'required|numeric|min:0',
-        'image' => 'nullable|image|max:2048',
+        'images.*' => 'nullable|image|max:2048',
         'status' => 'required|boolean',
         'category_id' => 'required|exists:product_categories,id',
     ];
@@ -41,20 +41,24 @@ class Create extends Component
     {
         $this->validate();
 
-        $imagePath = $this->image ? $this->image->store('products', 'public') : null;
-
-        Product::create([
+        $product = Product::create([
             'name' => $this->name,
             'description' => $this->description,
             'quantity' => $this->quantity,
             'price' => $this->price,
-            'image' => $imagePath,
-            'status' => $this->status,
+            'status' => $this->status ? 'activo' : 'inactivo',
             'user_id' => auth()->id(),
             'category_id' => $this->category_id,
         ]);
 
-        return redirect()->route('private-profile')->with('success', 'Product created successfully.');
+        if ($this->images) {
+            foreach ($this->images as $image) {
+                $path = $image->store('product-photos', 'public');
+                $product->images()->create(['path' => $path]);
+            }
+        }
+
+        return redirect()->route('private-profile');
     }
 
     public function render()

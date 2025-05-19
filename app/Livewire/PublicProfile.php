@@ -13,7 +13,7 @@ class PublicProfile extends Component
     public function mount(User $user)
     {
         $this->user = $user;
-        $this->products = $user->products;
+        $this->products = $user->products()->where('status', 'activo')->get();
     }
 
     public function render()

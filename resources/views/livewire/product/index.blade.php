@@ -8,7 +8,7 @@
                 class="bg-white border border-gray-200 rounded-lg shadow-md p-4 hover:shadow-lg transition-shadow duration-200">
                 <div class="mb-4">
                     @if ($product->image)
-                        <img src="{{$product->image}}" alt="Imagen del producto"
+                        <img src="{{ $product->image }}" alt="Imagen del producto"
                             class="w-full h-32 object-cover rounded">
                     @else
                         <div class="w-full h-32 bg-gray-200 flex items-center justify-center rounded">

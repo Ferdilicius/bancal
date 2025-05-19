@@ -8,7 +8,7 @@
         <!-- Mobile Hero Video -->
         <div class="relative top-0 block md:hidden">
             <video class="w-screen h-screen object-cover" autoplay muted loop>
-                <source src="{{ asset('videos/hero_mobile.mp4') }}" type="video/mp4" />
+                <source src="{{ asset('static/videos/hero_mobile.mp4') }}" type="video/mp4" />
                 Tu navegador no soporta la reproducción de vídeos.
             </video>
         </div>
@@ -16,10 +16,9 @@
         <!-- Desktop Hero Image -->
         <div class="relative top-0 hidden md:block">
             <video class="w-screen h-screen object-cover" autoplay muted loop>
-                <source src="{{ asset('videos/hero_desktop.mp4') }}" type="video/mp4">
+                <source src="{{ asset('static/videos/hero_desktop.mp4') }}" type="video/mp4">
                 Tu navegador no soporta la reproducción de vídeos.
             </video>
-            {{-- <img src="{{ asset('static/img/hero_desktop.jpg') }}" alt="Hero Image" class="w-screen object-cover"> --}}
         </div>
 
         <!-- Animated Banner: ¿Quiénes somos? -->

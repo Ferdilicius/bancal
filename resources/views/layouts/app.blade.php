@@ -8,6 +8,13 @@
     <title>@yield('title', 'Default Title')</title>
     <link rel="icon" href="{{ asset('static/img/iconFresa.svg') }}" type="image/x-icon">
 
+    <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" as="style"
+        onload="this.onload=null;this.rel='stylesheet'" crossorigin="anonymous">
+
+    <noscript>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    </noscript>
+
     @vite(['resources/css/app.css', 'resources/css/fonts.css', 'resources/js/app.js'])
 
     @livewireStyles
@@ -23,7 +30,7 @@
 
     @include('partials.footer')
 
-    <script src="https://kit.fontawesome.com/ad6539a3b4.js" crossorigin="anonymous"></script>
+    {{-- <script src="https://kit.fontawesome.com/ad6539a3b4.js" crossorigin="anonymous"></script> --}}
 
     @livewireScripts
 </body>

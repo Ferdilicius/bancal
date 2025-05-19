@@ -6,9 +6,6 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
-     * Run the migrations.
-     */
     public function up(): void
     {
         Schema::create('products', function (Blueprint $table) {
@@ -17,17 +14,13 @@ return new class extends Migration
             $table->text('description')->nullable();
             $table->integer('quantity')->default(0);
             $table->float('price');
-            $table->string('image')->nullable();
-            $table->integer('status')->default(0);
+            $table->enum('status', ['inactivo', 'activo'])->default('inactivo');
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->foreignId('category_id')->constrained('product_categories')->onDelete('cascade');
             $table->timestamps();
         });
     }
 
-    /**
-     * Reverse the migrations.
-     */
     public function down(): void
     {
         Schema::dropIfExists('products');

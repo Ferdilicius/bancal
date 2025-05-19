@@ -8,15 +8,16 @@ return new class extends Migration
 {
     public function up(): void
     {
-        Schema::create('user_types', function (Blueprint $table) {
+        Schema::create('product_images', function (Blueprint $table) {
             $table->id();
-            $table->string('name')->unique();
+            $table->foreignId('product_id')->constrained()->onDelete('cascade');
+            $table->string('path');
             $table->timestamps();
         });
     }
 
     public function down(): void
     {
-        Schema::dropIfExists('user_types');
+        Schema::dropIfExists('product_images');
     }
 };

@@ -21,6 +21,8 @@ class Edit extends Component
 	public $status;
 	public $category_id;
 	public $categories;
+	public $images = [];
+	public $existingImages = [];
 
 	public function mount(Product $product)
 	{
@@ -32,6 +34,8 @@ class Edit extends Component
 		$this->status = $product->status;
 		$this->category_id = $product->category_id;
 		$this->categories = ProductCategory::all();
+
+		$this->existingImages = json_decode($product->image, true) ?? [];
 	}
 
 	protected $rules = [
@@ -39,7 +43,7 @@ class Edit extends Component
 		'description' => 'nullable|string',
 		'quantity' => 'required|integer|min:0',
 		'price' => 'required|numeric|min:0',
-		'image' => 'nullable|image|max:2048',
+		'images.*' => 'nullable|image|max:2048',
 		'status' => 'required|boolean',
 		'category_id' => 'required|exists:product_categories,id',
 	];
@@ -48,29 +52,24 @@ class Edit extends Component
 	{
 		$this->validate();
 
-		if ($this->image) {
-			$imagePath = $this->image->store('products', 'public');
-			$this->product->image = $imagePath;
+		$imagePaths = $this->existingImages;
+
+		if ($this->images) {
+			foreach ($this->images as $image) {
+				$imagePaths[] = $image->store('product-photos', 'public');
+			}
 		}
 
-		$this->product->name = $this->name;
-		$this->product->description = $this->description;
-		$this->product->quantity = $this->quantity;
-		$this->product->price = $this->price;
-		$this->product->status = $this->status;
-		$this->product->category_id = $this->category_id;
+		$this->product->update([
+			'name' => $this->name,
+			'description' => $this->description,
+			'quantity' => $this->quantity,
+			'price' => $this->price,
+			'status' => $this->status,
+			'category_id' => $this->category_id,
+		]);
 
-		$this->product->save();
-
-		return redirect()->route('private-profile')->with('success', 'Product updated successfully.');
-	}
-
-	public function deleteProduct($productId)
-	{
-		$product = Product::findOrFail($productId);
-		$product->delete();
-
-		return redirect()->route('private-profile')->with('success', 'Product deleted successfully.');
+		redirect()->route('private-profile');
 	}
 
 	public function render()
