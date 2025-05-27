@@ -17,6 +17,7 @@ class Edit extends Component
 	public $name;
 	public $description;
 	public $quantity;
+	public $quantity_type;
 	public $price;
 	public $images = [];
 	public $newImages = [];
@@ -30,6 +31,7 @@ class Edit extends Component
 		$this->name = $product->name;
 		$this->description = $product->description;
 		$this->quantity = $product->quantity;
+		$this->quantity_type = $product->quantity_type;
 		$this->price = $product->price;
 		$this->status = $product->status === 'activo';
 		$this->category_id = $product->category_id;
@@ -87,6 +89,7 @@ class Edit extends Component
 			'name' => $this->name,
 			'description' => $this->description,
 			'quantity' => $this->quantity,
+			'quantity_type' => $this->quantity_type,
 			'price' => $this->price,
 			'status' => $this->status ? 'activo' : 'inactivo',
 			'category_id' => $this->category_id,

@@ -17,6 +17,7 @@
                 <div>
                     <span class="font-semibold text-gray-800">Cantidad:</span>
                     <span class="ml-2">{{ $product->quantity }}</span>
+                    <span class="ml-2">{{ $product->quantity_type ?? 'N/A' }}</span>
                 </div>
                 <div>
                     <span class="font-semibold text-gray-800">Precio:</span>

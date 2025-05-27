@@ -16,6 +16,7 @@ class Create extends Component
     public $name;
     public $description;
     public $quantity;
+    public $quantity_type = 'litros';
     public $price;
     public $images = [];
     public $newImages = [];
@@ -88,9 +89,10 @@ class Create extends Component
             'name' => $this->name,
             'description' => $this->description,
             'quantity' => $this->quantity,
+            'quantity_type' => $this->quantity_type,
             'price' => $this->price,
             'status' => $this->status ? 'activo' : 'inactivo',
-            'user_id' => auth()->id(),
+            'user_id' => auth()->id(), 
             'category_id' => $this->category_id,
         ]);
 
@@ -107,6 +109,6 @@ class Create extends Component
 
     public function render()
     {
-        return view('livewire.product.create')->layout('layouts.app');
+        return view('livewire.product.create')->layout('layouts.app'); 
     }
 }

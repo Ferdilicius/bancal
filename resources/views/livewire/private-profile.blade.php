@@ -27,7 +27,7 @@
                                 <p class="text-gray-500 mb-2 truncate">{{ $product->description }}</p>
                                 <div class="mb-2">
                                     <span class="block text-gray-700 text-sm">Cantidad: <span
-                                            class="font-semibold">{{ $product->quantity }}</span></span>
+                                            class="font-semibold">{{ $product->quantity }} {{ $product ->quantity_type }}</span></span>
                                     <span class="block text-gray-700 text-sm">Precio: <span
                                             class="font-semibold">${{ number_format($product->price, 2) }}</span></span>
                                 </div>
