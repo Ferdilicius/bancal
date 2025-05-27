@@ -16,7 +16,7 @@
             <nav class="hidden md:flex space-x-4">
 
                 <!-- Products Link -->
-                <a href="{{ route('products') }}" class="ml-4">
+                <a href="{{ route('products.index') }}" class="ml-4">
                     <button
                         class="w-14 h-14 bg-white rounded-full flex items-center justify-center hover:shadow-[0_0_10px_rgba(158,32,63,0.75)]">
                         <i class="fa-solid fa-box text-[#9E203F] text-3xl"></i>
@@ -82,7 +82,7 @@
         class=" @if (Route::currentRouteName() === 'home') absolute @endif top-0 left-0 w-full bg-transparent text-white p-4 md:hidden z-10">
         <div class="container mx-auto flex justify-between items-center">
             <!-- Logo -->
-            <a href="{{ url('/') }}">
+            <a href="{{ route('home') }}">
                 <img src="{{ asset('static/img/iconFresa.svg') }}" alt="Bancal" class="h-16 w-16">
             </a>
 

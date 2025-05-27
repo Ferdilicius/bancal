@@ -12,7 +12,7 @@ class Index extends Component
 
     public function render()
     {
-        $products = Product::where('status', 1)->paginate(10);
+        $products = Product::where('status', 'activo')->paginate(10);
 
         return view('livewire.product.index', compact('products'))
             ->layout('layouts.app');

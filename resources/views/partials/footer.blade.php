@@ -1,4 +1,4 @@
-<footer class="bg-[#9E203F] text-white py-4">
+<footer class="bg-[#9E203F] text-white py-4 mt-auto">
     <div class="container mx-auto text-center">
         <p class="text-sm md:text-base" aria-label="Copyright">
             &copy; {{ now()->year }} <span class="font-semibold">Bancal</span>. Todos los derechos reservados.

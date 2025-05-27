@@ -66,7 +66,7 @@
 
             <!-- Button to Products -->
             <div class="text-center mt-8">
-                <a href="{{ route('products') }}"
+                <a href="{{ route('products.index') }}"
                     class="bg-[#9E203F] text-white px-6 py-3 rounded-lg text-lg font-semibold hover:bg-[#7c1a32] transition-colors">
                     Ver Productos
                 </a>

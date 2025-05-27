@@ -12,6 +12,7 @@ use App\Livewire\Product\Index as ProductIndex;
 use App\Livewire\Product\Show as ProductShow;
 use App\Livewire\Product\Create as ProductCreate;
 use App\Livewire\Product\Edit as ProductEdit;
+use App\Livewire\Product\Delete as ProductDelete;
 
 
 // Authentication Routes
@@ -31,10 +32,13 @@ Route::get('/perfil-privado', PrivateProfile::class)
 
 // Product Routes
 Route::prefix('productos')->group(function () {
-    Route::get('/', ProductIndex::class)->name('products');
-    Route::get('/crear', ProductCreate::class)->name('product.create')->middleware('auth');
-    Route::get('/editar/{product}', ProductEdit::class)->name('product.edit')->middleware('auth');
-    Route::delete('productos/eliminar/{product}', [ProductEdit::class, 'deleteProduct'])->name('product.delete')->middleware('auth');
+    Route::get('/', ProductIndex::class)->name('products.index');
+    Route::middleware('auth')->group(function () {
+        Route::get('/crear', ProductCreate::class)->name('product.create');
+        Route::get('/editar/{product}', ProductEdit::class)->name('product.edit');
+        Route::get('/eliminar/{product}', [ProductDelete::class, 'deleteProduct'])->name('product.delete');
+    });
+
     Route::get('/{product}', ProductShow::class)->name('product.show');
 });
 

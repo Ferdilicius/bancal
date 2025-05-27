@@ -1,49 +1,29 @@
 @section('title', 'Perfil Público de ' . $user->name)
 
-<div class="container mx-auto mt-8">
-    <div class="bg-white shadow-md rounded-lg p-6">
-        <h1 class="text-2xl font-bold mb-4">Perfil Público de {{ $user->name }}</h1>
+<div class="max-w-6xl mx-auto mt-14 px-2 sm:px-6 mb-10">
+    <div class="bg-white shadow-xl rounded-3xl p-6 sm:p-10">
+        <h1 class="text-3xl font-extrabold mb-10 text-gray-900">Perfil Público de {{ $user->name }}</h1>
 
-        <div class="mb-4">
-            <p><strong>Nombre:</strong> {{ $user->name }}</p>
-        </div>
-
-        <div class="mb-4">
-            <h2 class="text-lg font-semibold">Productos</h2>
-            @if ($products->isNotEmpty())
-                <div class="p-6 bg-gray-100">
-                    <h1 class="text-2xl font-bold text-gray-800 mb-4">Lista de Productos</h1>
-                    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-                        @foreach ($products as $product)
-                            <a href="{{ route('product.show', $product->id) }}"
-                                class="bg-white border border-gray-200 rounded-lg shadow-md p-4 hover:shadow-lg transition-shadow duration-200">
-                                <div class="mb-4">
-                                    @if ($product->image)
-                                        <img src="{{ $product->image }}" alt="Imagen del producto"
-                                            class="w-full h-32 object-cover rounded">
-                                    @else
-                                        <div class="w-full h-32 bg-gray-200 flex items-center justify-center rounded">
-                                            <span class="text-gray-500">Sin imagen</span>
-                                        </div>
-                                    @endif
-                                </div>
-                                <h2 class="text-lg font-bold text-gray-800 mb-2">{{ $product->name }}</h2>
-                                <p class="text-gray-600 mb-2">{{ $product->description }}</p>
-                                <p class="text-gray-700 font-semibold mb-2">Cantidad: {{ $product->quantity }}</p>
-                                <p class="text-gray-700 font-semibold mb-2">Precio: {{ $product->price }}</p>
-                                <p>
-                                    <span
-                                        class="{{ $product->status === 'activo' ? 'text-green-600 font-semibold' : 'text-red-600 font-semibold' }}">
-                                        {{ ucfirst($product->status) }}
-                                    </span>
-                                </p>
-                            </a>
-                        @endforeach
-                    </div>
-                </div>
-            @else
-                <p>Este usuario no tiene productos.</p>
-            @endif
-        </div>
+        @if ($products->isNotEmpty())
+            <div class="grid gap-8 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+                @foreach ($products as $product)
+                    <a href="{{ route('product.show', $product->id) }}"
+                        class="bg-white border border-gray-200 rounded-2xl shadow hover:shadow-xl transition-shadow duration-200 flex flex-col justify-between p-6 group">
+                        <div class="mb-5">
+                            <x-product-image :product="$product" />
+                        </div>
+                        <h3 class="text-lg font-bold text-gray-900 mb-2 truncate">
+                            {{ $product->name }}
+                        </h3>
+                        <span class="block text-gray-700 text-sm">Precio: <span class="font-semibold">${{ number_format($product->price, 2) }}</span></span>
+                    </a>
+                @endforeach
+            </div>
+        @else
+            <div class="flex flex-col items-center mt-20">
+                <i class="fas fa-box-open text-6xl text-gray-300 mb-6"></i>
+                <p class="text-gray-500 text-center text-xl font-semibold mb-2">Este usuario no tiene productos publicados.</p>
+            </div>
+        @endif
     </div>
 </div>

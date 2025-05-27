@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="es" class="h-full">
 
 <head>
     <meta charset="UTF-8">
@@ -20,7 +20,7 @@
     @livewireStyles
 </head>
 
-<body class="h-full m-0 flex flex-col" style="font-family: 'DynaPuff_Regular', sans-serif;">
+<body class="min-h-screen flex flex-col" style="font-family: 'DynaPuff_Regular', sans-serif;">
 
     @include('partials.header')
 
@@ -29,8 +29,6 @@
     </main>
 
     @include('partials.footer')
-
-    {{-- <script src="https://kit.fontawesome.com/ad6539a3b4.js" crossorigin="anonymous"></script> --}}
 
     @livewireScripts
 </body>

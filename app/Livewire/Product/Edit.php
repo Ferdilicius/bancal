@@ -4,9 +4,10 @@ namespace App\Livewire\Product;
 
 use Livewire\Component;
 use Livewire\WithFileUploads;
-
 use App\Models\Product;
 use App\Models\ProductCategory;
+
+use Illuminate\Support\Facades\Storage;
 
 class Edit extends Component
 {
@@ -17,12 +18,11 @@ class Edit extends Component
 	public $description;
 	public $quantity;
 	public $price;
-	public $image;
+	public $images = [];
+	public $newImages = [];
 	public $status;
 	public $category_id;
 	public $categories;
-	public $images = [];
-	public $existingImages = [];
 
 	public function mount(Product $product)
 	{
@@ -31,11 +31,10 @@ class Edit extends Component
 		$this->description = $product->description;
 		$this->quantity = $product->quantity;
 		$this->price = $product->price;
-		$this->status = $product->status;
+		$this->status = $product->status === 'activo';
 		$this->category_id = $product->category_id;
 		$this->categories = ProductCategory::all();
-
-		$this->existingImages = json_decode($product->image, true) ?? [];
+		$this->images = $product->images->pluck('path')->toArray();
 	}
 
 	protected $rules = [
@@ -43,33 +42,81 @@ class Edit extends Component
 		'description' => 'nullable|string',
 		'quantity' => 'required|integer|min:0',
 		'price' => 'required|numeric|min:0',
-		'images.*' => 'nullable|image|max:2048',
+		'newImages.*' => 'nullable|image|max:2048',
 		'status' => 'required|boolean',
 		'category_id' => 'required|exists:product_categories,id',
 	];
 
+	public function updatedNewImages()
+	{
+		foreach ($this->newImages as $file) {
+			$this->images[] = $file;
+		}
+		$this->newImages = [];
+	}
+
+	public function removeImage($index)
+	{
+		// Si es string, es una imagen existente
+		if (is_string($this->images[$index])) {
+			$imageModel = $this->product->images()->where('path', $this->images[$index])->first();
+			if ($imageModel) {
+				$imageModel->delete();
+			}
+		}
+		unset($this->images[$index]);
+		$this->images = array_values($this->images);
+	}
+
+	public function moveImage($fromIndex, $toIndex)
+	{
+		if (!isset($this->images[$fromIndex]) || !isset($this->images[$toIndex])) return;
+
+		$moved = $this->images[$fromIndex];
+		array_splice($this->images, $fromIndex, 1);
+		array_splice($this->images, $toIndex, 0, [$moved]);
+		$this->images = array_values($this->images);
+	}
+
 	public function updateProduct()
 	{
 		$this->validate();
-
-		$imagePaths = $this->existingImages;
-
-		if ($this->images) {
-			foreach ($this->images as $image) {
-				$imagePaths[] = $image->store('product-photos', 'public');
-			}
-		}
 
 		$this->product->update([
 			'name' => $this->name,
 			'description' => $this->description,
 			'quantity' => $this->quantity,
 			'price' => $this->price,
-			'status' => $this->status,
+			'status' => $this->status ? 'activo' : 'inactivo',
 			'category_id' => $this->category_id,
 		]);
 
-		redirect()->route('private-profile');
+		// Guardar nuevas imágenes
+		foreach ($this->images as $image) {
+			if ($image instanceof \Illuminate\Http\UploadedFile) {
+				$path = $image->store('product-photos', 'public');
+				$this->product->images()->create(['path' => $path]);
+			}
+		}
+
+		return redirect()->route('private-profile');
+	}
+
+	public function deleteProduct()
+	{
+		// Eliminar imágenes asociadas
+		foreach ($this->product->images as $image) {
+			// Elimina el archivo físico si existe
+			if (Storage::disk('public')->exists($image->path)) {
+				Storage::disk('public')->delete($image->path);
+			}
+			$image->delete();
+		}
+
+		// Eliminar el producto
+		$this->product->delete();
+
+		return redirect()->route('private-profile');
 	}
 
 	public function render()

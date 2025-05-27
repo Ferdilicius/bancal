@@ -4,9 +4,10 @@ namespace App\Livewire\Product;
 
 use Livewire\Component;
 use Livewire\WithFileUploads;
-
 use App\Models\Product;
 use App\Models\ProductCategory;
+
+use Illuminate\Support\Facades\Storage;
 
 class Create extends Component
 {
@@ -17,6 +18,7 @@ class Create extends Component
     public $quantity;
     public $price;
     public $images = [];
+    public $newImages = [];
     public $status;
     public $category_id;
     public $categories;
@@ -37,6 +39,46 @@ class Create extends Component
         'category_id' => 'required|exists:product_categories,id',
     ];
 
+    public function updatedNewImages()
+    {
+        foreach ($this->newImages as $file) {
+            $this->images[] = $file;
+        }
+
+        $this->newImages = []; // Limpia buffer
+    }
+
+    public function moveImage($fromIndex, $toIndex)
+    {
+        if (!isset($this->images[$fromIndex]) || !isset($this->images[$toIndex])) return;
+
+        $moved = $this->images[$fromIndex];
+        array_splice($this->images, $fromIndex, 1);
+        array_splice($this->images, $toIndex, 0, [$moved]);
+        $this->images = array_values($this->images);
+    }
+
+    public function removeImage($index)
+    {
+        if (isset($this->images[$index])) {
+            $image = $this->images[$index];
+
+            if (is_string($image)) {
+                // Elimina el archivo del disco
+                if (Storage::disk('public')->exists($image)) {
+                    Storage::disk('public')->delete($image);
+                }
+
+                // Elimina el registro de la base de datos
+                $this->product->images()->where('path', $image)->delete();
+            }
+
+            // Elimina la referencia del array
+            unset($this->images[$index]);
+            $this->images = array_values($this->images);
+        }
+    }
+
     public function storeProduct()
     {
         $this->validate();
@@ -51,11 +93,9 @@ class Create extends Component
             'category_id' => $this->category_id,
         ]);
 
-        if ($this->images) {
-            foreach ($this->images as $image) {
-                $path = $image->store('product-photos', 'public');
-                $product->images()->create(['path' => $path]);
-            }
+        foreach ($this->images as $image) {
+            $path = $image->store('product-photos', 'public');
+            $product->images()->create(['path' => $path]);
         }
 
         return redirect()->route('private-profile');
