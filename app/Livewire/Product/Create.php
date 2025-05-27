@@ -33,6 +33,7 @@ class Create extends Component
         'name' => 'required|string|max:255',
         'description' => 'nullable|string',
         'quantity' => 'required|integer|min:0',
+        'quantity_type' => 'required|in:litros,kilos,unidades,bolsas,cajas',
         'price' => 'required|numeric|min:0',
         'images.*' => 'nullable|image|max:2048',
         'status' => 'required|boolean',
