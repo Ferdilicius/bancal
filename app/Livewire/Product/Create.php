@@ -93,9 +93,12 @@ class Create extends Component
             'category_id' => $this->category_id,
         ]);
 
-        foreach ($this->images as $image) {
+        foreach ($this->images as $index => $image) {
             $path = $image->store('product-photos', 'public');
-            $product->images()->create(['path' => $path]);
+            $product->images()->create([
+                'path' => $path,
+                'order' => $index,
+            ]);
         }
 
         return redirect()->route('private-profile');

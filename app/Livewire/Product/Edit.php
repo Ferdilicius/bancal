@@ -91,16 +91,27 @@ class Edit extends Component
 			'category_id' => $this->category_id,
 		]);
 
-		// Guardar nuevas imágenes
-		foreach ($this->images as $image) {
+		foreach ($this->images as $index => $image) {
 			if ($image instanceof \Illuminate\Http\UploadedFile) {
+				// Nueva imagen, la guardamos y la creamos
 				$path = $image->store('product-photos', 'public');
-				$this->product->images()->create(['path' => $path]);
+				$this->product->images()->create([
+					'path' => $path,
+					'order' => $index,
+				]);
+			} else {
+				// Imagen existente, solo actualizamos el orden
+				$imageModel = $this->product->images()->where('path', $image)->first();
+				if ($imageModel) {
+					$imageModel->order = $index;
+					$imageModel->save();
+				}
 			}
 		}
 
 		return redirect()->route('private-profile');
 	}
+
 
 	public function deleteProduct()
 	{
@@ -112,9 +123,6 @@ class Edit extends Component
 			}
 			$image->delete();
 		}
-
-		// Eliminar el producto
-		$this->product->delete();
 
 		return redirect()->route('private-profile');
 	}
