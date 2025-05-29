@@ -74,6 +74,6 @@
                     {{ __('Registrarse') }}
                 </x-button>
             </div>
-        </form>
+        </form> 
     </x-authentication-card>
 </x-guest-layout>

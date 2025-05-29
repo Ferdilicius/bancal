@@ -47,3 +47,10 @@ Route::get('/perfil-publico/{user}', PublicProfile::class)->name('public.profile
 
 // Shopping Cart
 Route::get('/carrito-de-la-compra', ShoppingCart::class)->name('shopping.cart');
+
+// Fallback Route
+use App\Http\Controllers\SocialiteController;
+
+Route::get('/auth/{provider}/redirect', [SocialiteController::class, 'redirect']);
+Route::get('/auth/{provider}/callback', [SocialiteController::class, 'callback']);
+
