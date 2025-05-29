@@ -37,8 +37,8 @@
 
         {{-- Tipo de Unidad --}}
         <div>
-            <label for="unit_type" class="block text-base font-semibold text-gray-800">Tipo de Unidad</label>
-            <select id="unit_type" wire:model="unit_type"
+            <label for="quantity_type" class="block text-base font-semibold text-gray-800">Tipo de Unidad</label>
+            <select id="quantity_type" wire:model="quantity_type"
                 class="mt-2 block w-full border border-gray-300 rounded px-4 py-2 bg-white focus:ring-indigo-400 focus:border-indigo-400">
                 <option value="" selected>Selecciona un tipo de unidad</option>
                 <option value="litros">Litros</option>
@@ -47,7 +47,7 @@
                 <option value="bolsas">Bolsas</option>
                 <option value="cajas">Cajas</option>
             </select>
-            @error('unit_type')
+            @error('quantity_type')
                 <span class="text-sm text-red-500 mt-1">{{ $message }}</span>
             @enderror
         </div>
