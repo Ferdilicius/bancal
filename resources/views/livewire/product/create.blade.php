@@ -1,6 +1,6 @@
 @section('title', 'Crear Producto')
 
-<div class="max-w-3xl mx-auto p-8 my-10 bg-white shadow rounded border border-gray-200">
+<div class="max-w-3xl mx-auto px-6 py-8 my-10 bg-white shadow rounded border border-gray-200">
     <h1 class="text-3xl font-bold text-indigo-700 mb-8 text-center">Crear Nuevo Producto</h1>
     <form wire:submit.prevent="storeProduct" class="space-y-8" enctype="multipart/form-data">
 
@@ -31,6 +31,23 @@
                 class="mt-2 block w-48 border border-gray-300 rounded px-4 py-2 text-base focus:ring-indigo-400 focus:border-indigo-400"
                 oninput="this.value = Math.max(1, parseInt(this.value) || 1)">
             @error('quantity')
+                <span class="text-sm text-red-500 mt-1">{{ $message }}</span>
+            @enderror
+        </div>
+
+        {{-- Tipo de Unidad --}}
+        <div>
+            <label for="unit_type" class="block text-base font-semibold text-gray-800">Tipo de Unidad</label>
+            <select id="unit_type" wire:model="unit_type"
+                class="mt-2 block w-full border border-gray-300 rounded px-4 py-2 bg-white focus:ring-indigo-400 focus:border-indigo-400">
+                <option value="" selected>Selecciona un tipo de unidad</option>
+                <option value="litros">Litros</option>
+                <option value="kilos">Kilos</option>
+                <option value="unidades">Unidades</option>
+                <option value="bolsas">Bolsas</option>
+                <option value="cajas">Cajas</option>
+            </select>
+            @error('unit_type')
                 <span class="text-sm text-red-500 mt-1">{{ $message }}</span>
             @enderror
         </div>
@@ -109,7 +126,6 @@
                 <span class="text-sm text-red-500 mt-1">{{ $message }}</span>
             @enderror
         </div>
-
 
         {{-- Categoría --}}
         <div>

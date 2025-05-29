@@ -13,9 +13,23 @@
                             <x-product-image :product="$product" />
                         </div>
                         <h3 class="text-lg font-bold text-gray-900 mb-2 truncate">
-                            {{ $product->name }}
-                        </h3>
-                        <span class="block text-gray-700 text-sm">Precio: <span class="font-semibold">${{ number_format($product->price, 2) }}</span></span>
+                                    {{ $product->name }}
+                                </h3>
+                                <p class="text-gray-500 mb-2 truncate">{{ $product->description }}</p>
+                                <div class="mb-2">
+                                    <span class="block text-gray-700 text-sm">Cantidad: <span
+                                            class="font-semibold">{{ $product->quantity }} {{ $product ->quantity_type }}</span></span>
+                                    <span class="block text-gray-700 text-sm">Precio: <span
+                                            class="font-semibold">${{ number_format($product->price, 2) }}</span></span>
+                                </div>
+                                <span
+                                    class="inline-flex items-center gap-1 px-2 py-1 rounded text-xs font-semibol {{ $product->status === 'activo' ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700' }}">
+                                    @if ($product->status === 'activo')
+                                        <i class="fas fa-check-circle text-green-500"></i> Activo
+                                    @else
+                                        <i class="fas fa-times-circle text-red-500"></i> Inactivo
+                                    @endif
+                                </span>
                     </a>
                 @endforeach
             </div>
