@@ -1,5 +1,9 @@
-@if ($product->images->isNotEmpty())
-    <img src="{{ asset('storage/' . $product->images->first()->path) }}" alt="Imagen del producto"
+@php
+    $image = $product->images->first();
+@endphp
+
+@if ($image && \Illuminate\Support\Facades\Storage::disk('public')->exists($image->path))
+    <img src="{{ asset('storage/' . $image->path) }}" alt="Imagen del producto"
         class="w-full h-40 object-cover group-hover:scale-105 transition-transform duration-200">
 @else
     <div

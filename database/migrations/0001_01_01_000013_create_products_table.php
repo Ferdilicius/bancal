@@ -15,7 +15,7 @@ return new class extends Migration
             $table->integer('quantity')->default(0);
             $table->float('price');
             $table->enum('status', ['inactivo', 'activo'])->default('inactivo');
-            $table->enum('quantity_type', ['litros','kilos', 'unidades', 'bolsas', 'cajas'])->default('unidades');
+            $table->enum('quantity_type', ['litros', 'kilos', 'unidades', 'bolsas', 'cajas'])->default('unidades');
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->foreignId('category_id')->constrained('product_categories')->onDelete('cascade');
             $table->timestamps();
