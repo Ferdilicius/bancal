@@ -17,7 +17,6 @@ use App\Livewire\Product\Crud as ProductCrud;
 use App\Livewire\Address\Index as AddressIndex;
 use App\Livewire\Address\Show as AddressShow;
 use App\Livewire\Address\Crud as AddressCrud;
-use App\Livewire\Address\Save as AddressSave;
 
 // Purchase
 use App\Livewire\Purchase\Crud as PurchaseCrud;
@@ -46,7 +45,6 @@ Route::prefix('productos')->group(function () {
     Route::middleware('auth')->group(function () {
         Route::get('/crear', ProductCrud::class)->name('product.create');
         Route::get('/editar/{productId}', ProductCrud::class)->name('product.edit');
-        Route::delete('/eliminar/{productId}', ProductCrud::class)->name('product.delete');
     });
 
     Route::get('/{productId}', ProductShow::class)->name('product.show');

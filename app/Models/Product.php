@@ -18,6 +18,6 @@ class Product extends Model
 
     public function images()
     {
-        return $this->hasMany(ProductImage::class);
+        return $this->morphMany(ModelImage::class, 'imageable')->orderBy('order');
     }
 }

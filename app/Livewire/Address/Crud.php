@@ -4,7 +4,7 @@ namespace App\Livewire\Address;
 
 use Livewire\Component;
 use App\Models\Address;
-use App\Models\AddressType; // <-- Add this line
+use App\Models\AddressType;
 use Illuminate\Support\Facades\Auth;
 
 class Crud extends Component
@@ -85,7 +85,8 @@ class Crud extends Component
     public function render()
     {
         $addresses = Address::where('user_id', $this->user_id)->get();
-        $addressTypes = AddressType::all(); // <-- Add this line
+        $addressTypes = AddressType::all();
+
         return view('livewire.address.save', compact('addresses', 'addressTypes'))->layout('layouts.app');
     }
 }
