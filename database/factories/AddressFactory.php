@@ -24,7 +24,7 @@ class AddressFactory extends Factory
             'address' => $this->faker->address,
             'name' => $this->faker->randomElement($this->addressesNames),
             // 'image' => $this->faker->imageUrl(400, 300, 'business', true, 'address'),
-            'status' => $this->faker->randomElement([0, 1]),
+            'status' => $this->faker->randomElement(['inactivo', 'activo']),
             'user_id' => User::factory(),
             'address_type_id' => AddressType::factory(),
         ];

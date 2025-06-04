@@ -22,7 +22,7 @@
 
         <!-- Navigation Icons -->
         <nav class="flex space-x-2 md:space-x-4 items-center">
-            <a href="{{ route('products.index') }}">
+            <a href="{{ route('product.index') }}">
                 <button
                     class="w-10 h-10 md:w-14 md:h-14 bg-white rounded-full flex items-center justify-center hover:shadow-[0_0_10px_rgba(158,32,63,0.75)]">
                     <i class="fa-solid fa-box text-[#9E203F] text-xl md:text-3xl"></i>

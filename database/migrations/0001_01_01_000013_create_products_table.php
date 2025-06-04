@@ -12,10 +12,13 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->text('description')->nullable();
-            $table->integer('quantity')->default(0);
+            $table->float('quantity')->default(0);
             $table->float('price');
             $table->enum('status', ['inactivo', 'activo'])->default('inactivo');
-            $table->enum('quantity_type', ['litros', 'kilos', 'unidades', 'bolsas', 'cajas'])->default('unidades');
+            $table->enum('quantity_type', ['kilo', 'litro', 'unidad', 'bolsa', 'caja'])->default('unidad');
+            $table->boolean('allow_fractional')->default(false);
+            $table->float('max_per_person')->nullable();
+            $table->float('min_per_person')->nullable();
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->foreignId('category_id')->constrained('product_categories')->onDelete('cascade');
             $table->timestamps();

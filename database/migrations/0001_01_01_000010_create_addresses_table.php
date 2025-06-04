@@ -13,7 +13,7 @@ return new class extends Migration
             $table->string('address')->unique();
             $table->string('name')->nullable();
             $table->string('image')->nullable();
-            $table->integer('status')->default(0); // 0 = Privado, 1 = Público
+            $table->enum('status', ['inactivo', 'activo'])->default('inactivo');
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->foreignId('address_type_id')->constrained('address_types')->onDelete('cascade');
             $table->timestamps();

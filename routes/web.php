@@ -3,17 +3,27 @@
 use Illuminate\Support\Facades\Route;
 
 use App\Livewire\PublicProfile;
-use App\Livewire\PrivateProfile;
+use App\Livewire\Private\PrivateProfile;
 use App\Livewire\ShoppingCart;
 
 use App\Http\Controllers\Auth\RegisterController;
 
+// Product
 use App\Livewire\Product\Index as ProductIndex;
 use App\Livewire\Product\Show as ProductShow;
-use App\Livewire\Product\Create as ProductCreate;
-use App\Livewire\Product\Edit as ProductEdit;
-use App\Livewire\Product\Delete as ProductDelete;
+use App\Livewire\Product\Crud as ProductCrud;
 
+// Address
+use App\Livewire\Address\Index as AddressIndex;
+use App\Livewire\Address\Show as AddressShow;
+use App\Livewire\Address\Crud as AddressCrud;
+use App\Livewire\Address\Save as AddressSave;
+
+// Purchase
+use App\Livewire\Purchase\Crud as PurchaseCrud;
+
+// Sale
+use App\Livewire\Sale\Crud as SaleCrud;
 
 // Authentication Routes
 Route::controller(RegisterController::class)->group(function () {
@@ -26,20 +36,48 @@ Route::get('/', fn() => view('bancal.home'))->name('home');
 Route::get('/contacto', fn() => view('bancal.contacto'))->name('contact');
 
 // Account Management
-Route::get('/perfil-privado', PrivateProfile::class)
-    ->name('private-profile')
-    ->middleware('auth');
+Route::middleware('auth')->get('/perfil-privado', PrivateProfile::class)->name('private-profile');
 
 // Product Routes
 Route::prefix('productos')->group(function () {
-    Route::get('/', ProductIndex::class)->name('products.index');
+
+    Route::get('/', ProductIndex::class)->name('product.index');
+
     Route::middleware('auth')->group(function () {
-        Route::get('/crear', ProductCreate::class)->name('product.create');
-        Route::get('/editar/{product}', ProductEdit::class)->name('product.edit');
-        Route::get('/eliminar/{product}', [ProductDelete::class, 'deleteProduct'])->name('product.delete');
+        Route::get('/crear', ProductCrud::class)->name('product.create');
+        Route::get('/editar/{productId}', ProductCrud::class)->name('product.edit');
+        Route::delete('/eliminar/{productId}', ProductCrud::class)->name('product.delete');
     });
 
-    Route::get('/{product}', ProductShow::class)->name('product.show');
+    Route::get('/{productId}', ProductShow::class)->name('product.show');
+});
+
+// Address Routes
+Route::prefix('bancales')->group(function () {
+
+    Route::get('/', AddressIndex::class)->name('address.index');
+
+    Route::middleware('auth')->group(function () {
+        Route::get('/crear', AddressCrud::class)->name('address.create');
+        Route::get('/editar/{addressId}', AddressCrud::class)->name('address.edit');
+        Route::delete('/eliminar/{addressId}', AddressCrud::class)->name('address.delete');
+    });
+
+    Route::get('/{addressId}', AddressShow::class)->name('address.show');
+});
+
+// Purchase Routes
+Route::prefix('compras')->middleware('auth')->group(function () {
+    Route::get('/crear', PurchaseCrud::class)->name('purchase.create');
+    Route::get('/editar/{purchase}', PurchaseCrud::class)->name('purchase.edit');
+    Route::get('/eliminar/{purchase}', [PurchaseCrud::class, 'deletePurchase'])->name('purchase.delete');
+});
+
+// Sale Routes
+Route::prefix('ventas')->middleware('auth')->group(function () {
+    Route::get('/crear', SaleCrud::class)->name('sale.create');
+    Route::get('/editar/{sale}', SaleCrud::class)->name('sale.edit');
+    Route::get('/eliminar/{sale}', [SaleCrud::class, 'deleteSale'])->name('sale.delete');
 });
 
 // Profile Route
@@ -53,4 +91,3 @@ use App\Http\Controllers\SocialiteController;
 
 Route::get('/auth/{provider}/redirect', [SocialiteController::class, 'redirect']);
 Route::get('/auth/{provider}/callback', [SocialiteController::class, 'callback']);
-

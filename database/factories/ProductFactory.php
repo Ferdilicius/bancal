@@ -78,11 +78,12 @@ class ProductFactory extends Factory
             'name' => $this->faker->unique()->randomElement($this->productNames),
             'description' => $this->faker->sentence(6, true) . ' Fresco y de alta calidad, ideal para tu cocina.',
             'quantity' => $this->faker->numberBetween(0, 100),
-            'quantity_type' => $this->faker->randomElement(['litros','kilos','unidades','bolsas','cajas']),
+            'quantity_type' => $this->faker->randomElement(['kilo', 'litro', 'unidad', 'bolsa', 'caja']),
             'price' => $this->faker->randomFloat(2, 0.5, 20),
             'status' => $this->faker->randomElement(['activo', 'inactivo']),
             'user_id' => User::factory(),
-            'category_id' => $this->faker->numberBetween(1, 7)
+            'allow_fractional' => $this->faker->boolean(),
+            'category_id' => $this->faker->numberBetween(1, 7),
         ];
     }
 }

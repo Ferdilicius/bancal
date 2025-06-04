@@ -9,9 +9,9 @@ class Show extends Component
 {
     public $product;
 
-    public function mount($product)
+    public function mount($productId)
     {
-        $this->product = Product::find($product);
+        $this->product = Product::find($productId);
     }
 
     public function render()

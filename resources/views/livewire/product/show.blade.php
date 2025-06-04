@@ -36,8 +36,7 @@
                 }" x-effect="direction = current > prev ? 'right' : 'left'; prev = current">
                 <div x-show="hasImages" class="relative h-40 w-full overflow-hidden">
                     <template x-for="(img, idx) in images" :key="img">
-                        <img x-show="current === idx" :src="'{{ asset('storage') }}/' + img"
-                            alt="Imagen del producto"
+                        <img x-show="current === idx" :src="'{{ asset('storage') }}/' + img" alt="Imagen del producto"
                             class="w-full h-40 object-cover absolute inset-0 rounded-lg shadow transition-all duration-400 ease-[cubic-bezier(.4,2,.6,1)]"
                             :class="{
                                 'opacity-0 -translate-x-6 scale-95': current !== idx && direction === 'right',
@@ -45,20 +44,29 @@
                                 'opacity-100 translate-x-0 scale-100': current === idx
                             }">
                     </template>
-                    <!-- Zona izquierda invisible para ir a la imagen anterior -->
+
+                    <!-- Flecha izquierda -->
                     <button type="button"
-                        class="absolute left-0 top-0 h-full w-1/2 bg-transparent cursor-pointer focus:outline-none"
-                        x-show="current > 0" @click="current--; direction = 'left'" aria-label="Anterior"
-                        style="display: none;">
+                        class="absolute left-2 top-1/2 -translate-y-1/2 bg-white/80 hover:bg-white shadow rounded-full p-2 flex items-center justify-center transition opacity-80 hover:opacity-100"
+                        x-show="current > 0" @click="current--; direction = 'left'" aria-label="Anterior">
+                        <svg class="w-5 h-5 text-gray-700" fill="none" stroke="currentColor" stroke-width="2"
+                            viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" />
+                        </svg>
                     </button>
-                    <!-- Zona derecha invisible para ir a la imagen siguiente -->
+                    <!-- Flecha derecha -->
                     <button type="button"
-                        class="absolute right-0 top-0 h-full w-1/2 bg-transparent cursor-pointer focus:outline-none"
+                        class="absolute right-2 top-1/2 -translate-y-1/2 bg-white/80 hover:bg-white shadow rounded-full p-2 flex items-center justify-center transition opacity-80 hover:opacity-100"
                         x-show="current < images.length - 1" @click="current++; direction = 'right'"
-                        aria-label="Siguiente" style="display: none;">
+                        aria-label="Siguiente">
+                        <svg class="w-5 h-5 text-gray-700" fill="none" stroke="currentColor" stroke-width="2"
+                            viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
+                        </svg>
                     </button>
                 </div>
-                <div x-show="!hasImages" class="flex items-center justify-center w-full h-32 bg-gray-100 rounded-lg border border-gray-200 shadow-sm text-gray-500 text-sm font-semibold">
+                <div x-show="!hasImages"
+                    class="flex items-center justify-center w-full h-32 bg-gray-100 rounded-lg border border-gray-200 shadow-sm text-gray-500 text-sm font-semibold">
                     Sin imagen
                 </div>
             </div>
