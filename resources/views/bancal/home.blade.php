@@ -1,7 +1,5 @@
 @section('title', 'Bancal - Página Principal')
 
-@vite('resources/css/index.css')
-
 <!-- Hero Section -->
 <x-app-layout>
     <div>
@@ -21,18 +19,42 @@
             </video>
         </div>
 
-        <!-- Animated Banner: ¿Quiénes somos? -->
-        <div class="bg-red-800 text-white text-center py-6 relative overflow-hidden">
+        <!-- Animated Banner: ¿Qué es Bancal? -->
+        <div class="bg-red-800 text-white text-center py-8 relative overflow-hidden"
+             x-data="{
+            messages: [
+            '¿Qué es Bancal?',
+            'Un puente entre agricultores y consumidores',
+            'Cultivando conexiones únicas',
+            'Consumo responsable y sostenible'
+            ],
+            clones: 2 // Number of times to repeat messages for seamless scroll
+             }">
             <div class="relative overflow-hidden">
-                <div class="whitespace-nowrap flex animate-scroll gap-12">
-                    @foreach (range(1, 10) as $i)
-                        <span class="text-2xl font-bold tracking-wider">¿Qué es Bancal?</span>
-                        <span class="text-2xl font-bold tracking-wider">Un puente entre agricultores y
-                            consumidores</span>
-                        <span class="text-2xl font-bold tracking-wider">Cultivando conexiones únicas</span>
-                        <span class="text-2xl font-bold tracking-wider">Consumo responsable y sostenible</span>
-                    @endforeach
-                </div>
+            <div class="flex gap-16"
+             x-init="
+            $nextTick(() => {
+            const el = $el;
+            let scrollAmount = 0;
+            const scrollWidth = el.scrollWidth / (clones + 1);
+            function scroll() {
+            scrollAmount += 4;
+            if (scrollAmount >= scrollWidth) {
+            scrollAmount = 0;
+            }
+            el.scrollLeft = scrollAmount;
+            requestAnimationFrame(scroll);
+            }
+            scroll();
+            });
+             "
+             style="white-space: nowrap; overflow-x: hidden;">
+            <template x-for="i in clones + 1" :key="i">
+            <template x-for="msg in messages" :key="msg + i">
+            <span class="text-4xl font-extrabold tracking-wider mx-10" x-text="msg"></span>
+            </template>
+            </template>
+            </div>
             </div>
         </div>
 

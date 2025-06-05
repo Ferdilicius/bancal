@@ -82,4 +82,3 @@
         </div>
     </x-authentication-card>
 </x-guest-layout>
-
