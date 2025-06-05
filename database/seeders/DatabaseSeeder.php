@@ -11,11 +11,11 @@ class DatabaseSeeder extends Seeder
     {
         Storage::disk('public')->deleteDirectory('model_images');
         Storage::disk('public')->deleteDirectory('profile-photos');
-        Storage::disk('private')->deleteDirectory('livewire-tmp');
+        Storage::disk('local')->deleteDirectory('livewire-tmp');
 
         Storage::disk('public')->makeDirectory('model_images');
         Storage::disk('public')->makeDirectory('profile-photos');
-        Storage::disk('private')->makeDirectory('livewire-tmp');
+        Storage::disk('local')->makeDirectory('livewire-tmp');
 
         $this->call(UserSeeder::class);
         $this->call(ProductCategorySeeder::class);
