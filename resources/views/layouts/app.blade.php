@@ -8,6 +8,8 @@
     <title>@yield('title', 'Default Title')</title>
     <link rel="icon" href="{{ asset('static/img/iconFresa.svg') }}" type="image/x-icon">
 
+
+
     <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" as="style"
         onload="this.onload=null;this.rel='stylesheet'" crossorigin="anonymous">
 
@@ -29,8 +31,11 @@
     </main>
 
     @include('partials.footer')
+    
+    @include('partials.accessibility')
 
     @livewireScripts
+
 </body>
 
 </html>
