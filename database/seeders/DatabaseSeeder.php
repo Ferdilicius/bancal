@@ -17,6 +17,10 @@ class DatabaseSeeder extends Seeder
         Storage::disk('public')->makeDirectory('profile-photos');
         Storage::disk('local')->makeDirectory('livewire-tmp');
 
+        @chmod(Storage::disk('public')->path('model_images'), 0777);
+        @chmod(Storage::disk('public')->path('profile-photos'), 0777);
+        @chmod(Storage::disk('local')->path('livewire-tmp'), 0777);
+
         $this->call(UserSeeder::class);
         $this->call(ProductCategorySeeder::class);
         $this->call(ProductSeeder::class);

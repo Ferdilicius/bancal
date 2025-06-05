@@ -150,7 +150,7 @@ class Crud extends Component
         $order = 0;
         foreach ($this->images as $image) {
             if (is_object($image)) {
-                $path = $image->store('model-images', 'public');
+                $path = $image->store('model_images', 'public');
                 $product->images()->create([
                     'path' => $path,
                     'order' => $order++,
