@@ -8,11 +8,6 @@ use Illuminate\Database\Eloquent\Factories\Factory;
 
 class ProductFactory extends Factory
 {
-    /**
-     * The name of the factory's corresponding model.
-     *
-     * @var string
-     */
     protected $model = Product::class;
 
     protected $productNames = [
@@ -64,14 +59,58 @@ class ProductFactory extends Factory
         'Nueces',
         'Avellanas',
         'Pistachos',
-        'Anacardos'
+        'Anacardos',
+        'Aceitunas',
+        'Espárragos',
+        'Remolacha',
+        'Batata',
+        'Endibia',
+        'Escarola',
+        'Repollo',
+        'Coles de Bruselas',
+        'Berenjena',
+        'Calabacín',
+        'Chayote',
+        'Jengibre',
+        'Cúrcuma',
+        'Acelga',
+        'Berro',
+        'Setas',
+        'Champiñones',
+        'Porotos',
+        'Lentejas',
+        'Garbanzos',
+        'Quinoa',
+        'Arroz integral',
+        'Trigo sarraceno',
+        'Cuscús',
+        'Mijo',
+        'Sésamo',
+        'Chía',
+        'Linaza',
+        'Castañas',
+        'Macadamias',
+        'Piñones',
+        'Cacahuetes',
+        'Dátiles',
+        'Ciruelas',
+        'Albaricoque',
+        'Moras',
+        'Grosellas',
+        'Tamarindo',
+        'Camu camu',
+        'Aguacate',
+        'Pepitas de calabaza',
+        'Semillas de girasol',
+        'Aceite de oliva',
+        'Aceite de coco',
+        'Yogur natural',
+        'Queso fresco',
+        'Leche de almendras',
+        'Tofu',
+        'Tempeh'
     ];
 
-    /**
-     * Define the model's default state.
-     *
-     * @return array<string, mixed>
-     */
     public function definition(): array
     {
         return [

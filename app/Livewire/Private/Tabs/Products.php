@@ -11,20 +11,10 @@ class Products extends Component
 {
     public $products;
     public $selectedProducts = [];
-    public $selectAll = false;
 
     public function mount()
     {
         $this->products = Auth::user()->products()->get();
-    }
-
-    public function updatedSelectAll($value)
-    {
-        if ($value) {
-            $this->selectedProducts = $this->products->pluck('id')->toArray();
-        } else {
-            $this->selectedProducts = [];
-        }
     }
 
     public function deleteProduct($productId)
@@ -78,14 +68,20 @@ class Products extends Component
         $copy->push();
 
         foreach ($original->images as $image) {
-            $copy->images()->create(['path' => $image->path]);
+            $originalPath = $image->path;
+            $filename = pathinfo($originalPath, PATHINFO_FILENAME);
+            $extension = pathinfo($originalPath, PATHINFO_EXTENSION);
+            $newFilename = $filename . '_copy_' . uniqid() . '.' . $extension;
+            $newPath = 'model_images/' . $newFilename;
+
+            if (Storage::disk('public')->exists($originalPath)) {
+                Storage::disk('public')->copy($originalPath, $newPath);
+                $copy->images()->create(['path' => $newPath]);
+            }
         }
 
         $this->products = Auth::user()->products()->get();
-
-        session()->flash('message', 'Producto duplicado correctamente.');
     }
-
 
     public function render()
     {

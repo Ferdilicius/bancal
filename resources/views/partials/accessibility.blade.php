@@ -1,5 +1,5 @@
 <!-- Botón para abrir/cerrar el widget -->
-<div x-data="accessibilityWidget()" x-init="init()"
+<div x-data="accessibilityWidget()" x-init="init()" x-cloak
     class="fixed right-0 top-[80%] transform -translate-y-1/2 z-50 flex flex-col items-end">
     <!-- Botón flotante -->
     <button @click="toggleOpen()" @mouseenter="handleHover(true)" @mouseleave="handleHover(false)"

@@ -17,7 +17,7 @@
                 </div>
 
                 <h2 class="text-lg font-bold text-gray-800 mb-2">{{ $product->name }}</h2>
-                <p class="text-gray-700 font-semibold mb-2">Cantidad: {{ $product->quantity }} {{$product->quantity_type}}</p>
+                <p class="text-gray-700 font-semibold mb-2">Cantidad: {{ $product->formatted_quantity }}</p>
                 <p class="text-gray-700 font-semibold mb-2">Precio: {{ $product->price }}€</p>
             </a>
         @endforeach

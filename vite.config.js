@@ -9,11 +9,12 @@ export default defineConfig({
         }),
     ],
     server: {
-        host: '0.0.0.0',       // Escucha en todas las interfaces
-        port: 5173,            // El puerto por defecto
+        host: '0.0.0.0',
+        port: 5173,
         strictPort: true,
+        cors: true,
         hmr: {
-            host: '192.168.1.135', // Ej: '192.168.1.34'
+            host: '192.168.0.29',
         },
     },
 });

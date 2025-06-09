@@ -25,8 +25,6 @@ class Crud extends Component
     public $category_id;
     public $categories;
     public $product;
-
-    // Nuevos campos
     public $allow_fractional = false;
     public $max_per_person;
     public $min_per_person;
@@ -48,7 +46,6 @@ class Crud extends Component
             $this->status = $this->product->status === 'activo';
             $this->category_id = $this->product->category_id;
             $this->images = $this->product->images->pluck('path')->toArray();
-            // Nuevos campos
             $this->allow_fractional = $this->product->allow_fractional;
             $this->max_per_person = $this->product->max_per_person;
             $this->min_per_person = $this->product->min_per_person;
@@ -126,8 +123,8 @@ class Crud extends Component
                 'status' => $this->status ? 'activo' : 'inactivo',
                 'category_id' => $this->category_id,
                 'allow_fractional' => $this->allow_fractional,
-                'max_per_person' => $this->max_per_person,
-                'min_per_person' => $this->min_per_person,
+                'max_per_person' => $this->max_per_person !== '' ? $this->max_per_person : null,
+                'min_per_person' => $this->min_per_person !== '' ? $this->min_per_person : null,
             ]);
         } else {
             $product = Product::create([
@@ -137,11 +134,11 @@ class Crud extends Component
                 'quantity_type' => $this->quantity_type,
                 'price' => $this->price,
                 'status' => $this->status ? 'activo' : 'inactivo',
-                'user_id' => auth()->id(),
+                'user_id' => auth()->user() ? auth()->user()->id : null,
                 'category_id' => $this->category_id,
                 'allow_fractional' => $this->allow_fractional,
-                'max_per_person' => $this->max_per_person,
-                'min_per_person' => $this->min_per_person,
+                'max_per_person' => $this->max_per_person !== '' ? $this->max_per_person : null,
+                'min_per_person' => $this->min_per_person !== '' ? $this->min_per_person : null,
             ]);
             $this->productId = $product->id;
         }
@@ -184,6 +181,6 @@ class Crud extends Component
 
     public function render()
     {
-        return view('livewire.product.save')->layout('layouts.app');
+        return view('livewire.product.crud')->layout('layouts.app');
     }
 }

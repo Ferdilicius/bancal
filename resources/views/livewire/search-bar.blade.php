@@ -33,7 +33,7 @@
                             </div>
                             <div class="flex items-center gap-2 mt-1">
                                 <span class="bg-[#fbeaf0] text-[#9E203F] font-semibold px-2 py-1 rounded text-xs">
-                                    {{ $product->quantity }} {{ $product->quantity_type ?? '' }}
+                                    {{ $product->quantity }} {{ $product->formatted_quantity ?? '' }}
                                 </span>
                                 <span class="bg-[#9E203F] text-white font-bold px-2 py-1 rounded text-xs">
                                     €{{ number_format($product->price, 2, ',', '.') }}

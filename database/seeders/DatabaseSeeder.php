@@ -27,6 +27,8 @@ class DatabaseSeeder extends Seeder
         $this->call(ModelImageSeeder::class);
         $this->call(AddressTypeSeeder::class);
         $this->call(AddressSeeder::class);
-        $this->call(PayMethodSeeder::class);
+        $this->call(PaymentSeeder::class);
+        $this->call(OrderSeeder::class);
+        $this->call(OrderProductSeeder::class);
     }
 }

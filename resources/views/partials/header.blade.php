@@ -90,60 +90,95 @@
             <!-- Mobile menu -->
             <div x-show="mobileMenuOpen" x-cloak class="fixed inset-0 z-30 flex flex-col items-end md:hidden"
                 @click.self="mobileMenuOpen = false" style="background: transparent;">
-                <div class="bg-white w-64 h-full max-h-screen overflow-y-auto shadow-xl p-6 flex flex-col space-y-4">
-                    <!-- User Info for mobile (button to toggle dropdown) -->
-                    <div class="w-full flex items-center space-x-2 py-2 rounded transition-all duration-200 hover:bg-[#F8E7EC] cursor-pointer"
-                        @click="mobileDropdownOpen = !mobileDropdownOpen">
-                        @auth
-                            <img src="{{ Auth::user()->profile_photo_url }}" alt="{{ Auth::user()->name }}"
-                                class="w-8 h-8 rounded-full object-cover border-2 border-[#9E203F]">
-                            <span class="text-[#9E203F] font-semibold">{{ Auth::user()->name }}</span>
-                            <i
-                                :class="mobileDropdownOpen ? 'fa-solid fa-chevron-up text-[#9E203F]' :
-                                    'fa-solid fa-chevron-down text-[#9E203F]'"></i>
-                        @else
-                            <i class="fa-solid fa-user text-[#9E203F] text-xl"></i>
-                            <span class="text-[#9E203F] font-semibold">Cuenta</span>
-                        @endauth
-                    </div>
+                <div class="bg-white w-60 h-full max-h-screen overflow-y-auto shadow-xl p-6 flex flex-col space-y-2">
+                    <!-- User Info for mobile (no dropdown) -->
                     @auth
-                        <div x-show="mobileDropdownOpen" x-cloak class="flex flex-col space-y-1">
+                        <div
+                            class="w-full flex items-center space-x-3 py-3 rounded transition-all duration-200 hover:bg-[#F8E7EC]">
+                            <img src="{{ Auth::user()->profile_photo_url }}" alt="{{ Auth::user()->name }}"
+                                class="w-10 h-10 rounded-full object-cover border-2 border-[#9E203F]">
+                            <span class="text-[#9E203F] font-semibold text-base">{{ Auth::user()->name }}</span>
+                        </div>
+                        <!-- Sección de cuenta -->
+                        <div class="border-b border-[#F8E7EC] pb-2 mb-2">
                             <a href="{{ route('private-profile') }}"
-                                class="block px-6 py-3 rounded text-base text-[#9E203F] hover:bg-[#F8E7EC] hover:text-[#7A162E] transition-colors duration-200">
-                                <i class="fa-solid fa-user-circle mr-2"></i> Mi Perfil
+                                class="flex items-center space-x-3 px-4 py-3 rounded text-base text-[#9E203F] hover:bg-[#F8E7EC] hover:text-[#7A162E] transition-colors duration-200">
+                                <i class="fa-solid fa-user-circle text-xl"></i>
+                                <span>Mi Perfil</span>
                             </a>
                             <a href="{{ route('profile.show') }}"
-                                class="block px-6 py-3 rounded text-base text-[#9E203F] hover:bg-[#F8E7EC] hover:text-[#7A162E] transition-colors duration-200">
-                                <i class="fa-solid fa-gear mr-2"></i> Configuración
+                                class="flex items-center space-x-3 px-4 py-3 rounded text-base text-[#9E203F] hover:bg-[#F8E7EC] hover:text-[#7A162E] transition-colors duration-200">
+                                <i class="fa-solid fa-gear text-xl"></i>
+                                <span>Configuración</span>
                             </a>
-                            <form method="POST" action="{{ route('logout') }}">
-                                @csrf
-                                <button type="submit"
-                                    class="block w-full text-left px-6 py-3 rounded text-base text-[#9E203F] hover:bg-[#F8E7EC] hover:text-[#7A162E] transition-colors duration-200">
-                                    <i class="fa-solid fa-right-from-bracket mr-2"></i> Cerrar sesión
-                                </button>
-                            </form>
+                            <div x-data="{ open: false }">
+                                <form method="POST" action="{{ route('logout') }}" @submit.prevent="open = true">
+                                    @csrf
+                                    <button type="submit"
+                                        class="flex items-center space-x-3 w-full text-left px-4 py-3 rounded text-base text-[#9E203F] hover:bg-[#F8E7EC] hover:text-[#7A162E] transition-colors duration-200">
+                                        <i class="fa-solid fa-right-from-bracket text-xl"></i>
+                                        <span>Cerrar sesión</span>
+                                    </button>
+                                </form>
+                                <!-- Modal de confirmación -->
+                                <div x-show="open" x-cloak
+                                    class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-40">
+                                    <div class="bg-white rounded-xl shadow-lg p-10 max-w-sm w-full text-center"
+                                        @click.away="open = false" @keydown.escape.window="open = false">
+                                        <h2 class="text-xl font-bold mb-6 text-gray-900">¿Seguro que quieres cerrar sesión?
+                                        </h2>
+                                        <p class="mb-8 text-gray-600">Tendrás que iniciar sesión de nuevo para acceder a tu
+                                            cuenta.</p>
+                                        <div class="flex gap-6 justify-center">
+                                            <form method="POST" action="{{ route('logout') }}">
+                                                @csrf
+                                                <button type="submit"
+                                                    class="inline-flex items-center bg-red-700 text-white px-8 py-4 rounded-xl hover:bg-red-800 transition-colors duration-200 shadow-lg font-semibold text-base">
+                                                    <i class="fa-solid fa-right-from-bracket mr-2"></i> Sí, cerrar sesión
+                                                </button>
+                                            </form>
+                                            <button type="button" @click="open = false"
+                                                class="bg-gray-200 text-gray-800 px-6 py-3 rounded-lg hover:bg-gray-300 transition-colors font-semibold">
+                                                Cancelar
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     @else
-                        <a href="{{ route('login') }}"
-                            class="block px-6 py-3 rounded text-base text-[#9E203F] hover:bg-[#F8E7EC] hover:text-[#7A162E] transition-colors duration-200">
-                            <i class="fa-solid fa-right-to-bracket mr-2"></i> Login
-                        </a>
-                        <a href="{{ route('register') }}"
-                            class="block px-6 py-3 rounded text-base text-[#9E203F] hover:bg-[#F8E7EC] hover:text-[#7A162E] transition-colors duration-200">
-                            <i class="fa-solid fa-user-plus mr-2"></i> Register
-                        </a>
+                        <div
+                            class="w-full flex items-center space-x-3 py-3 rounded transition-all duration-200 hover:bg-[#F8E7EC]">
+                            <i class="fa-solid fa-user text-[#9E203F] text-xl"></i>
+                            <span class="text-[#9E203F] font-semibold text-base">Cuenta</span>
+                        </div>
+                        <!-- Sección de cuenta -->
+                        <div class="border-b border-[#F8E7EC] pb-2 mb-2">
+                            <a href="{{ route('login') }}"
+                                class="flex items-center space-x-3 px-4 py-3 rounded text-base text-[#9E203F] hover:bg-[#F8E7EC] hover:text-[#7A162E] transition-colors duration-200">
+                                <i class="fa-solid fa-right-to-bracket text-xl"></i>
+                                <span>Login</span>
+                            </a>
+                            <a href="{{ route('register') }}"
+                                class="flex items-center space-x-3 px-4 py-3 rounded text-base text-[#9E203F] hover:bg-[#F8E7EC] hover:text-[#7A162E] transition-colors duration-200">
+                                <i class="fa-solid fa-user-plus text-xl"></i>
+                                <span>Register</span>
+                            </a>
+                        </div>
                     @endauth
-                    <a href="{{ route('product.index') }}"
-                        class="flex items-center space-x-2 py-2 rounded transition-all duration-200 hover:bg-[#F8E7EC] hover:text-[#7A162E]">
-                        <i class="fa-solid fa-box text-[#9E203F] text-xl"></i>
-                        <span class="text-[#9E203F] font-semibold">Productos</span>
-                    </a>
-                    <a href="{{ route('shopping.cart') }}"
-                        class="flex items-center space-x-2 py-2 rounded transition-all duration-200 hover:bg-[#F8E7EC] hover:text-[#7A162E]">
-                        <i class="fa-solid fa-cart-shopping text-[#9E203F] text-xl"></i>
-                        <span class="text-[#9E203F] font-semibold">Carrito</span>
-                    </a>
+                    <!-- Sección de navegación -->
+                    <div>
+                        <a href="{{ route('product.index') }}"
+                            class="flex items-center space-x-3 px-4 py-3 rounded transition-all duration-200 hover:bg-[#F8E7EC] hover:text-[#7A162E] ">
+                            <i class="fa-solid fa-box text-[#9E203F] text-xl"></i>
+                            <span class="text-[#9E203F] font-semibold text-base">Productos</span>
+                        </a>
+                        <a href="{{ route('shopping.cart') }}"
+                            class="flex items-center space-x-3 px-4 py-3 rounded transition-all duration-200 hover:bg-[#F8E7EC] hover:text-[#7A162E]">
+                            <i class="fa-solid fa-cart-shopping text-[#9E203F] text-xl"></i>
+                            <span class="text-[#9E203F] font-semibold text-base">Carrito</span>
+                        </a>
+                    </div>
                 </div>
             </div>
         </nav>
