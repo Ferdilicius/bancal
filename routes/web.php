@@ -91,5 +91,5 @@ Route::get('/carrito-de-la-compra', ShoppingCart::class)->name('shopping-cart.in
 // Fallback Route
 use App\Http\Controllers\SocialiteController;
 
-Route::get('/auth/{provider}/redirect', [SocialiteController::class, 'redirect']);
-Route::get('/auth/{provider}/callback', [SocialiteController::class, 'callback']);
+Route::get('/auth/{provider}/redirect', [SocialiteController::class, 'redirect'])->name('socialite.redirect');
+Route::get('/auth/{provider}/callback', [SocialiteController::class, 'callback'])->name('socialite.callback');

@@ -38,14 +38,14 @@
             </div>
 
             <div class="mt-6 grid grid-cols-2 gap-4">
-                <a href="{{ url('/auth/google/redirect') }}"
+                <a href="{{ route('socialite.redirect', 'google') }}"
                     class="flex items-center justify-center bg-white border border-gray-300 hover:bg-gray-100 text-gray-700 rounded-full shadow transition w-full h-12"
                     title="Registrase con Google">
                     <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/google/google-original.svg"
                         alt="Google" class="w-5 h-5 mr-2">
                     <span class="sr-only">Google</span>
                 </a>
-                <a href="{{ url('/auth/facebook/redirect') }}"
+                <a href="{{ route('socialite.redirect', 'facebook') }}"
                     class="flex items-center justify-center bg-white border border-gray-300 hover:bg-gray-100 text-[#1877f2] rounded-full shadow transition w-full h-12"
                     title="Registrarse con Facebook">
                     <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/05/Facebook_Logo_%282019%29.png/1200px-Facebook_Logo_%282019%29.png"

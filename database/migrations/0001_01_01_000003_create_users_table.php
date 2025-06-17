@@ -16,6 +16,8 @@ return new class extends Migration
             $table->string('password');
             $table->rememberToken();
             $table->string('profile_photo_path', 2048)->nullable();
+            $table->string('provider_id')->nullable();
+            $table->string('provider_name')->nullable();
             $table->string('dni_cif')->unique()->nullable();
             $table->string('dni_cif_url', 2048)->nullable();
             $table->string('phone')->nullable();

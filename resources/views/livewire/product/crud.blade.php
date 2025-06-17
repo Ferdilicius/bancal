@@ -72,10 +72,11 @@
                     </div>
                 </span>
             </label>
-            <input type="number" id="price" wire:model="price" min="0" step="0.01"
+            <input type="text" id="price" wire:model="price"
                 class="mt-2 block w-48 border border-gray-300 rounded px-5 py-3 text-base focus:ring-indigo-400 focus:border-indigo-400"
-                oninput="this.value = this.value.replace(/[^0-9.]/g, '')" aria-required="true"
-                aria-describedby="price-desc @error('price') price-error @enderror">
+                inputmode="decimal" pattern="^\d+(\.\d{0,2})?$"
+                oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/^(\d*\.\d{0,2}).*$/, '$1')"
+                aria-required="true" aria-describedby="price-desc @error('price') price-error @enderror">
             <span id="price-desc" class="sr-only">Precio por unidad, usa punto para decimales</span>
             @error('price')
                 <span id="price-error" class="text-sm text-red-500 mt-2 block" role="alert">
@@ -102,10 +103,11 @@
                     </div>
                 </span>
             </label>
-            <input type="number" id="quantity" wire:model="quantity" min="0" step="1"
+            <input type="text" id="quantity" wire:model="quantity"
                 class="mt-2 block w-48 border border-gray-300 rounded px-5 py-3 text-base focus:ring-indigo-400 focus:border-indigo-400"
-                oninput="this.value = this.value.replace(/[^0-9]/g, '')" aria-required="true"
-                aria-describedby="quantity-desc @error('quantity') quantity-error @enderror">
+                inputmode="numeric" pattern="^\d*$"
+                oninput="this.value = this.value.replace(/[^0-9]/g, '')"
+                aria-required="true" aria-describedby="quantity-desc @error('quantity') quantity-error @enderror">
             <span id="quantity-desc" class="sr-only">Cantidad total disponible, solo números enteros</span>
             @error('quantity')
                 <span id="quantity-error" class="text-sm text-red-500 mt-2 block"

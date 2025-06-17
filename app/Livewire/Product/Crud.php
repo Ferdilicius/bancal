@@ -58,9 +58,14 @@ class Crud extends Component
         return [
             'name' => 'required|string|max:255',
             'description' => 'nullable|string',
-            'quantity' => 'required|numeric|min:0',
+            'quantity' => 'required|integer|min:0',
             'quantity_type' => 'required|in:litro,kilo,unidad,bolsa,caja',
-            'price' => 'required|numeric|min:0',
+            'price' => [
+                'required',
+                'numeric',
+                'min:0',
+                'regex:/^\d+(\.\d{1,2})?$/'
+            ],
             'images.*' => 'nullable',
             'newImages.*' => 'nullable|image|max:2048',
             'status' => 'required|boolean',
