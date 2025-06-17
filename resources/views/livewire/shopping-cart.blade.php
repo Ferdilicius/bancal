@@ -1,38 +1,43 @@
-@section('title', 'Carrito de la compra')
+<div class="p-6">
+    <h2 class="text-2xl font-bold text-gray-800 mb-4">Tu carrito</h2>
 
-<div class="shopping-cart">
-    <h2>Shopping Cart</h2>
-    <table class="table-auto w-full border-collapse border border-gray-300">
-        <thead>
-            <tr>
-                <th class="border border-gray-300 px-4 py-2">Product</th>
-                <th class="border border-gray-300 px-4 py-2">Quantity</th>
-                <th class="border border-gray-300 px-4 py-2">Price</th>
-                <th class="border border-gray-300 px-4 py-2">Total</th>
-                <th class="border border-gray-300 px-4 py-2">Actions</th>
-            </tr>
-        </thead>
-        {{-- <tbody>
-            @foreach ($cartItems as $item)
-                <tr>
-                    <td class="border border-gray-300 px-4 py-2">{{ $item['name'] }}</td>
-                    <td class="border border-gray-300 px-4 py-2">
-                        <input type="number" wire:model="cartItems.{{ $loop->index }}.quantity" min="1"
-                            class="w-16 text-center border border-gray-300">
-                    </td>
-                    <td class="border border-gray-300 px-4 py-2">${{ number_format($item['price'], 2) }}</td>
-                    <td class="border border-gray-300 px-4 py-2">
-                        ${{ number_format($item['price'] * $item['quantity'], 2) }}</td>
-                    <td class="border border-gray-300 px-4 py-2">
-                        <button wire:click="removeItem({{ $loop->index }})" class="text-red-500">Remove</button>
-                    </td>
-                </tr>
+    @if (empty($cart))
+        <div class="text-gray-500">Tu carrito está vacío.</div>
+    @else
+        <div class="space-y-4">
+            @foreach ($cart as $item)
+                <div class="flex items-center justify-between bg-white p-4 rounded shadow">
+                    <div class="flex items-center gap-4">
+                        <div>
+                            <div class="text-lg font-semibold text-[#9E203F]">{{ $item['name'] }}</div>
+                            <div class="text-sm text-gray-600">
+                                Cantidad: {{ $item['quantity'] }}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="text-right">
+                        <div class="text-gray-600 text-sm">Precio unitario</div>
+                        <div class="font-bold text-[#9E203F]">€{{ number_format($item['price'], 2, ',', '.') }}</div>
+                        <div class="text-sm text-gray-500 mt-1">
+                            Subtotal: €{{ number_format($item['price'] * $item['quantity'], 2, ',', '.') }}
+                        </div>
+                    </div>
+                </div>
             @endforeach
-        </tbody> --}}
-    </table>
 
-    {{-- <div class="mt-4 flex justify-between items-center">
-        <h3 class="text-lg font-bold">Total: ${{ number_format($total, 2) }}</h3>
-        <button wire:click="checkout" class="bg-blue-500 text-white px-4 py-2 rounded">Checkout</button>
-    </div> --}}
+            <div class="text-right mt-6 border-t pt-4">
+                <div class="text-lg font-bold text-[#9E203F]">
+                    Total: €
+                    {{
+                        number_format(
+                            collect($cart)->reduce(fn ($total, $item) => $total + ($item['price'] * $item['quantity']), 0),
+                            2,
+                            ',',
+                            '.'
+                        )
+                    }}
+                </div>
+            </div>
+        </div>
+    @endif
 </div>

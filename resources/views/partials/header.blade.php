@@ -7,17 +7,12 @@
         </a>
 
         <!-- Search Bar -->
-        <div class="flex-grow mx-4 hidden md:block">
-            <livewire:search-bar />
-        </div>
-
-        <div class="flex-grow mx-4 md:hidden">
-            <div class="relative">
-                <input type="text" placeholder="EXPLORAR BANCALES"
-                    class="w-full h-7 px-4 pl-10 bg-white text-[#9E203F] rounded-full placeholder-[#9E203F] focus:outline-none focus:ring-2 focus:ring-[#9E203F] font-semibold text-sm" />
-                <i
-                    class="fa-solid fa-magnifying-glass absolute left-3 top-1/2 transform -translate-y-1/2 text-[#9E203F]"></i>
-            </div>
+        <div class="flex-grow mx-4">
+            @if (Route::currentRouteName() === 'product.index')
+                <livewire:search-bar :show-results="false" />
+            @else
+                <livewire:search-bar />
+            @endif
         </div>
 
         <!-- Navigation Icons -->
@@ -38,7 +33,7 @@
                         <i class="fa-solid fa-box text-[#9E203F] text-xl md:text-3xl"></i>
                     </button>
                 </a>
-                <a href="{{ route('shopping.cart') }}">
+                <a href="{{ route('shopping-cart.index') }}">
                     <button
                         class="w-10 h-10 md:w-14 md:h-14 bg-white rounded-full flex items-center justify-center hover:shadow-[0_0_10px_rgba(158,32,63,0.75)] transition-all duration-200 hover:bg-[#F8E7EC]">
                         <i class="fa-solid fa-cart-shopping text-[#9E203F] text-xl md:text-3xl"></i>
@@ -91,19 +86,13 @@
             <div x-show="mobileMenuOpen" x-cloak class="fixed inset-0 z-30 flex flex-col items-end md:hidden"
                 @click.self="mobileMenuOpen = false" style="background: transparent;">
                 <div class="bg-white w-60 h-full max-h-screen overflow-y-auto shadow-xl p-6 flex flex-col space-y-2">
-                    <!-- User Info for mobile (no dropdown) -->
                     @auth
-                        <div
-                            class="w-full flex items-center space-x-3 py-3 rounded transition-all duration-200 hover:bg-[#F8E7EC]">
-                            <img src="{{ Auth::user()->profile_photo_url }}" alt="{{ Auth::user()->name }}"
-                                class="w-10 h-10 rounded-full object-cover border-2 border-[#9E203F]">
-                            <span class="text-[#9E203F] font-semibold text-base">{{ Auth::user()->name }}</span>
-                        </div>
                         <!-- Sección de cuenta -->
                         <div class="border-b border-[#F8E7EC] pb-2 mb-2">
                             <a href="{{ route('private-profile') }}"
                                 class="flex items-center space-x-3 px-4 py-3 rounded text-base text-[#9E203F] hover:bg-[#F8E7EC] hover:text-[#7A162E] transition-colors duration-200">
-                                <i class="fa-solid fa-user-circle text-xl"></i>
+                                <img src="{{ Auth::user()->profile_photo_url }}" alt="{{ Auth::user()->name }}"
+                                    class="w-7 h-7 rounded-full object-cover border-2 border-[#9E203F]">
                                 <span>Mi Perfil</span>
                             </a>
                             <a href="{{ route('profile.show') }}"
@@ -173,7 +162,7 @@
                             <i class="fa-solid fa-box text-[#9E203F] text-xl"></i>
                             <span class="text-[#9E203F] font-semibold text-base">Productos</span>
                         </a>
-                        <a href="{{ route('shopping.cart') }}"
+                        <a href="{{ route('shopping-cart.index') }}"
                             class="flex items-center space-x-3 px-4 py-3 rounded transition-all duration-200 hover:bg-[#F8E7EC] hover:text-[#7A162E]">
                             <i class="fa-solid fa-cart-shopping text-[#9E203F] text-xl"></i>
                             <span class="text-[#9E203F] font-semibold text-base">Carrito</span>

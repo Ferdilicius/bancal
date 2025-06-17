@@ -18,10 +18,9 @@
                         <p class="text-gray-500 mb-2 truncate">{{ $product->description }}</p>
                         <div class="mb-2">
                             <span class="block text-gray-700 text-sm">Cantidad: <span
-                                    class="font-semibold">{{ $product->quantity }}
+                                    class="font-semibold">
                                     {{ $product->formatted_quantity }}</span></span>
-                            <span class="block text-gray-700 text-sm">Precio: <span
-                                    class="font-semibold">${{ $product->price, 2 }}</span></span>
+                            <span class="block text-gray-700 text-sm">Precio: <span class="font-semibold">{{ $product->formatted_price }}</span></span>
                         </div>
                     </a>
                 @endforeach

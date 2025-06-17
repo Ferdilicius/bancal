@@ -19,7 +19,7 @@ class ModelImageFactory extends Factory
         $randomImage = $files[array_rand($files)];
 
         // Copia la imagen a storage/app/public/model_images
-        $storagePath = storage_path('app/public/model_images');
+        $storagePath = storage_path('app/private/model_images');
 
         $filename = uniqid() . '_' . basename($randomImage);
         copy($randomImage, $storagePath . '/' . $filename);

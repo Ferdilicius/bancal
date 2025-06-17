@@ -1,4 +1,4 @@
-<footer class="bg-[#9E203F] text-white py-8 mt-auto">
+<footer class="bg-[#9E203F] text-white py-8">
     <div class="container mx-auto flex flex-col md:flex-row justify-between items-center md:items-start gap-8">
         <div class="text-center md:text-left">
             <h2 class="text-3xl font-bold tracking-wide mb-2">BANCAL</h2>

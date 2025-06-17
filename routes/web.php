@@ -13,6 +13,9 @@ use App\Livewire\Product\Index as ProductIndex;
 use App\Livewire\Product\Show as ProductShow;
 use App\Livewire\Product\Crud as ProductCrud;
 
+// Product Image
+use App\Http\Controllers\ProductImageController;
+
 // Address
 use App\Livewire\Address\Index as AddressIndex;
 use App\Livewire\Address\Show as AddressShow;
@@ -46,8 +49,9 @@ Route::prefix('productos')->group(function () {
         Route::get('/crear', ProductCrud::class)->name('product.create');
         Route::get('/editar/{productId}', ProductCrud::class)->name('product.edit');
     });
-
     Route::get('/{productId}', ProductShow::class)->name('product.show');
+
+    Route::get('/{productId}/{imageId}', [ProductImageController::class, 'show'])->name('product.image');
 });
 
 // Address Routes
@@ -82,7 +86,7 @@ Route::prefix('ventas')->middleware('auth')->group(function () {
 Route::get('/perfil-publico/{user}', PublicProfile::class)->name('public.profile');
 
 // Shopping Cart
-Route::get('/carrito-de-la-compra', ShoppingCart::class)->name('shopping.cart');
+Route::get('/carrito-de-la-compra', ShoppingCart::class)->name('shopping-cart.index');
 
 // Fallback Route
 use App\Http\Controllers\SocialiteController;

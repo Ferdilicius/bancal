@@ -2,11 +2,7 @@
 /node_modules/
 /public/build/
 /public/hot/
-/public/storage/
-/storage/app/public/model_images/
-/storage/app/public/profile-photos/
-/public/storage/model_images/
-/public/storage/profile-photos/
+/storage/app/private/*
 /storage/*.key
 /storage/pail/
 /vendor/

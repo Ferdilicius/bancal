@@ -10,9 +10,27 @@ class Index extends Component
 {
     use WithPagination;
 
+    public $searchTerm = '';
+
+    protected $listeners = ['searchUpdated' => 'setSearchTerm'];
+
+    public function setSearchTerm($term)
+    {
+        $this->searchTerm = $term;
+        $this->resetPage();
+    }
+
+    public function updatingSearchTerm()
+    {
+        $this->resetPage();
+    }
+
     public function render()
     {
         $products = Product::where('status', 'activo')
+            ->when($this->searchTerm, function ($query) {
+                $query->where('name', 'like', '%' . $this->searchTerm . '%');
+            })
             ->orderBy('created_at', 'desc')
             ->paginate(10);
 

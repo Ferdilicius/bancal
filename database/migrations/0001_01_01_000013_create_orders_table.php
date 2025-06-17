@@ -11,7 +11,6 @@ return new class extends Migration
         Schema::create('orders', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->nullable()->constrained()->onDelete('set null');
-            $table->decimal('total', 10, 2);
             $table->enum('status', ['pendiente', 'pagado', 'cancelado'])->default('pendiente');
             $table->timestamps();
         });

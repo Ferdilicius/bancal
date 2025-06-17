@@ -18,7 +18,6 @@ class OrderSeeder extends Seeder
             for ($i = 0; $i < 2; $i++) {
                 Order::create([
                     'user_id' => $user->id,
-                    'total' => rand(1000, 10000) / 100,
                     'status' => Arr::random(['pendiente', 'pagado', 'cancelado']),
                 ]);
             }

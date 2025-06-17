@@ -29,14 +29,25 @@ class Product extends Model
         $type = $this->quantity_type;
         $quantity = $this->quantity;
 
-        // Handle irregular plural for "unidad"
         if ($type === 'unidad') {
             $pluralType = $quantity == 1 ? 'unidad' : 'unidades';
-        } else {
-            $pluralType = $quantity == 1 ? $type : $type . 's';
+            return "{$quantity} {$pluralType}";
         }
 
+        if ($type === 'kilo' && $quantity < 1) {
+            // Convert kilos to gramos
+            $grams = $quantity * 1000;
+            $pluralType = $grams == 1 ? 'gramo' : 'gramos';
+            return "{$grams} {$pluralType}";
+        }
+
+        $pluralType = $quantity == 1 ? $type : $type . 's';
         return "{$quantity} {$pluralType}";
+    }
+
+    public function getFormattedPriceAttribute()
+    {
+        return "{$this->price} €";
     }
 
     public function user()

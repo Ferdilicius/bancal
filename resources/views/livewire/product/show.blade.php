@@ -5,7 +5,7 @@
         {{-- Imagen principal --}}
         <div class="w-full h-60 bg-gray-100 flex items-center justify-center relative cursor-pointer group"
             x-data="{
-                images: @js($product->images->pluck('path')),
+                images: @js($product->images->map(fn($img) => ['id' => $img->id])->toArray()),
                 current: 0,
                 prev: 0,
                 direction: 'right',
@@ -30,16 +30,16 @@
                     this.startX = null;
                 },
                 get hasImages() { return this.images.length > 0 },
-                get imageUrl() { return this.hasImages ? '{{ asset('storage') }}/' + this.images[this.current] : '' }
             }" x-effect="direction = current > prev ? 'right' : 'left'; prev = current">
+
             <div class="w-full h-full flex items-center justify-center" @click="if(hasImages) showModal = true"
                 title="Ampliar imágenes" @touchstart="handleTouchStart($event)" @touchend="handleTouchEnd($event)">
+
                 <div class="w-full h-full flex items-center justify-center">
                     <div x-show="hasImages" class="relative w-full h-60 overflow-hidden">
-                        <template x-for="(img, idx) in images" :key="img">
-                            <img x-show="current === idx" :src="'{{ asset('storage') }}/' + img"
-                                alt="Imagen del producto"
-                                class="w-full h-60 object-cover absolute inset-0 transition-all duration-400 ease-[cubic-bezier(.4,2,.6,1)] rounded-none"
+                        <template x-for="(img, idx) in images" :key="img.id">
+                            <img x-show="current === idx" :src="'{{ url('/productos') }}/{{ $product->id }}/' + img.id"
+                                class="w-full h-60 object-cover absolute inset-0 transition-all duration-400 ease-[cubic-bezier(.4,2,.6,1)]"
                                 :class="{
                                     'opacity-0 -translate-x-6 scale-95': current !== idx && direction === 'right',
                                     'opacity-0 translate-x-6 scale-95': current !== idx && direction === 'left',
@@ -79,19 +79,16 @@
                     </div>
                 </div>
             </div>
+
             {{-- Modal de galería ampliada --}}
-            <div x-show="showModal"
-                style="background-color: rgba(0,0,0,0.8);"
+            <div x-show="showModal" style="background-color: rgba(0,0,0,0.8);"
                 class="fixed inset-0 z-50 flex items-center justify-center"
-                x-transition:enter="transition ease-out duration-200"
-                x-transition:enter-start="opacity-0"
-                x-transition:enter-end="opacity-100"
-                x-transition:leave="transition ease-in duration-150"
-                x-transition:leave-start="opacity-100"
-                x-transition:leave-end="opacity-0"
-                x-cloak
+                x-transition:enter="transition ease-out duration-200" x-transition:enter-start="opacity-0"
+                x-transition:enter-end="opacity-100" x-transition:leave="transition ease-in duration-150"
+                x-transition:leave-start="opacity-100" x-transition:leave-end="opacity-0" x-cloak
                 @touchstart="handleTouchStart($event)" @touchend="handleTouchEnd($event)">
-                <div class="relative w-full max-w-3xl mx-auto">
+
+                <div class="relative w-full max-w-3xl mx-auto ">
                     <button @click="showModal = false"
                         class="absolute top-4 right-4 z-10 bg-white/80 hover:bg-white rounded-full p-2 shadow">
                         <svg class="w-6 h-6 text-gray-700" fill="none" stroke="currentColor" stroke-width="2"
@@ -101,9 +98,9 @@
                     </button>
                     <div class="bg-white rounded-lg p-4 flex flex-col items-center" @click.away="showModal = false">
                         <div class="relative w-full flex items-center justify-center" style="min-height: 400px;">
-                            <template x-for="(img, idx) in images" :key="'modal-' + img">
-                                <img x-show="current === idx" :src="'{{ asset('storage') }}/' + img"
-                                    alt="Imagen ampliada"
+                            <template x-for="(img, idx) in images" :key="'modal-' + img.id">
+                                <img x-show="current === idx"
+                                    :src="'{{ url('/productos') }}/{{ $product->id }}/' + img.id" alt="Imagen ampliada"
                                     class="max-h-[70vh] max-w-full object-contain mx-auto transition-all duration-400 ease-[cubic-bezier(.4,2,.6,1)]"
                                     :class="{
                                         'opacity-0 -translate-x-6 scale-95': current !== idx &&
@@ -132,8 +129,9 @@
                         </div>
                         {{-- Miniaturas --}}
                         <div class="flex gap-2 mt-4">
-                            <template x-for="(img, idx) in images" :key="'thumb-' + img">
-                                <img :src="'{{ asset('storage') }}/' + img" @click="current = idx"
+                            <template x-for="(img, idx) in images" :key="'thumb-' + img.id">
+                                <img :src="'{{ url('/productos') }}/{{ $product->id }}/' + img.id"
+                                    @click="current = idx"
                                     :class="current === idx ? 'ring-2 ring-blue-500' : 'opacity-70 hover:opacity-100'"
                                     class="w-16 h-16 object-cover rounded cursor-pointer transition-all duration-200 border border-gray-200">
                             </template>
@@ -142,6 +140,7 @@
                 </div>
             </div>
         </div>
+
         {{-- Contenido --}}
         <div class="p-8">
             <div class="flex items-center justify-between mb-2">

@@ -74,8 +74,8 @@ class Products extends Component
             $newFilename = $filename . '_copy_' . uniqid() . '.' . $extension;
             $newPath = 'model_images/' . $newFilename;
 
-            if (Storage::disk('public')->exists($originalPath)) {
-                Storage::disk('public')->copy($originalPath, $newPath);
+            if (Storage::disk('local')->exists($originalPath)) {
+                Storage::disk('local')->copy($originalPath, $newPath);
                 $copy->images()->create(['path' => $newPath]);
             }
         }

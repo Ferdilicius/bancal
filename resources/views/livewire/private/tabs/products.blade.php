@@ -20,17 +20,19 @@
         <!-- Botones visibles solo si hay seleccionados -->
         <template x-if="selectedProducts.length > 0">
             <div class="flex-1 flex gap-2">
-                <!-- Seleccionar todos -->
-                <button type="button" @click="selectAll"
+                <!-- Seleccionar todos / Deseleccionar todos -->
+                <button type="button"
+                    @click="selectedProducts.length === allProductIds.length ? selectedProducts = [] : selectAll()"
                     class="w-full bg-blue-600 text-white py-3 px-2 rounded-xl shadow hover:bg-blue-700 transition-colors duration-200 flex justify-center items-center text-sm font-semibold"
                     style="z-index:1; min-width: 0;">
-                    <i class="fas fa-check-double mr-1"></i> Seleccionar todos
+                    <i class="fas" :class="selectedProducts.length === allProductIds.length ? 'fa-times' : 'fa-check-double'"></i>
+                    <span class="ml-1" x-text="selectedProducts.length === allProductIds.length ? 'Deseleccionar todos' : 'Seleccionar todos'"></span>
                 </button>
                 <!-- Eliminar múltiple -->
                 <button type="button" @click="openDeleteMultiple = true"
                     class="w-full bg-red-600 text-white py-3 px-2 rounded-xl shadow hover:bg-red-700 transition-colors duration-200 flex justify-center items-center text-sm font-semibold"
                     style="z-index:1; min-width: 0;">
-                    <i class="fas fa-trash-alt mr-1"></i> Eliminar
+                    <i class="fas fa-trash-alt mr-1"></i> Eliminar Seleccionados
                 </button>
             </div>
         </template>
@@ -55,7 +57,6 @@
                 </div>
             </div>
         </div>
-
     </div>
 
     <!-- Productos -->
@@ -86,7 +87,7 @@
                                     {{ $product->formatted_quantity }}</span>
                             </span>
                             <span class="block text-gray-700 text-xs sm:text-sm">Precio:
-                                <span class="font-semibold">${{ number_format($product->price, 2) }}</span>
+                                <span class="font-semibold">{{ $product->formatted_price }}</span>
                             </span>
                         </div>
                         <span

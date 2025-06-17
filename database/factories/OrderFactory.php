@@ -14,7 +14,6 @@ class OrderFactory extends Factory
     {
         return [
             'user_id' => $this->faker->optional()->randomElement(User::pluck('id')->toArray()),
-            'total' => $this->faker->randomFloat(2, 10, 1000),
             'status' => $this->faker->randomElement(['pendiente', 'pagado', 'cancelado']),
         ];
     }

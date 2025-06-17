@@ -21,6 +21,7 @@ class Crud extends Component
     public $price;
     public $images = [];
     public $newImages = [];
+    public $imagesToDelete = [];
     public $status;
     public $category_id;
     public $categories;
@@ -93,14 +94,9 @@ class Crud extends Component
         if (isset($this->images[$index])) {
             $image = $this->images[$index];
 
+            // Si es una imagen guardada, márcala para borrar después
             if (is_string($image) && $this->productId) {
-                if (Storage::disk('public')->exists($image)) {
-                    Storage::disk('public')->delete($image);
-                }
-                $product = Product::find($this->productId);
-                if ($product) {
-                    $product->images()->where('path', $image)->delete();
-                }
+                $this->imagesToDelete[] = $image;
             }
 
             unset($this->images[$index]);
@@ -111,6 +107,9 @@ class Crud extends Component
     public function save()
     {
         $this->validate();
+
+        $maxPerPerson = $this->allow_fractional && $this->max_per_person !== '' ? $this->max_per_person : null;
+        $minPerPerson = $this->allow_fractional && $this->min_per_person !== '' ? $this->min_per_person : null;
 
         if ($this->productId) {
             $product = Product::findOrFail($this->productId);
@@ -123,8 +122,8 @@ class Crud extends Component
                 'status' => $this->status ? 'activo' : 'inactivo',
                 'category_id' => $this->category_id,
                 'allow_fractional' => $this->allow_fractional,
-                'max_per_person' => $this->max_per_person !== '' ? $this->max_per_person : null,
-                'min_per_person' => $this->min_per_person !== '' ? $this->min_per_person : null,
+                'max_per_person' => $maxPerPerson,
+                'min_per_person' => $minPerPerson,
             ]);
         } else {
             $product = Product::create([
@@ -137,17 +136,28 @@ class Crud extends Component
                 'user_id' => auth()->user() ? auth()->user()->id : null,
                 'category_id' => $this->category_id,
                 'allow_fractional' => $this->allow_fractional,
-                'max_per_person' => $this->max_per_person !== '' ? $this->max_per_person : null,
-                'min_per_person' => $this->min_per_person !== '' ? $this->min_per_person : null,
+                'max_per_person' => $maxPerPerson,
+                'min_per_person' => $minPerPerson,
             ]);
             $this->productId = $product->id;
         }
 
-        // Guardar imágenes nuevas
+        // Borrar imágenes marcadas
+        if (!empty($this->imagesToDelete)) {
+            foreach ($this->imagesToDelete as $imagePath) {
+                if (Storage::disk('local')->exists($imagePath)) {
+                    Storage::disk('local')->delete($imagePath);
+                }
+                $product->images()->where('path', $imagePath)->delete();
+            }
+            $this->imagesToDelete = [];
+        }
+
+        // Guardar imágenes nuevas y actualizar orden
         $order = 0;
         foreach ($this->images as $image) {
             if (is_object($image)) {
-                $path = $image->store('model_images', 'public');
+                $path = $image->store('model_images', 'local');
                 $product->images()->create([
                     'path' => $path,
                     'order' => $order++,
@@ -169,8 +179,8 @@ class Crud extends Component
         if ($this->productId) {
             $product = Product::findOrFail($this->productId);
             foreach ($product->images as $img) {
-                if (Storage::disk('public')->exists($img->path)) {
-                    Storage::disk('public')->delete($img->path);
+                if (Storage::disk('local')->exists($img->path)) {
+                    Storage::disk('local')->delete($img->path);
                 }
             }
             $product->images()->delete();
