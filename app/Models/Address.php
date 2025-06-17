@@ -15,6 +15,8 @@ class Address extends Model
         'name',
         'image',
         'status',
+        'latitude',
+        'longitude',
         'user_id',
         'address_type_id',
     ];

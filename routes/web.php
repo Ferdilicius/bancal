@@ -16,6 +16,9 @@ use App\Livewire\Product\Crud as ProductCrud;
 // Product Image
 use App\Http\Controllers\ProductImageController;
 
+// Address Image
+use App\Http\Controllers\AddressImageController;
+
 // Address
 use App\Livewire\Address\Index as AddressIndex;
 use App\Livewire\Address\Show as AddressShow;
@@ -66,6 +69,8 @@ Route::prefix('bancales')->group(function () {
     });
 
     Route::get('/{addressId}', AddressShow::class)->name('address.show');
+
+    Route::get('/{addressId}/{imageId}', [AddressImageController::class, 'show'])->name('address.image');
 });
 
 // Purchase Routes
