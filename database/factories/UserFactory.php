@@ -24,8 +24,6 @@ class UserFactory extends Factory
             'two_factor_recovery_codes' => null,
             'remember_token' => Str::random(10),
             'profile_photo_path' => null,
-            'google_uid' => null,
-            'facebook_uid' => null,
             'dni_cif' => null,
             'dni_cif_url' => null,
             'user_type' => fake()->randomElement(['empresa', 'particular', 'admin']),
@@ -39,9 +37,6 @@ class UserFactory extends Factory
         ]);
     }
 
-    /**
-     * Indicate that the user should have a personal team.
-     */
     public function withPersonalTeam(?callable $callback = null): static
     {
         if (! Features::hasTeamFeatures()) {

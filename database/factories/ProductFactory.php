@@ -8,11 +8,6 @@ use Illuminate\Database\Eloquent\Factories\Factory;
 
 class ProductFactory extends Factory
 {
-    /**
-     * The name of the factory's corresponding model.
-     *
-     * @var string
-     */
     protected $model = Product::class;
 
     protected $productNames = [
@@ -64,25 +59,70 @@ class ProductFactory extends Factory
         'Nueces',
         'Avellanas',
         'Pistachos',
-        'Anacardos'
+        'Anacardos',
+        'Aceitunas',
+        'Espárragos',
+        'Remolacha',
+        'Batata',
+        'Endibia',
+        'Escarola',
+        'Repollo',
+        'Coles de Bruselas',
+        'Berenjena',
+        'Calabacín',
+        'Chayote',
+        'Jengibre',
+        'Cúrcuma',
+        'Acelga',
+        'Berro',
+        'Setas',
+        'Champiñones',
+        'Porotos',
+        'Lentejas',
+        'Garbanzos',
+        'Quinoa',
+        'Arroz integral',
+        'Trigo sarraceno',
+        'Cuscús',
+        'Mijo',
+        'Sésamo',
+        'Chía',
+        'Linaza',
+        'Castañas',
+        'Macadamias',
+        'Piñones',
+        'Cacahuetes',
+        'Dátiles',
+        'Ciruelas',
+        'Albaricoque',
+        'Moras',
+        'Grosellas',
+        'Tamarindo',
+        'Camu camu',
+        'Aguacate',
+        'Pepitas de calabaza',
+        'Semillas de girasol',
+        'Aceite de oliva',
+        'Aceite de coco',
+        'Yogur natural',
+        'Queso fresco',
+        'Leche de almendras',
+        'Tofu',
+        'Tempeh'
     ];
 
-    /**
-     * Define the model's default state.
-     *
-     * @return array<string, mixed>
-     */
     public function definition(): array
     {
         return [
             'name' => $this->faker->unique()->randomElement($this->productNames),
             'description' => $this->faker->sentence(6, true) . ' Fresco y de alta calidad, ideal para tu cocina.',
             'quantity' => $this->faker->numberBetween(0, 100),
-            'quantity_type' => $this->faker->randomElement(['litros','kilos','unidades','bolsas','cajas']),
+            'quantity_type' => $this->faker->randomElement(['kilo', 'litro', 'unidad', 'bolsa', 'caja']),
             'price' => $this->faker->randomFloat(2, 0.5, 20),
             'status' => $this->faker->randomElement(['activo', 'inactivo']),
             'user_id' => User::factory(),
-            'category_id' => $this->faker->numberBetween(1, 7)
+            'allow_fractional' => $this->faker->boolean(),
+            'category_id' => $this->faker->numberBetween(1, 7),
         ];
     }
 }

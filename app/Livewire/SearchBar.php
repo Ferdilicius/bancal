@@ -8,21 +8,35 @@ use App\Models\Product;
 class SearchBar extends Component
 {
     public $searchTerm = '';
+    public $showResults = true;
+    public $results = [];
+
+    public function mount($showResults = true)
+    {
+        $this->showResults = $showResults;
+    }
+
+    public function updatedSearchTerm()
+    {
+        if (!$this->showResults) {
+            $this->dispatch('searchUpdated', $this->searchTerm);
+        }
+    }
 
     public function render()
     {
-        $results = [];
-        if (strlen($this->searchTerm) > 1) {
-            dd($this->searchTerm);
-            $results = Product::where('status', 'activo')
+        if ($this->showResults && strlen($this->searchTerm) >= 1) {
+            $this->results = Product::where('status', 'activo')
                 ->where('name', 'like', '%' . $this->searchTerm . '%')
-                ->limit(5)
-                ->get();
+                ->with('user')
+                ->get()
+                ->sortByDesc(function ($product) {
+                    return $product->user && $product->user->user_type === 'empresa';
+                })
+                ->take(5)
+                ->values();
         }
 
-        return view('livewire.search-bar', [
-            'results' => $results,
-            'searchTerm' => $this->searchTerm,
-        ]);
+        return view('livewire.search-bar');
     }
 }
