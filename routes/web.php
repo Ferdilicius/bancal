@@ -101,6 +101,7 @@ use App\Http\Controllers\SocialiteController;
 Route::get('/auth/{provider}/redirect', [SocialiteController::class, 'redirect'])->name('socialite.redirect');
 Route::get('/auth/{provider}/callback', [SocialiteController::class, 'callback'])->name('socialite.callback');
 
+<<<<<<< HEAD
 Route::get('/profile-photo/{filename}', function ($filename) {
     $path = storage_path('app/private/profile-photos/' . $filename);
 
@@ -110,3 +111,14 @@ Route::get('/profile-photo/{filename}', function ($filename) {
 
     return response()->file($path);
 })->middleware('auth')->name('profile.photo');
+=======
+// Ruta para Políticas de Privacidad
+Route::get('/privacidad', function () {
+    return view('policy');
+})->name('policy');
+
+// Ruta para Términos de Uso
+Route::get('/terminos', function () {
+    return view('terms');
+})->name('terms');
+>>>>>>> e669ace7837b9932462ab323d824624c31e077c3

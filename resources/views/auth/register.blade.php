@@ -61,12 +61,12 @@
                             <x-checkbox name="terms" id="terms" required />
 
                             <div class="ms-2">
-                                {!! __('Acepto los :terms_of_service y la :privacy_policy', [
+                                {!! __('He leído, comprendo, y acepto los :terms_of_service y la :privacy_policy', [
                                     'terms_of_service' =>
                                         '<a target="_blank" href="' .
                                         route('terms.show') .
                                         '" class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">' .
-                                        __('Términos del Servicio') .
+                                        __('Términos de Uso') .
                                         '</a>',
                                     'privacy_policy' =>
                                         '<a target="_blank" href="' .
