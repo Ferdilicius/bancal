@@ -30,9 +30,9 @@
             </div>
 
             <div class="w-full mt-8 border-t border-white pt-4 flex flex-col md:flex-row justify-start items-start gap-4 text-sm">
-                <a href="{{ route('policy') }}" class="hover:underline">Políticas de Privacidad</a>
+                <a href="{{ route('policy.show') }}" class="hover:underline">Políticas de Privacidad</a>
                 <span class="hidden md:inline-block">|</span>
-                <a href="{{ route('terms') }}" class="hover:underline">Términos de Uso</a>
+                <a href="{{ route('terms.show') }}" class="hover:underline">Términos de Uso</a>
             </div>
         </div>
     </div>
