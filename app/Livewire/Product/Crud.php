@@ -30,11 +30,17 @@ class Crud extends Component
     public $max_per_person;
     public $min_per_person;
 
+    // 1. Añade la propiedad pública
+    public $address_id;
+    public $addresses; // Opcional: para listar direcciones
+
     public function mount($productId = null)
     {
         $this->categories = ProductCategory::all();
         $this->quantityTypes = ['litro', 'kilo', 'unidad', 'bolsa', 'caja'];
         $this->status = false;
+        // 2. Carga las direcciones del usuario autenticado
+        $this->addresses = auth()->user() ? auth()->user()->addresses : collect();
 
         if ($productId) {
             $this->productId = $productId;
@@ -50,6 +56,8 @@ class Crud extends Component
             $this->allow_fractional = $this->product->allow_fractional;
             $this->max_per_person = $this->product->max_per_person;
             $this->min_per_person = $this->product->min_per_person;
+            // 3. Carga el address_id del producto
+            $this->address_id = $this->product->address_id;
         }
     }
 
@@ -73,6 +81,8 @@ class Crud extends Component
             'allow_fractional' => 'required|boolean',
             'max_per_person' => 'nullable|numeric|min:0',
             'min_per_person' => 'nullable|numeric|min:0',
+            // 4. Valida el address_id
+            'address_id' => 'required|exists:addresses,id',
         ];
     }
 
@@ -129,6 +139,7 @@ class Crud extends Component
                 'allow_fractional' => $this->allow_fractional,
                 'max_per_person' => $maxPerPerson,
                 'min_per_person' => $minPerPerson,
+                'address_id' => $this->address_id, // <-- Añadido
             ]);
         } else {
             $product = Product::create([
@@ -143,6 +154,7 @@ class Crud extends Component
                 'allow_fractional' => $this->allow_fractional,
                 'max_per_person' => $maxPerPerson,
                 'min_per_person' => $minPerPerson,
+                'address_id' => $this->address_id, // <-- Añadido
             ]);
             $this->productId = $product->id;
         }

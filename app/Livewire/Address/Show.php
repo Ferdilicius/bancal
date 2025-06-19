@@ -11,7 +11,19 @@ class Show extends Component
 
 	public function mount($addressId)
 	{
-		$this->address = Address::find($addressId);
+		$this->address = Address::where('id', $addressId)
+			->where(function ($query) {
+				$query->where('status', 'activo')
+					->orWhere(function ($q) {
+						$q->where('status', 'inactivo')
+							->where('user_id', auth()->id());
+					});
+			})
+			->first();
+
+		if (!$this->address) {
+			abort(404);
+		}
 	}
 
 	public function render()

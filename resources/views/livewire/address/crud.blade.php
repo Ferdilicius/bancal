@@ -1,40 +1,178 @@
-@section('title', $addressId ? 'Editar Dirección' : 'Crear Dirección')
+@section('title', $addressId ? 'Editar Bancal' : 'Crear Bancal')
+
+@section('styles')
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet-draw/dist/leaflet.draw.css" />
+@endsection
+
+@section('scripts')
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    <script src="https://unpkg.com/leaflet-draw/dist/leaflet.draw.js"></script>
+@endsection
 
 <div x-data="{
+    latitude: $wire.latitude ?? 40.4168,
+    longitude: $wire.longitude ?? -3.7038,
+    map: null,
+    marker: null,
+    drawnLayer: null,
+    otherAddresses: @js($otherAddresses->map(fn($a) => ['geometry' => $a->geometry, 'name' => $a->name])->values()),
     submit() { $wire.save() },
-        initMap() {
-            let waitForLeaflet = () => {
-                if (typeof L === 'undefined') {
-                    setTimeout(waitForLeaflet, 100);
-                    return;
+    initMap() {
+        let waitForLeaflet = () => {
+            if (typeof L === 'undefined' || typeof L.Draw === 'undefined' || !document.getElementById('map')) {
+                setTimeout(waitForLeaflet, 100);
+                return;
+            }
+            if (this.map) {
+                this.map.off();
+                this.map.remove();
+                this.map = null;
+                this.marker = null;
+                this.drawnLayer = null;
+            }
+
+            this.map = L.map('map').setView([this.latitude, this.longitude], 13);
+
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                attribution: '© OpenStreetMap contributors'
+            }).addTo(this.map);
+
+            // Dibujo
+            let drawnItems = new L.FeatureGroup();
+            this.map.addLayer(drawnItems);
+
+            // Mostrar addresses del usuario (solo visualización, SIN puntero)
+            if (this.otherAddresses && this.otherAddresses.length > 0) {
+                this.otherAddresses.forEach(addr => {
+                    if (addr.geometry) {
+                        try {
+                            let geo = typeof addr.geometry === 'string' ? JSON.parse(addr.geometry) : addr.geometry;
+                            let layer = L.geoJSON(geo, {
+                                style: { color: '#888', fillColor: '#bbb', fillOpacity: 0.3, weight: 2 }
+                            }).addTo(this.map);
+                            if (addr.name) {
+                                layer.bindTooltip(addr.name, { permanent: false });
+                            }
+                            // Ya NO se añade marcador para los otros addresses
+                        } catch (e) {}
+                    }
+                });
+            }
+
+            // Si ya hay geometría guardada, la mostramos y permitimos editar
+            if ($wire.geometry) {
+                try {
+                    let geo = JSON.parse($wire.geometry);
+                    drawnItems.clearLayers();
+                    let layer = L.geoJSON(geo).getLayers()[0];
+                    drawnItems.addLayer(layer);
+                    this.drawnLayer = layer;
+                    this.map.fitBounds(layer.getBounds());
+
+                    // Añadir marcador SOLO para la address actual (centroide)
+                    if (layer.getBounds && layer.getBounds().isValid()) {
+                        let center = layer.getBounds().getCenter();
+                        this.marker = L.marker(center, {
+                            icon: L.icon({
+                                iconUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png',
+                                iconSize: [25, 41],
+                                iconAnchor: [12, 41],
+                                popupAnchor: [1, -34],
+                                shadowUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-shadow.png',
+                                shadowSize: [41, 41]
+                            })
+                        }).addTo(this.map).bindPopup('Ubicación actual').openPopup();
+                    }
+                } catch (e) {}
+            }
+
+            // Control de dibujo SOLO para la address actual
+            let drawControl = new L.Control.Draw({
+                draw: {
+                    polygon: true,
+                    rectangle: true,
+                    marker: false,
+                    circle: false,
+                    polyline: false,
+                    circlemarker: false
+                },
+                edit: {
+                    featureGroup: drawnItems,
+                    edit: true,
+                    remove: true
                 }
-                let lat = $wire.latitude ?? 40.4168;
-                let lng = $wire.longitude ?? -3.7038;
-                let map = L.map('map').setView([lat, lng], 13);
-                L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-                    attribution: '© OpenStreetMap contributors'
-                }).addTo(map);
-                let marker = L.marker([lat, lng], { draggable: true }).addTo(map);
-                marker.on('dragend', function(e) {
-                    let pos = marker.getLatLng();
-                    $wire.set('latitude', pos.lat);
-                    $wire.set('longitude', pos.lng);
+            });
+            this.map.addControl(drawControl);
+
+            // Evento al crear forma
+            this.map.on(L.Draw.Event.CREATED, (e) => {
+                drawnItems.clearLayers();
+                this.drawnLayer = e.layer;
+                drawnItems.addLayer(this.drawnLayer);
+                $wire.set('geometry', JSON.stringify(this.drawnLayer.toGeoJSON()));
+                if (this.drawnLayer.getBounds) {
+                    this.map.fitBounds(this.drawnLayer.getBounds());
+                    // Actualiza el marcador al centroide de la nueva figura
+                    if (this.marker) this.map.removeLayer(this.marker);
+                    let center = this.drawnLayer.getBounds().getCenter();
+                    this.marker = L.marker(center, {
+                        icon: L.icon({
+                            iconUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png',
+                            iconSize: [25, 41],
+                            iconAnchor: [12, 41],
+                            popupAnchor: [1, -34],
+                            shadowUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-shadow.png',
+                            shadowSize: [41, 41]
+                        })
+                    }).addTo(this.map).bindPopup('Ubicación actual').openPopup();
+                }
+            });
+
+            // Evento al editar forma
+            this.map.on(L.Draw.Event.EDITED, (e) => {
+                e.layers.eachLayer((layer) => {
+                    this.drawnLayer = layer;
+                    $wire.set('geometry', JSON.stringify(layer.toGeoJSON()));
+                    if (layer.getBounds) {
+                        this.map.fitBounds(layer.getBounds());
+                        // Actualiza el marcador al centroide de la figura editada
+                        if (this.marker) this.map.removeLayer(this.marker);
+                        let center = layer.getBounds().getCenter();
+                        this.marker = L.marker(center, {
+                            icon: L.icon({
+                                iconUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png',
+                                iconSize: [25, 41],
+                                iconAnchor: [12, 41],
+                                popupAnchor: [1, -34],
+                                shadowUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-shadow.png',
+                                shadowSize: [41, 41]
+                            })
+                        }).addTo(this.map).bindPopup('Ubicación actual').openPopup();
+                    }
                 });
-                map.on('click', function(e) {
-                    marker.setLatLng(e.latlng);
-                    $wire.set('latitude', e.latlng.lat);
-                    $wire.set('longitude', e.latlng.lng);
-                });
-                $watch('latitude', val => marker.setLatLng([val, $wire.longitude]));
-                $watch('longitude', val => marker.setLatLng([$wire.latitude, val]));
-            };
-            waitForLeaflet();
-        }
+            });
+
+            // Evento al borrar forma
+            this.map.on(L.Draw.Event.DELETED, (e) => {
+                this.drawnLayer = null;
+                $wire.set('geometry', null);
+                if (this.marker) {
+                    this.map.removeLayer(this.marker);
+                    this.marker = null;
+                }
+                this.map.setView([this.latitude, this.longitude], 13);
+            });
+
+            setTimeout(() => { this.map.invalidateSize(); }, 300);
+        };
+        waitForLeaflet();
+    }
 }" x-init="initMap()"
     class="max-w-3xl mx-auto p-10 my-14 bg-white shadow rounded border border-gray-200" role="form"
     aria-labelledby="address-form-title">
     <h1 id="address-form-title" class="text-3xl font-bold text-indigo-700 mb-10 text-center">
-        {{ $addressId ? 'Editar Dirección' : 'Crear Dirección' }}
+        {{ $addressId ? 'Editar Bancal' : 'Crear Bancal' }}
     </h1>
     <div class="space-y-10" enctype="multipart/form-data" @keydown.enter.prevent="submit">
         {{-- Nombre --}}
@@ -93,16 +231,6 @@
         <div class="mb-8">
             <label class="block text-base font-semibold text-gray-800 mb-2">Ubicación en el mapa</label>
             <div id="map" class="w-full h-72 rounded border border-gray-300"></div>
-            <div class="flex gap-4 mt-2">
-                <div>
-                    <label class="text-xs text-gray-600">Latitud</label>
-                    <input type="text" wire:model="latitude" class="w-32 border rounded px-2 py-1" readonly>
-                </div>
-                <div>
-                    <label class="text-xs text-gray-600">Longitud</label>
-                    <input type="text" wire:model="longitude" class="w-32 border rounded px-2 py-1" readonly>
-                </div>
-            </div>
         </div>
 
         {{-- Imágenes --}}

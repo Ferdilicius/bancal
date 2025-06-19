@@ -19,6 +19,7 @@ return new class extends Migration
             $table->boolean('allow_fractional')->default(false);
             $table->float('max_per_person')->nullable();
             $table->float('min_per_person')->nullable();
+            $table->foreignId('address_id')->nullable()->constrained('addresses')->onDelete('set null');
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->foreignId('category_id')->constrained('product_categories')->onDelete('cascade');
             $table->timestamps();

@@ -24,6 +24,9 @@ class Crud extends Component
     public $address_type_id;
     public $addressTypes;
     public $addressModel;
+    public $geometry = null;
+    public $otherAddresses = [];
+
 
     public function mount($addressId = null)
     {
@@ -40,7 +43,14 @@ class Crud extends Component
             $this->status = $this->addressModel->status === 'activo';
             $this->address_type_id = $this->addressModel->address_type_id;
             $this->images = $this->addressModel->images->pluck('path')->toArray();
+            $this->geometry = $this->addressModel->geometry ? json_encode($this->addressModel->geometry) : null;
         }
+        // Otras addresses del usuario, excluyendo la actual y solo con geometría
+        $query = Address::where('user_id', auth()->id());
+        if ($addressId) {
+            $query->where('id', '!=', $addressId);
+        }
+        $this->otherAddresses = $query->whereNotNull('geometry')->get(['geometry', 'name']);
     }
 
     protected function rules()
@@ -54,6 +64,7 @@ class Crud extends Component
             'newImages.*' => 'nullable|image|max:2048',
             'status' => 'required|boolean',
             'address_type_id' => 'required|exists:address_types,id',
+            'geometry' => 'nullable|string',
         ];
     }
 
@@ -100,6 +111,7 @@ class Crud extends Component
                 'longitude' => $this->longitude,
                 'status' => $this->status ? 'activo' : 'inactivo',
                 'address_type_id' => $this->address_type_id,
+                'geometry' => $this->geometry ? json_decode($this->geometry, true) : null, // <-- añade esto
             ]);
         } else {
             $address = Address::create([
@@ -110,6 +122,7 @@ class Crud extends Component
                 'status' => $this->status ? 'activo' : 'inactivo',
                 'user_id' => auth()->user() ? auth()->user()->id : null,
                 'address_type_id' => $this->address_type_id,
+                'geometry' => $this->geometry ? json_decode($this->geometry, true) : null, // <-- añade esto
             ]);
             $this->addressId = $address->id;
         }
@@ -163,6 +176,8 @@ class Crud extends Component
 
     public function render()
     {
-        return view('livewire.address.crud')->layout('layouts.app');
+        return view('livewire.address.crud', [
+            'otherAddresses' => $this->otherAddresses,
+        ])->layout('layouts.app');
     }
 }

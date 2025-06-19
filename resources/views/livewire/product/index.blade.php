@@ -2,33 +2,34 @@
 
 <div class="p-6 bg-gray-100">
     @if ($products->count())
-        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6">
             @foreach ($products as $product)
                 <a href="{{ route('product.show', $product->id) }}"
-                    class="bg-white border border-gray-200 rounded-lg shadow-md p-4 hover:shadow-lg transition-shadow duration-200">
+                    class="bg-white border border-gray-200 rounded-lg shadow-md p-3 sm:p-4 hover:shadow-lg transition-shadow duration-200 flex flex-col">
                     @php
                         $firstImage = $product->images->first();
                     @endphp
                     @if ($firstImage)
                         <img src="{{ route('product.image', ['productId' => $product->id, 'imageId' => $firstImage->id]) }}"
-                            alt="Imagen producto" class="w-full h-48 object-cover rounded-t-lg mb-2">
+                            alt="Imagen producto"
+                            class="w-full h-40 sm:h-48 object-cover rounded-t-lg mb-2 transition-transform duration-200 hover:scale-105">
                     @else
                         <div
-                            class="w-full h-48 bg-gray-300 flex items-center justify-center rounded-t-lg mb-2 text-gray-500">
+                            class="w-full h-40 sm:h-48 bg-gray-300 flex items-center justify-center rounded-t-lg mb-2 text-gray-500">
                             Sin imagen
                         </div>
                     @endif
 
-                    <div class="flex items-center mt-2 mb-2">
+                    <div class="flex items-center mt-1 mb-2">
                         <img src="{{ $product->user ? $product->user->profile_photo_url : 'https://ui-avatars.com/api/?name=Vendedor+desconocido&background=cccccc&color=555555&size=64' }}"
                             alt="{{ $product->user->name ?? 'Vendedor desconocido' }}"
-                            class="w-8 h-8 rounded-full mr-2 border border-gray-300">
-                        <span class="text-gray-700 text-sm">{{ $product->user->name ?? 'Vendedor desconocido' }}</span>
+                            class="w-7 h-7 sm:w-8 sm:h-8 rounded-full mr-2 border border-gray-300">
+                        <span class="text-gray-700 text-xs sm:text-sm">{{ $product->user->name ?? 'Vendedor desconocido' }}</span>
                     </div>
 
-                    <h2 class="text-lg font-bold text-gray-800 mb-2">{{ $product->name }}</h2>
-                    <p class="text-gray-700 font-semibold mb-2">Cantidad: {{ $product->formatted_quantity }}</p>
-                    <p class="text-gray-700 font-semibold mb-2">Precio: {{ $product->price }}€</p>
+                    <h2 class="text-base sm:text-lg font-bold text-gray-800 mb-1 sm:mb-2 truncate">{{ $product->name }}</h2>
+                    <p class="text-gray-700 font-semibold mb-1 sm:mb-2 text-sm sm:text-base">Cantidad: {{ $product->formatted_quantity }}</p>
+                    <p class="text-gray-700 font-semibold mb-1 sm:mb-2 text-sm sm:text-base">Precio: {{ $product->price }}€</p>
                 </a>
             @endforeach
         </div>

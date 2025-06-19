@@ -15,13 +15,13 @@ class Product extends Model
         'description',
         'quantity',
         'quantity_type',
-        'user_id',
-        'image',
         'status',
-        'category_id',
         'allow_fractional',
         'max_per_person',
-        'min_per_person'
+        'min_per_person',
+        'address_id',
+        'user_id',
+        'category_id',
     ];
 
     public function getFormattedQuantityAttribute()
@@ -35,7 +35,6 @@ class Product extends Model
         }
 
         if ($type === 'kilo' && $quantity < 1) {
-            // Convert kilos to gramos
             $grams = $quantity * 1000;
             $pluralType = $grams == 1 ? 'gramo' : 'gramos';
             return "{$grams} {$pluralType}";
@@ -53,6 +52,11 @@ class Product extends Model
     public function user()
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function address()
+    {
+        return $this->belongsTo(Address::class);
     }
 
     public function images()

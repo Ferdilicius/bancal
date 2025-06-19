@@ -3,7 +3,7 @@
     <div class="container mx-auto flex justify-between items-center">
         <!-- Logo -->
         <a href="{{ route('home') }}">
-            <img src="{{ asset('static/img/iconFresa.svg') }}" alt="Bancal" class="h-16 w-16 md:h-20 md:w-auto">
+            <img src="{{ asset('static/img/iconFresa.svg') }}" alt="Bancal" class="h-16 w-16 md:h-20 md:w-auto mr-4">
         </a>
 
         <!-- Search Bar -->
