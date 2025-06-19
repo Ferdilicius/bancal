@@ -8,8 +8,8 @@
                     @php
                         $sections = [
                             'users' => ['icon' => 'fas fa-users', 'label' => 'Usuarios'],
-                            'products' => ['icon' => 'fas fa-cogs', 'label' => 'Productos'],
-                            'addresses' => ['icon' => 'fas fa-cogs', 'label' => 'Bancales'],
+                            'products' => ['icon' => 'fas fa-bag-shopping', 'label' => 'Productos'],
+                            'addresses' => ['icon' => 'fas fa-location-dot', 'label' => 'Bancales'],
                         ];
                     @endphp
 
