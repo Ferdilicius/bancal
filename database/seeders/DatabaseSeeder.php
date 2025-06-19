@@ -9,17 +9,17 @@ class DatabaseSeeder extends Seeder
 {
     public function run(): void
     {
-        Storage::disk('public')->deleteDirectory('profile-photos');
+        Storage::disk('local')->deleteDirectory('profile-photos');
         Storage::disk('local')->deleteDirectory('livewire-tmp');
         Storage::disk('local')->deleteDirectory('model_images');
 
-        Storage::disk('public')->makeDirectory('profile-photos');
+        Storage::disk('local')->makeDirectory('profile-photos');
         Storage::disk('local')->makeDirectory('livewire-tmp');
         Storage::disk('local')->makeDirectory('model_images');
 
-        @chmod(Storage::disk('local')->path('model_images'), 0777);
-        @chmod(Storage::disk('public')->path('profile-photos'), 0777);
-        @chmod(Storage::disk('local')->path('livewire-tmp'), 0777);
+        @chmod(Storage::disk('local')->path('model_images'), 0755);
+        @chmod(Storage::disk('local')->path('profile-photos'), 0755);
+        @chmod(Storage::disk('local')->path('livewire-tmp'), 0755);
 
         $this->call(UserSeeder::class);
         $this->call(ProductCategorySeeder::class);

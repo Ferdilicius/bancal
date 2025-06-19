@@ -12,7 +12,6 @@ return new class extends Migration
             $table->id();
             $table->string('address');
             $table->string('name');
-            $table->string('image')->nullable();
             $table->enum('status', ['inactivo', 'activo'])->default('inactivo');
             $table->decimal('latitude', 10, 7)->nullable();
             $table->decimal('longitude', 10, 7)->nullable();

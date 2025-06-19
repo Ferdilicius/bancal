@@ -5,6 +5,8 @@ use Illuminate\Support\Facades\Route;
 use App\Livewire\PublicProfile;
 use App\Livewire\Private\PrivateProfile;
 use App\Livewire\ShoppingCart;
+use App\Models\User;
+use Illuminate\Support\Facades\Storage;
 
 use App\Http\Controllers\Auth\RegisterController;
 
@@ -98,3 +100,13 @@ use App\Http\Controllers\SocialiteController;
 
 Route::get('/auth/{provider}/redirect', [SocialiteController::class, 'redirect'])->name('socialite.redirect');
 Route::get('/auth/{provider}/callback', [SocialiteController::class, 'callback'])->name('socialite.callback');
+
+Route::get('/profile-photo/{filename}', function ($filename) {
+    $path = storage_path('app/private/profile-photos/' . $filename);
+
+    if (!file_exists($path)) {
+        abort(404);
+    }
+
+    return response()->file($path);
+})->middleware('auth')->name('profile.photo');

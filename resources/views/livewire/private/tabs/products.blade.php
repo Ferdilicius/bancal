@@ -8,7 +8,6 @@
     }
 }" x-show="tab === 'productos'">
 
-
     <!-- Cabecera: botón agregar y eliminar múltiple -->
     <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 sm:gap-6 mb-4">
 
@@ -25,8 +24,10 @@
                     @click="selectedProducts.length === allProductIds.length ? selectedProducts = [] : selectAll()"
                     class="w-full bg-blue-600 text-white py-3 px-2 rounded-xl shadow hover:bg-blue-700 transition-colors duration-200 flex justify-center items-center text-sm font-semibold"
                     style="z-index:1; min-width: 0;">
-                    <i class="fas" :class="selectedProducts.length === allProductIds.length ? 'fa-times' : 'fa-check-double'"></i>
-                    <span class="ml-1" x-text="selectedProducts.length === allProductIds.length ? 'Deseleccionar todos' : 'Seleccionar todos'"></span>
+                    <i class="fas"
+                        :class="selectedProducts.length === allProductIds.length ? 'fa-times' : 'fa-check-double'"></i>
+                    <span class="ml-1"
+                        x-text="selectedProducts.length === allProductIds.length ? 'Deseleccionar todos' : 'Seleccionar todos'"></span>
                 </button>
                 <!-- Eliminar múltiple -->
                 <button type="button" @click="openDeleteMultiple = true"
@@ -103,72 +104,72 @@
 
                     <!-- Acciones -->
                     <div class="mt-4 sm:mt-6 flex flex-col gap-2 w-full flex-wrap sm:flex-row sm:gap-2">
-
                         <!-- Editar -->
                         <a href="{{ route('product.edit', $product->id) }}"
-                            class="flex-1 w-full bg-blue-600 hover:bg-blue-700 text-white py-2 px-2 rounded-lg transition-colors duration-200 flex flex-row justify-center items-center text-xs sm:text-sm font-medium shadow-md focus:outline-none focus:ring-2 focus:ring-blue-400">
+                            class="flex-1 w-full bg-blue-600 hover:bg-blue-700 text-white py-2 px-2 rounded-lg transition-colors duration-200 flex flex-row justify-center items-center text-xs sm:text-sm font-medium shadow-md focus:outline-none focus:ring-2 focus:ring-blue-400 mb-2 sm:mb-0">
                             <i class="fas fa-edit mr-2"></i>
                             <span class="sm:inline">Editar</span>
                         </a>
-
-                        <!-- Borrar -->
-                        <div x-data="{ open: false }" class="flex-1 w-full">
-                            <button type="button"
-                                class="w-full bg-red-600 hover:bg-red-700 text-white py-2 px-2 rounded-lg transition-colors duration-200 flex flex-row justify-center items-center text-xs sm:text-sm font-medium shadow-md focus:outline-none focus:ring-2 focus:ring-red-400"
-                                @click="open = true">
-                                <i class="fas fa-trash-alt mr-2"></i>
-                                <span class="sm:inline">Borrar</span>
-                            </button>
-                            <div x-show="open" x-cloak
-                                class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-40">
-                                <div class="bg-white rounded-2xl shadow-2xl p-8 max-w-sm w-full text-center border border-red-200"
-                                    @click.away="open = false" @keydown.escape.window="open = false">
-                                    <h2 class="text-xl font-bold mb-4 text-gray-900">¿Borrar producto?</h2>
-                                    <p class="mb-6 text-gray-600 text-sm">Esta acción es irreversible y no podrás recuperarlo.</p>
-                                    <div class="flex gap-4 justify-center">
-                                        <button wire:click="deleteProduct({{ $product->id }})"
-                                            wire:loading.attr="disabled" @click="open = false"
-                                            class="inline-flex items-center bg-red-700 hover:bg-red-800 text-white px-6 py-2 rounded-lg transition-colors duration-200 shadow font-semibold text-sm focus:outline-none focus:ring-2 focus:ring-red-400">
-                                            <i class="fas fa-trash-alt mr-2"></i> Sí, borrar
-                                        </button>
-                                        <button type="button" @click="open = false"
-                                            class="bg-gray-100 hover:bg-gray-200 text-gray-800 px-5 py-2 rounded-lg transition-colors font-semibold text-sm focus:outline-none focus:ring-2 focus:ring-gray-300">
-                                            Cancelar
-                                        </button>
+                        <div class="flex flex-col sm:flex-row gap-2 w-full">
+                                                        <!-- Borrar -->
+                            <div x-data="{ open: false }" class="flex-1 w-full">
+                                <button type="button"
+                                    class="w-full bg-red-600 hover:bg-red-700 text-white py-2 px-2 rounded-lg transition-colors duration-200 flex flex-row justify-center items-center text-xs sm:text-sm font-medium shadow-md focus:outline-none focus:ring-2 focus:ring-red-400"
+                                    @click="open = true">
+                                    <i class="fas fa-trash-alt mr-2"></i>
+                                    <span class="sm:inline">Borrar</span>
+                                </button>
+                                <div x-show="open" x-cloak
+                                    class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-40">
+                                    <div class="bg-white rounded-2xl shadow-2xl p-8 max-w-sm w-full text-center border border-red-200"
+                                        @click.away="open = false" @keydown.escape.window="open = false">
+                                        <h2 class="text-xl font-bold mb-4 text-gray-900">¿Borrar producto?</h2>
+                                        <p class="mb-6 text-gray-600 text-sm">Esta acción es irreversible y no podrás
+                                            recuperarlo.</p>
+                                        <div class="flex gap-4 justify-center">
+                                            <button wire:click="deleteProduct({{ $product->id }})"
+                                                wire:loading.attr="disabled" @click="open = false"
+                                                class="inline-flex items-center bg-red-700 hover:bg-red-800 text-white px-6 py-2 rounded-lg transition-colors duration-200 shadow font-semibold text-sm focus:outline-none focus:ring-2 focus:ring-red-400">
+                                                <i class="fas fa-trash-alt mr-2"></i> Sí, borrar
+                                            </button>
+                                            <button type="button" @click="open = false"
+                                                class="bg-gray-100 hover:bg-gray-200 text-gray-800 px-5 py-2 rounded-lg transition-colors font-semibold text-sm focus:outline-none focus:ring-2 focus:ring-gray-300">
+                                                Cancelar
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Duplicar -->
+                            <div x-data="{ openDuplicate: false }" class="flex-1 w-full">
+                                <button type="button"
+                                    class="w-full bg-yellow-500 hover:bg-yellow-600 text-white py-2 px-2 rounded-lg transition-colors duration-200 flex flex-row justify-center items-center text-xs sm:text-sm font-medium shadow-md focus:outline-none focus:ring-2 focus:ring-yellow-400"
+                                    @click="openDuplicate = true">
+                                    <i class="fas fa-copy mr-2"></i>
+                                    <span class="sm:inline">Duplicar</span>
+                                </button>
+                                <div x-show="openDuplicate" x-cloak
+                                    class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-40">
+                                    <div class="bg-white rounded-2xl shadow-2xl p-8 max-w-sm w-full text-center border border-yellow-200"
+                                        @click.away="openDuplicate = false"
+                                        @keydown.escape.window="openDuplicate = false">
+                                        <h2 class="text-xl font-bold mb-4 text-gray-900">¿Duplicar producto?</h2>
+                                        <p class="mb-6 text-gray-600 text-sm">Se creará una copia de este producto.</p>
+                                        <div class="flex gap-4 justify-center">
+                                            <button wire:click="duplicateProduct({{ $product->id }})"
+                                                wire:loading.attr="disabled" @click="openDuplicate = false"
+                                                class="inline-flex items-center bg-yellow-600 hover:bg-yellow-700 text-white px-6 py-2 rounded-lg transition-colors duration-200 shadow font-semibold text-sm focus:outline-none focus:ring-2 focus:ring-yellow-400">
+                                                <i class="fas fa-copy mr-2"></i> Sí, duplicar
+                                            </button>
+                                            <button type="button" @click="openDuplicate = false"
+                                                class="bg-gray-100 hover:bg-gray-200 text-gray-800 px-5 py-2 rounded-lg transition-colors font-semibold text-sm focus:outline-none focus:ring-2 focus:ring-gray-300">
+                                                Cancelar
+                                            </button>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-
-                        <!-- Duplicar -->
-                        <div x-data="{ openDuplicate: false }" class="flex-1 w-full">
-                            <button type="button"
-                                class="w-full bg-yellow-500 hover:bg-yellow-600 text-white py-2 px-2 rounded-lg transition-colors duration-200 flex flex-row justify-center items-center text-xs sm:text-sm font-medium shadow-md focus:outline-none focus:ring-2 focus:ring-yellow-400"
-                                @click="openDuplicate = true">
-                                <i class="fas fa-copy mr-2"></i>
-                                <span class="sm:inline">Duplicar</span>
-                            </button>
-                            <div x-show="openDuplicate" x-cloak
-                                class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-40">
-                                <div class="bg-white rounded-2xl shadow-2xl p-8 max-w-sm w-full text-center border border-yellow-200"
-                                    @click.away="openDuplicate = false" @keydown.escape.window="openDuplicate = false">
-                                    <h2 class="text-xl font-bold mb-4 text-gray-900">¿Duplicar producto?</h2>
-                                    <p class="mb-6 text-gray-600 text-sm">Se creará una copia de este producto.</p>
-                                    <div class="flex gap-4 justify-center">
-                                        <button wire:click="duplicateProduct({{ $product->id }})"
-                                            wire:loading.attr="disabled" @click="openDuplicate = false"
-                                            class="inline-flex items-center bg-yellow-600 hover:bg-yellow-700 text-white px-6 py-2 rounded-lg transition-colors duration-200 shadow font-semibold text-sm focus:outline-none focus:ring-2 focus:ring-yellow-400">
-                                            <i class="fas fa-copy mr-2"></i> Sí, duplicar
-                                        </button>
-                                        <button type="button" @click="openDuplicate = false"
-                                            class="bg-gray-100 hover:bg-gray-200 text-gray-800 px-5 py-2 rounded-lg transition-colors font-semibold text-sm focus:outline-none focus:ring-2 focus:ring-gray-300">
-                                            Cancelar
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
                     </div>
                 </div>
             @endforeach

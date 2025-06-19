@@ -1,6 +1,6 @@
 @section('title', 'Perfil Público de ' . $user->name)
 
-<div class="max-w-6xl mx-auto mt-14 px-2 sm:px-6 mb-10">
+<div class="max-w-5xl mx-auto py-10 px-4 sm:px-8">
     <a href="{{ url()->previous() }}" class="flex items-center text-gray-600 hover:text-gray-900 mb-6">
         <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" />
@@ -19,7 +19,7 @@
             @endif
             <h1 class="text-3xl font-extrabold text-gray-900">Perfil Público de {{ $user->name }}</h1>
         </div>
-
+        <h2 class="text-2xl font-bold mt-12 mb-6 text-gray-900">Productos en venta</h2>
         @if ($products->isNotEmpty())
             <div class="grid gap-8 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
                 @foreach ($products as $product)
@@ -32,7 +32,6 @@
                             <h3 class="text-base font-bold text-gray-900 mb-1 truncate">
                                 {{ $product->name }}
                             </h3>
-                            <p class="text-gray-500 text-sm mb-1 truncate">{{ $product->description }}</p>
                             <div class="text-gray-700 text-sm">
                                 Cantidad: <span class="font-semibold">{{ $product->formatted_quantity }}</span>
                             </div>
@@ -51,7 +50,7 @@
             </div>
         @endif
 
-        <h2 class="text-2xl font-bold mt-12 mb-6 text-gray-900">Direcciones</h2>
+        <h2 class="text-2xl font-bold mt-12 mb-6 text-gray-900">Bancales</h2>
         @if ($addresses->isNotEmpty())
             <div class="grid gap-6 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
                 @foreach ($addresses as $address)
