@@ -1,9 +1,15 @@
 @section('title', "$product->name - Product Details")
 
-<div class="max-w-xl mx-auto py-10 px-4 sm:px-8">
-    <div class="bg-white shadow-lg rounded-xl overflow-hidden">
+<div class="max-w-5xl mx-auto py-10 px-4 sm:px-8">
+    <a href="{{ url()->previous() }}" class="flex items-center text-gray-600 hover:text-gray-900 mb-6">
+        <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" />
+        </svg>
+        Volver atrás
+    </a>
+    <div class="bg-white shadow-lg rounded-xl flex flex-col md:flex-row overflow-hidden">
         {{-- Imagen principal --}}
-        <div class="w-full h-60 bg-gray-100 flex items-center justify-center relative cursor-pointer group"
+        <div class="md:w-1/2 w-full h-80 bg-gray-100 flex items-center justify-center relative cursor-pointer group"
             x-data="{
                 images: @js($product->images->map(fn($img) => ['id' => $img->id])->toArray()),
                 current: 0,
@@ -36,10 +42,10 @@
                 title="Ampliar imágenes" @touchstart="handleTouchStart($event)" @touchend="handleTouchEnd($event)">
 
                 <div class="w-full h-full flex items-center justify-center">
-                    <div x-show="hasImages" class="relative w-full h-60 overflow-hidden">
+                    <div x-show="hasImages" class="relative w-full h-80 overflow-hidden">
                         <template x-for="(img, idx) in images" :key="img.id">
                             <img x-show="current === idx" :src="'{{ url('/productos') }}/{{ $product->id }}/' + img.id"
-                                class="w-full h-60 object-cover absolute inset-0 transition-all duration-400 ease-[cubic-bezier(.4,2,.6,1)]"
+                                class="w-full h-80 object-cover absolute inset-0 transition-all duration-400 ease-[cubic-bezier(.4,2,.6,1)]"
                                 :class="{
                                     'opacity-0 -translate-x-6 scale-95': current !== idx && direction === 'right',
                                     'opacity-0 translate-x-6 scale-95': current !== idx && direction === 'left',
@@ -74,7 +80,7 @@
                         </div>
                     </div>
                     <div x-show="!hasImages"
-                        class="flex items-center justify-center w-full h-60 bg-gray-100 text-gray-400 text-lg font-semibold">
+                        class="flex items-center justify-center w-full h-80 bg-gray-100 text-gray-400 text-lg font-semibold">
                         Sin imagen
                     </div>
                 </div>
@@ -142,51 +148,52 @@
         </div>
 
         {{-- Contenido --}}
-        <div class="p-8">
-            <div class="flex items-center justify-between mb-2">
-                <h1 class="text-2xl font-bold text-gray-900">{{ $product->name }}</h1>
-                <span class="text-2xl font-extrabold text-green-600">{{ number_format($product->price, 2) }} €</span>
+        <div class="md:w-1/2 w-full p-8 flex flex-col justify-center">
+            <div class="flex items-center justify-between mb-4">
+                <h1 class="text-3xl font-bold text-gray-900">{{ $product->name }}</h1>
+                <span
+                    class="text-xl font-extrabold bg-green-500 text-white px-5 py-2 rounded-full">{{ number_format($product->price, 2) }}€</span>
             </div>
-            <div class="text-gray-500 text-sm mb-4">
-                @if ($product->user)
-                    <a href="{{ route('public.profile', [$product->user->id]) }}" class="flex items-center gap-2">
-                        @if ($product->user->profile_photo_url)
-                            <img src="{{ $product->user->profile_photo_url }}" alt="Foto de perfil"
-                                class="w-7 h-7 rounded-full object-cover border border-gray-300">
-                        @else
-                            <span
-                                class="w-7 h-7 rounded-full bg-gray-200 flex items-center justify-center text-gray-500">
-                                <i class="fas fa-user"></i>
-                            </span>
-                        @endif
-                        <span class="font-medium">{{ $product->user->name }}</span>
+            <div class="flex items-center gap-3 mb-6 bg-gray-100 rounded-lg p-4">
+                @if ($product->user && $product->user->profile_photo_url)
+                    <a href="{{ route('public.profile', $product->user) }}" title="Ver perfil público">
+                        <img src="{{ $product->user->profile_photo_url }}" alt="Foto de perfil"
+                            class="w-10 h-10 rounded-full object-cover border border-gray-300">
+                    </a>
+                @elseif ($product->user)
+                    <a href="{{ route('public.profile', $product->user) }}" title="Ver perfil público">
+                        <span class="w-10 h-10 rounded-full bg-gray-200 flex items-center justify-center text-gray-500">
+                            <i class="fas fa-user"></i>
+                        </span>
                     </a>
                 @else
-                    <span class="w-7 h-7 rounded-full bg-gray-200 flex items-center justify-center text-gray-500">
+                    <span class="w-10 h-10 rounded-full bg-gray-200 flex items-center justify-center text-gray-500">
                         <i class="fas fa-user"></i>
                     </span>
-                    <span class="font-medium">Desconocido</span>
                 @endif
+                <div>
+                    <div class="font-semibold text-gray-800">
+                        {{ $product->user->name ?? 'Desconocido' }}
+                    </div>
+                    <div class="text-xs text-gray-500">Productor local</div>
+                </div>
             </div>
-            <ul class="mb-6 text-base text-gray-700 space-y-2">
-                <li>
-                    <span class="font-semibold text-gray-800">Descripción:</span>
-                    <span class="ml-2">{{ $product->description ?? 'N/A' }}</span>
-                </li>
-                <li>
-                    <span class="font-semibold text-gray-800">Cantidad:</span>
-                    <span class="ml-2">{{ $product->formatted_quantity ?? 'N/A' }}</span>
-                </li>
-                {{-- Puedes agregar más detalles aquí si lo deseas --}}
-            </ul>
-            <div class="flex flex-col sm:flex-row gap-4">
+            <div class="mb-6">
+                <div class="font-semibold text-gray-800 mb-1">Descripción:</div>
+                <div class="text-gray-700">{{ $product->description ?? 'N/A' }}</div>
+            </div>
+            <div class="mb-6">
+                <span class="font-semibold text-gray-800">Cantidad disponible:</span>
+                <span class="ml-2">{{ $product->formatted_quantity ?? 'N/A' }}</span>
+            </div>
+            <div class="flex gap-4">
                 <a href="#"
                     class="flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg shadow-md font-semibold transition">
                     <i class="fas fa-shopping-bag"></i>
                     <span>Comprar</span>
                 </a>
                 <a href="#"
-                    class="flex items-center justify-center gap-2 bg-gray-600 hover:bg-gray-700 text-white px-6 py-3 rounded-lg shadow-md font-semibold transition">
+                    class="flex items-center justify-center gap-2 bg-gray-800 hover:bg-gray-900 text-white px-6 py-3 rounded-lg shadow-md font-semibold transition">
                     <i class="fas fa-cart-plus"></i>
                     <span>Añadir al Carrito</span>
                 </a>

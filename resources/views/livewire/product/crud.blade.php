@@ -105,8 +105,7 @@
             </label>
             <input type="text" id="quantity" wire:model="quantity"
                 class="mt-2 block w-48 border border-gray-300 rounded px-5 py-3 text-base focus:ring-indigo-400 focus:border-indigo-400"
-                inputmode="numeric" pattern="^\d*$"
-                oninput="this.value = this.value.replace(/[^0-9]/g, '')"
+                inputmode="numeric" pattern="^\d*$" oninput="this.value = this.value.replace(/[^0-9]/g, '')"
                 aria-required="true" aria-describedby="quantity-desc @error('quantity') quantity-error @enderror">
             <span id="quantity-desc" class="sr-only">Cantidad total disponible, solo números enteros</span>
             @error('quantity')

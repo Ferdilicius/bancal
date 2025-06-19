@@ -38,7 +38,7 @@
                 <div class="w-full h-full flex items-center justify-center">
                     <div x-show="hasImages" class="relative w-full h-60 overflow-hidden">
                         <template x-for="(img, idx) in images" :key="img.id">
-                            <img x-show="current === idx" :src="'{{ url('/addresses') }}/{{ $address->id }}/' + img.id"
+                            <img x-show="current === idx" :src="'{{ url('/bancales') }}/{{ $address->id }}/' + img.id"
                                 class="w-full h-60 object-cover absolute inset-0 transition-all duration-400 ease-[cubic-bezier(.4,2,.6,1)]"
                                 :class="{
                                     'opacity-0 -translate-x-6 scale-95': current !== idx && direction === 'right',
@@ -100,7 +100,7 @@
                         <div class="relative w-full flex items-center justify-center" style="min-height: 400px;">
                             <template x-for="(img, idx) in images" :key="'modal-' + img.id">
                                 <img x-show="current === idx"
-                                    :src="'{{ url('/addresses') }}/{{ $address->id }}/' + img.id" alt="Imagen ampliada"
+                                    :src="'{{ url('/bancales') }}/{{ $address->id }}/' + img.id" alt="Imagen ampliada"
                                     class="max-h-[70vh] max-w-full object-contain mx-auto transition-all duration-400 ease-[cubic-bezier(.4,2,.6,1)]"
                                     :class="{
                                         'opacity-0 -translate-x-6 scale-95': current !== idx &&
@@ -130,7 +130,7 @@
                         {{-- Miniaturas --}}
                         <div class="flex gap-2 mt-4">
                             <template x-for="(img, idx) in images" :key="'thumb-' + img.id">
-                                <img :src="'{{ url('/addresses') }}/{{ $address->id }}/' + img.id"
+                                <img :src="'{{ url('/bancales') }}/{{ $address->id }}/' + img.id"
                                     @click="current = idx"
                                     :class="current === idx ? 'ring-2 ring-blue-500' : 'opacity-70 hover:opacity-100'"
                                     class="w-16 h-16 object-cover rounded cursor-pointer transition-all duration-200 border border-gray-200">
@@ -145,7 +145,6 @@
         <div class="p-8">
             <div class="flex items-center justify-between mb-2">
                 <h1 class="text-2xl font-bold text-gray-900">{{ $address->name }}</h1>
-                <span class="text-base font-extrabold text-green-600">{{ $address->status ?? 'Activo' }}</span>
             </div>
             <div class="text-gray-500 text-sm mb-4">
                 @if ($address->user)
@@ -177,15 +176,6 @@
                     <span class="font-semibold text-gray-800">Tipo:</span>
                     <span class="ml-2">{{ $address->addressType->name ?? 'N/A' }}</span>
                 </li>
-                <li>
-                    <span class="font-semibold text-gray-800">Latitud:</span>
-                    <span class="ml-2">{{ $address->latitude ?? 'N/A' }}</span>
-                </li>
-                <li>
-                    <span class="font-semibold text-gray-800">Longitud:</span>
-                    <span class="ml-2">{{ $address->longitude ?? 'N/A' }}</span>
-                </li>
-                {{-- Puedes agregar más detalles aquí si lo deseas --}}
             </ul>
             <div class="flex flex-col sm:flex-row gap-4">
                 <a href="https://maps.google.com/?q={{ $address->latitude }},{{ $address->longitude }}"
@@ -193,11 +183,6 @@
                     class="flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg shadow-md font-semibold transition">
                     <i class="fas fa-map-marker-alt"></i>
                     <span>Ver en el mapa</span>
-                </a>
-                <a href="#"
-                    class="flex items-center justify-center gap-2 bg-gray-600 hover:bg-gray-700 text-white px-6 py-3 rounded-lg shadow-md font-semibold transition">
-                    <i class="fas fa-edit"></i>
-                    <span>Editar Dirección</span>
                 </a>
             </div>
         </div>

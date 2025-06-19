@@ -12,13 +12,15 @@
         onload="this.onload=null;this.rel='stylesheet'" crossorigin="anonymous">
 
 
-<link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
 
     <noscript>
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     </noscript>
 
     @vite(['resources/css/app.css', 'resources/js/app.js'])
+
+    @yield('styles')
 
     @livewireStyles
 </head>
@@ -30,17 +32,16 @@
         @include('partials.header')
 
         {{ $slot }}
-        
+
     </main>
 
     @include('partials.footer')
 
     @include('partials.accessibility')
 
-    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    @yield('scripts')
 
     @livewireScripts
-
 </body>
 
 </html>

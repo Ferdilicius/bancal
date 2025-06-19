@@ -3,7 +3,6 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Address extends Model
@@ -17,8 +16,13 @@ class Address extends Model
         'status',
         'latitude',
         'longitude',
+        'geometry',
         'user_id',
         'address_type_id',
+    ];
+
+    protected $casts = [
+        'geometry' => 'array',
     ];
 
     public function addressType()
