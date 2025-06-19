@@ -98,3 +98,13 @@ use App\Http\Controllers\SocialiteController;
 
 Route::get('/auth/{provider}/redirect', [SocialiteController::class, 'redirect'])->name('socialite.redirect');
 Route::get('/auth/{provider}/callback', [SocialiteController::class, 'callback'])->name('socialite.callback');
+
+// Ruta para Políticas de Privacidad
+Route::get('/privacidad', function () {
+    return view('policy');
+})->name('policy');
+
+// Ruta para Términos de Uso
+Route::get('/terminos', function () {
+    return view('terms');
+})->name('terms');
