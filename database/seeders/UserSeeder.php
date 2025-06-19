@@ -14,6 +14,7 @@ class UserSeeder extends Seeder
             'name' => 'Test',
             'email' => 'test@example.com',
             'password' => Hash::make('1'),
+            'user_type' => 'admin',
         ]);
 
         User::factory(20)->create();
