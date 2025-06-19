@@ -1,12 +1,14 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Storage;
+use App\Models\User;
+
+use App\Http\Middleware\AdminMiddleware;
 
 use App\Livewire\PublicProfile;
 use App\Livewire\Private\PrivateProfile;
 use App\Livewire\ShoppingCart;
-use App\Models\User;
-use Illuminate\Support\Facades\Storage;
 
 use App\Http\Controllers\Auth\RegisterController;
 
@@ -47,21 +49,19 @@ Route::middleware('auth')->get('/perfil-privado', PrivateProfile::class)->name('
 
 // Product Routes
 Route::prefix('productos')->group(function () {
-
     Route::get('/', ProductIndex::class)->name('product.index');
 
     Route::middleware('auth')->group(function () {
         Route::get('/crear', ProductCrud::class)->name('product.create');
         Route::get('/editar/{productId}', ProductCrud::class)->name('product.edit');
     });
-    Route::get('/{productId}', ProductShow::class)->name('product.show');
 
+    Route::get('/{productId}', ProductShow::class)->name('product.show');
     Route::get('/{productId}/{imageId}', [ProductImageController::class, 'show'])->name('product.image');
 });
 
 // Address Routes
 Route::prefix('bancales')->group(function () {
-
     Route::get('/', AddressIndex::class)->name('address.index');
 
     Route::middleware('auth')->group(function () {
@@ -71,7 +71,6 @@ Route::prefix('bancales')->group(function () {
     });
 
     Route::get('/{addressId}', AddressShow::class)->name('address.show');
-
     Route::get('/{addressId}/{imageId}', [AddressImageController::class, 'show'])->name('address.image');
 });
 
@@ -95,12 +94,16 @@ Route::get('/perfil-publico/{user}', PublicProfile::class)->name('public.profile
 // Shopping Cart
 Route::get('/carrito-de-la-compra', ShoppingCart::class)->name('shopping-cart.index');
 
-// Fallback Route
+// Admin Routes
+Route::middleware(['auth', AdminMiddleware::class])->get('/admin', \App\Livewire\Admin\Crud::class)->name('admin.index');
+
+// Socialite
 use App\Http\Controllers\SocialiteController;
 
 Route::get('/auth/{provider}/redirect', [SocialiteController::class, 'redirect'])->name('socialite.redirect');
 Route::get('/auth/{provider}/callback', [SocialiteController::class, 'callback'])->name('socialite.callback');
 
+// Extra route for profile photo
 Route::get('/profile-photo/{filename}', function ($filename) {
     $path = storage_path('app/private/profile-photos/' . $filename);
 
