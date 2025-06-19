@@ -1,4 +1,4 @@
-@section('title', "$product->name - Product Details")
+@section('title', "$product->name - Detalles producto")
 
 <div class="max-w-5xl mx-auto py-10 px-4 sm:px-8">
     <a href="{{ url()->previous() }}" class="flex items-center text-gray-600 hover:text-gray-900 mb-6">
@@ -154,30 +154,31 @@
                 <span
                     class="text-xl font-extrabold bg-green-500 text-white px-5 py-2 rounded-full">{{ number_format($product->price, 2) }}€</span>
             </div>
-            <div class="flex items-center gap-3 mb-6 bg-gray-100 rounded-lg p-4">
-                @if ($product->user && $product->user->profile_photo_url)
-                    <a href="{{ route('public.profile', $product->user) }}" title="Ver perfil público">
+            <a href="{{ $product->user ? route('public.profile', $product->user) : '#' }}" title="Ver perfil público"
+                class="block">
+                <div class="flex items-center gap-3 mb-6 bg-gray-100 rounded-lg p-4 hover:bg-gray-200 transition">
+                    @if ($product->user && $product->user->profile_photo_url)
                         <img src="{{ $product->user->profile_photo_url }}" alt="Foto de perfil"
                             class="w-10 h-10 rounded-full object-cover border border-gray-300">
-                    </a>
-                @elseif ($product->user)
-                    <a href="{{ route('public.profile', $product->user) }}" title="Ver perfil público">
-                        <span class="w-10 h-10 rounded-full bg-gray-200 flex items-center justify-center text-gray-500">
+                    @elseif ($product->user)
+                        <span
+                            class="w-10 h-10 rounded-full bg-gray-200 flex items-center justify-center text-gray-500">
                             <i class="fas fa-user"></i>
                         </span>
-                    </a>
-                @else
-                    <span class="w-10 h-10 rounded-full bg-gray-200 flex items-center justify-center text-gray-500">
-                        <i class="fas fa-user"></i>
-                    </span>
-                @endif
-                <div>
-                    <div class="font-semibold text-gray-800">
-                        {{ $product->user->name ?? 'Desconocido' }}
+                    @else
+                        <span
+                            class="w-10 h-10 rounded-full bg-gray-200 flex items-center justify-center text-gray-500">
+                            <i class="fas fa-user"></i>
+                        </span>
+                    @endif
+                    <div>
+                        <div class="font-semibold text-gray-800">
+                            {{ $product->user->name ?? 'Desconocido' }}
+                        </div>
+                        <div class="text-xs text-gray-500">Productor local</div>
                     </div>
-                    <div class="text-xs text-gray-500">Productor local</div>
                 </div>
-            </div>
+            </a>
             <div class="mb-6">
                 <div class="font-semibold text-gray-800 mb-1">Descripción:</div>
                 <div class="text-gray-700">{{ $product->description ?? 'N/A' }}</div>

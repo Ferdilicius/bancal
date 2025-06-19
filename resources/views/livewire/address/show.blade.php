@@ -1,9 +1,15 @@
-@section('title', "$address->name - Address Details")
+@section('title', "$address->name - Detalles Bancal")
 
-<div class="max-w-xl mx-auto py-10 px-4 sm:px-8">
-    <div class="bg-white shadow-lg rounded-xl overflow-hidden">
+<div class="max-w-5xl mx-auto py-10 px-4 sm:px-8">
+    <a href="{{ url()->previous() }}" class="flex items-center text-gray-600 hover:text-gray-900 mb-6">
+        <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" />
+        </svg>
+        Volver atrás
+    </a>
+    <div class="bg-white shadow-lg rounded-xl flex flex-col md:flex-row overflow-hidden">
         {{-- Imagen principal --}}
-        <div class="w-full h-60 bg-gray-100 flex items-center justify-center relative cursor-pointer group"
+        <div class="md:w-1/2 w-full h-80 bg-gray-100 flex items-center justify-center relative cursor-pointer group"
             x-data="{
                 images: @js($address->images->map(fn($img) => ['id' => $img->id])->toArray()),
                 current: 0,
@@ -36,10 +42,10 @@
                 title="Ampliar imágenes" @touchstart="handleTouchStart($event)" @touchend="handleTouchEnd($event)">
 
                 <div class="w-full h-full flex items-center justify-center">
-                    <div x-show="hasImages" class="relative w-full h-60 overflow-hidden">
+                    <div x-show="hasImages" class="relative w-full h-80 overflow-hidden">
                         <template x-for="(img, idx) in images" :key="img.id">
                             <img x-show="current === idx" :src="'{{ url('/bancales') }}/{{ $address->id }}/' + img.id"
-                                class="w-full h-60 object-cover absolute inset-0 transition-all duration-400 ease-[cubic-bezier(.4,2,.6,1)]"
+                                class="w-full h-80 object-cover absolute inset-0 transition-all duration-400 ease-[cubic-bezier(.4,2,.6,1)]"
                                 :class="{
                                     'opacity-0 -translate-x-6 scale-95': current !== idx && direction === 'right',
                                     'opacity-0 translate-x-6 scale-95': current !== idx && direction === 'left',
@@ -74,7 +80,7 @@
                         </div>
                     </div>
                     <div x-show="!hasImages"
-                        class="flex items-center justify-center w-full h-60 bg-gray-100 text-gray-400 text-lg font-semibold">
+                        class="flex items-center justify-center w-full h-80 bg-gray-100 text-gray-400 text-lg font-semibold">
                         Sin imagen
                     </div>
                 </div>
@@ -142,42 +148,43 @@
         </div>
 
         {{-- Contenido --}}
-        <div class="p-8">
-            <div class="flex items-center justify-between mb-2">
-                <h1 class="text-2xl font-bold text-gray-900">{{ $address->name }}</h1>
+        <div class="md:w-1/2 w-full p-8 flex flex-col justify-center">
+            <div class="flex items-center justify-between mb-4">
+                <h1 class="text-3xl font-bold text-gray-900">{{ $address->name }}</h1>
+                <span class="text-xl font-extrabold bg-green-500 text-white px-5 py-2 rounded-full">
+                    {{ $address->addressType->name ?? 'N/A' }}
+                </span>
             </div>
-            <div class="text-gray-500 text-sm mb-4">
-                @if ($address->user)
-                    <a href="{{ route('public.profile', [$address->user->id]) }}" class="flex items-center gap-2">
-                        @if ($address->user->profile_photo_url)
-                            <img src="{{ $address->user->profile_photo_url }}" alt="Foto de perfil"
-                                class="w-7 h-7 rounded-full object-cover border border-gray-300">
-                        @else
-                            <span
-                                class="w-7 h-7 rounded-full bg-gray-200 flex items-center justify-center text-gray-500">
-                                <i class="fas fa-user"></i>
-                            </span>
-                        @endif
-                        <span class="font-medium">{{ $address->user->name }}</span>
-                    </a>
-                @else
-                    <span class="w-7 h-7 rounded-full bg-gray-200 flex items-center justify-center text-gray-500">
-                        <i class="fas fa-user"></i>
-                    </span>
-                    <span class="font-medium">Desconocido</span>
-                @endif
+            <a href="{{ $address->user ? route('public.profile', $address->user) : '#' }}" title="Ver perfil público"
+                class="block">
+                <div class="flex items-center gap-3 mb-6 bg-gray-100 rounded-lg p-4 hover:bg-gray-200 transition">
+                    @if ($address->user && $address->user->profile_photo_url)
+                        <img src="{{ $address->user->profile_photo_url }}" alt="Foto de perfil"
+                            class="w-10 h-10 rounded-full object-cover border border-gray-300">
+                    @elseif ($address->user)
+                        <span
+                            class="w-10 h-10 rounded-full bg-gray-200 flex items-center justify-center text-gray-500">
+                            <i class="fas fa-user"></i>
+                        </span>
+                    @else
+                        <span
+                            class="w-10 h-10 rounded-full bg-gray-200 flex items-center justify-center text-gray-500">
+                            <i class="fas fa-user"></i>
+                        </span>
+                    @endif
+                    <div>
+                        <div class="font-semibold text-gray-800">
+                            {{ $address->user->name ?? 'Desconocido' }}
+                        </div>
+                        <div class="text-xs text-gray-500">Propietario</div>
+                    </div>
+                </div>
+            </a>
+            <div class="mb-6">
+                <div class="font-semibold text-gray-800 mb-1">Descripción:</div>
+                <div class="text-gray-700">{{ $address->description ?? 'Sin descripción disponible.' }}</div>
             </div>
-            <ul class="mb-6 text-base text-gray-700 space-y-2">
-                <li>
-                    <span class="font-semibold text-gray-800">Dirección:</span>
-                    <span class="ml-2">{{ $address->address ?? 'N/A' }}</span>
-                </li>
-                <li>
-                    <span class="font-semibold text-gray-800">Tipo:</span>
-                    <span class="ml-2">{{ $address->addressType->name ?? 'N/A' }}</span>
-                </li>
-            </ul>
-            <div class="flex flex-col sm:flex-row gap-4">
+            <div class="flex gap-4">
                 <a href="https://maps.google.com/?q={{ $address->latitude }},{{ $address->longitude }}"
                     target="_blank"
                     class="flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg shadow-md font-semibold transition">
