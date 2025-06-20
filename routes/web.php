@@ -12,6 +12,8 @@ use App\Livewire\ShoppingCart;
 
 use App\Http\Controllers\Auth\RegisterController;
 
+use App\Livewire\Contact\Contact as ContactController;
+
 // Product
 use App\Livewire\Product\Index as ProductIndex;
 use App\Livewire\Product\Show as ProductShow;
@@ -42,7 +44,7 @@ Route::controller(RegisterController::class)->group(function () {
 
 // Public Pages
 Route::get('/', fn() => view('bancal.home'))->name('home');
-Route::get('/contact', fn() => view('contact'))->name('contact');
+Route::get('/contacto', ContactController::class)->name('contact');
 
 // Account Management
 Route::middleware('auth')->get('/perfil-privado', PrivateProfile::class)->name('private-profile');

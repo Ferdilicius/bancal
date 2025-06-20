@@ -14,7 +14,6 @@ class MessageSeeder extends Seeder
     {
         $users = User::all();
         $messageTypes = MessageType::all();
-<<<<<<< HEAD
 
         foreach ($users as $user) {
             for ($i = 0; $i < 3; $i++) {
@@ -35,7 +34,5 @@ class MessageSeeder extends Seeder
                 'message' => "Mensaje sin usuario {$i}",
             ]);
         }
-=======
->>>>>>> 1981173d980d52139ff4b7700415768a27a72488
     }
 }

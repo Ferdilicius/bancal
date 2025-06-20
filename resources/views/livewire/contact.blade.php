@@ -28,13 +28,13 @@
     <div>
         <label class="block text-sm font-medium text-gray-700 mb-3">Tipo de consulta *</label>
         <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
-            @foreach ($messageTypes as $type)
+            @foreach ($messageTypes as $messageType)
                 <div
                     class="p-4 border rounded-md flex items-center space-x-2 shadow-sm bg-gradient-to-r from-blue-50 via-blue-100 to-blue-200 bg-opacity-80">
                     <label class="flex items-center cursor-pointer w-full">
-                        <input type="radio" wire:model="message_type_id" value="{{ $type['id'] }}"
+                        <input type="radio" wire:model="message_type_id" value="{{ $messageType['id'] }}"
                             class="mr-2 accent-red-500">
-                        <span class="text-sm font-medium text-gray-900">{{ $type['name'] }}</span>
+                        <span class="text-sm font-medium text-gray-900">{{ $messageType['name'] }}</span>
                     </label>
                 </div>
             @endforeach
@@ -43,7 +43,6 @@
             <p class="text-sm text-red-500 mt-1">{{ $message }}</p>
         @enderror
     </div>
-
 
     {{-- Message --}}
     <div x-data="{ count: @js(strlen($wire->message ?? '')) }" x-init="$watch('$wire.message', val => count = val ? val.length : 0)">

@@ -21,6 +21,7 @@ class OrderProductSeeder extends Seeder
                 OrderProduct::create([
                     'order_id' => $order->id,
                     'product_id' => $productId,
+                    'quantity' => rand(1, 5),
                 ]);
 
                 $product = Product::find($productId);
