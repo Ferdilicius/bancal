@@ -1,5 +1,4 @@
 <div class="p-6 space-y-6">
-    @csrf
 
     {{-- Contact Info --}}
     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -28,19 +27,6 @@
     <div>
         <label class="block text-sm font-medium text-gray-700 mb-3">Tipo de consulta *</label>
         <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
-            @php
-                $messageTypes = [
-                    ['value' => 'technical_issue', 'label' => 'Problema técnico', 'icon' => '⚙️'],
-                    ['value' => 'account_help', 'label' => 'Ayuda con mi cuenta', 'icon' => '👤'],
-                    ['value' => 'order_inquiry', 'label' => 'Consulta sobre pedido', 'icon' => '📦'],
-                    ['value' => 'payment_issue', 'label' => 'Problema de pago', 'icon' => '💳'],
-                    ['value' => 'product_question', 'label' => 'Pregunta sobre producto', 'icon' => '🥬'],
-                    ['value' => 'seller_support', 'label' => 'Soporte para vendedores', 'icon' => '🏪'],
-                    ['value' => 'general_inquiry', 'label' => 'Consulta general', 'icon' => '💬'],
-                    ['value' => 'feedback', 'label' => 'Sugerencias y comentarios', 'icon' => '⭐'],
-                    ['value' => 'other', 'label' => 'Otro', 'icon' => '❓'],
-                ];
-            @endphp
             @foreach ($messageTypes as $type)
                 <label class="relative">
                     <input type="radio" wire:model="tipo" value="{{ $type['value'] }}" class="sr-only">
