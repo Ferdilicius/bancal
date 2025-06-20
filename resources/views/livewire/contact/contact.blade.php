@@ -1,9 +1,4 @@
-<<<<<<< HEAD:resources/views/livewire/contact.blade.php
 <div class="w-1/2 mx-auto p-6 space-y-6">
-=======
-<form method="POST" action="{{ route('soporte.enviar') }}" class="p-6 space-y-6">
-    @csrf
->>>>>>> 1981173d980d52139ff4b7700415768a27a72488:resources/views/livewire/contact/contact.blade.php
 
     {{-- Mensaje de bienvenida si está logueado --}}
     @auth
@@ -16,7 +11,6 @@
     @endauth
     {{-- Contact Info --}}
     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-<<<<<<< HEAD:resources/views/livewire/contact.blade.php
         @unless (auth()->check())
             <div>
                 <label class="block text-sm font-medium text-gray-700 mb-2">Email *</label>
@@ -28,34 +22,12 @@
                 @enderror
             </div>
         @endunless
-=======
-        <div>
-            <label class="block text-sm font-medium text-gray-700 mb-2">Nombre completo *</label>
-            <input type="text" name="nombre" value="{{ old('nombre') }}"
-                class="w-full px-3 py-2 border rounded-md @error('nombre') border-red-500 @enderror"
-                placeholder="Tu nombre completo" required>
-            @error('nombre')
-                <p class="text-sm text-red-500 mt-1">{{ $message }}</p>
-            @enderror
-        </div>
-
-        <div>
-            <label class="block text-sm font-medium text-gray-700 mb-2">Email *</label>
-            <input type="email" name="email" value="{{ old('email') }}"
-                class="w-full px-3 py-2 border rounded-md @error('email') border-red-500 @enderror"
-                placeholder="tu@email.com" required>
-            @error('email')
-                <p class="text-sm text-red-500 mt-1">{{ $message }}</p>
-            @enderror
-        </div>
->>>>>>> 1981173d980d52139ff4b7700415768a27a72488:resources/views/livewire/contact/contact.blade.php
     </div>
 
     {{-- Message Type --}}
     <div>
         <label class="block text-sm font-medium text-gray-700 mb-3">Tipo de consulta *</label>
         <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
-<<<<<<< HEAD:resources/views/livewire/contact.blade.php
             @foreach ($messageTypes as $type)
                 <div
                     class="p-4 border rounded-md flex items-center space-x-2 shadow-sm bg-gradient-to-r from-blue-50 via-blue-100 to-blue-200 bg-opacity-80">
@@ -65,33 +37,6 @@
                         <span class="text-sm font-medium text-gray-900">{{ $type['name'] }}</span>
                     </label>
                 </div>
-=======
-            @php
-                $messageTypes = [
-                    ['value' => 'technical_issue', 'label' => 'Problema técnico', 'icon' => '⚙️'],
-                    ['value' => 'account_help', 'label' => 'Ayuda con mi cuenta', 'icon' => '👤'],
-                    ['value' => 'order_inquiry', 'label' => 'Consulta sobre pedido', 'icon' => '📦'],
-                    ['value' => 'payment_issue', 'label' => 'Problema de pago', 'icon' => '💳'],
-                    ['value' => 'product_question', 'label' => 'Pregunta sobre producto', 'icon' => '🥬'],
-                    ['value' => 'seller_support', 'label' => 'Soporte para vendedores', 'icon' => '🏪'],
-                    ['value' => 'general_inquiry', 'label' => 'Consulta general', 'icon' => '💬'],
-                    ['value' => 'feedback', 'label' => 'Sugerencias y comentarios', 'icon' => '⭐'],
-                    ['value' => 'other', 'label' => 'Otro', 'icon' => '❓'],
-                ];
-            @endphp
-            @foreach($messageTypes as $type)
-                <label class="relative">
-                    <input type="radio" name="tipo" value="{{ $type['value'] }}" class="sr-only"
-                        {{ old('tipo') === $type['value'] ? 'checked' : '' }}>
-                    <div class="p-3 border-2 rounded-lg cursor-pointer transition-all
-                        {{ old('tipo') === $type['value'] ? 'border-red-500 bg-red-50' : 'border-gray-200 hover:border-gray-300' }}">
-                        <div class="flex items-center space-x-3">
-                            <span class="text-lg">{{ $type['icon'] }}</span>
-                            <span class="text-sm font-medium text-gray-900">{{ $type['label'] }}</span>
-                        </div>
-                    </div>
-                </label>
->>>>>>> 1981173d980d52139ff4b7700415768a27a72488:resources/views/livewire/contact/contact.blade.php
             @endforeach
         </div>
         @error('message_type_id')
@@ -99,35 +44,10 @@
         @enderror
     </div>
 
-<<<<<<< HEAD:resources/views/livewire/contact.blade.php
-=======
-    {{-- Priority --}}
-    <div>
-        <label class="block text-sm font-medium text-gray-700 mb-3">Nivel de urgencia</label>
-        <div class="flex space-x-4">
-            @php
-                $levels = [
-                    ['value' => 'low', 'label' => 'Baja', 'color' => 'green'],
-                    ['value' => 'medium', 'label' => 'Media', 'color' => 'yellow'],
-                    ['value' => 'high', 'label' => 'Alta', 'color' => 'red'],
-                ];
-            @endphp
-            @foreach($levels as $level)
-                <label class="flex items-center">
-                    <input type="radio" name="prioridad" value="{{ $level['value'] }}"
-                        {{ old('prioridad', 'medium') === $level['value'] ? 'checked' : '' }}>
-                    <span class="ml-2 text-sm text-gray-700">{{ $level['label'] }}</span>
-                    <div class="ml-2 w-2 h-2 rounded-full bg-{{ $level['color'] }}-400"></div>
-                </label>
-            @endforeach
-        </div>
-    </div>
->>>>>>> 1981173d980d52139ff4b7700415768a27a72488:resources/views/livewire/contact/contact.blade.php
 
     {{-- Message --}}
     <div x-data="{ count: @js(strlen($wire->message ?? '')) }" x-init="$watch('$wire.message', val => count = val ? val.length : 0)">
         <label class="block text-sm font-medium text-gray-700 mb-2">Describe tu situación en detalle *</label>
-<<<<<<< HEAD:resources/views/livewire/contact.blade.php
         <textarea wire:model="message" rows="8" required
             class="w-full px-3 py-2 border rounded-md focus:ring-2 focus:ring-red-500 resize-vertical"
             placeholder="Describe tu consulta o problema..." x-on:input="count = $event.target.value.length"></textarea>
@@ -135,14 +55,6 @@
         <div class="mt-2 flex justify-between items-center">
             <p class="text-sm text-gray-500">Mínimo 20 caracteres</p>
             <span class="text-xs text-gray-400" x-text="count + ' caracteres'"></span>
-=======
-        <textarea name="mensaje" rows="8" required
-            class="w-full px-3 py-2 border rounded-md focus:ring-2 focus:ring-red-500 resize-vertical"
-            placeholder="Describe tu consulta o problema...">{{ old('mensaje') }}</textarea>
-        <div class="mt-2 flex justify-between items-center">
-            <p class="text-sm text-gray-500">Mínimo 20 caracteres</p>
-            <p class="text-sm text-gray-500">{{ strlen(old('mensaje')) }} caracteres</p>
->>>>>>> 1981173d980d52139ff4b7700415768a27a72488:resources/views/livewire/contact/contact.blade.php
         </div>
         @error('message')
             <p class="text-sm text-red-500 mt-1">{{ $message }}</p>
@@ -161,7 +73,6 @@
             class="w-full md:w-auto px-6 py-2 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-50 text-center transition">
             Cancelar
         </a>
-<<<<<<< HEAD:resources/views/livewire/contact.blade.php
         <button type="button" wire:click="enviarConsulta"
             class="w-full md:w-auto px-6 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition">
             Enviar consulta
@@ -195,11 +106,3 @@
 
 </div>
 </div>
-=======
-        <button type="submit"
-            class="px-6 py-2 bg-red-500 text-white rounded-md hover:bg-red-600">
-            Enviar consulta
-        </button>
-    </div>
-</form>
->>>>>>> 1981173d980d52139ff4b7700415768a27a72488:resources/views/livewire/contact/contact.blade.php
