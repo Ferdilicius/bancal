@@ -179,10 +179,10 @@
                     </div>
                 </div>
             </a>
-            <div class="mb-6">
+            {{-- <div class="mb-6">
                 <div class="font-semibold text-gray-800 mb-1">Descripción:</div>
                 <div class="text-gray-700">{{ $product->description ?? 'N/A' }}</div>
-            </div>
+            </div> --}}
             <div class="mb-6">
                 <span class="font-semibold text-gray-800">Cantidad disponible:</span>
                 <span class="ml-2">{{ $product->formatted_quantity ?? 'N/A' }}</span>

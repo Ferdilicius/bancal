@@ -2,6 +2,42 @@
 
 <div class="p-6 bg-gray-100">
     @if ($products->count())
+        {{-- Filtros --}}
+        <div class="bg-white rounded-lg shadow-md p-4 mb-6 flex flex-col sm:flex-row gap-4 items-end">
+            <div class="flex-1">
+                <label class="block text-xs font-semibold text-gray-700 mb-1">Categoría</label>
+                <select wire:model="category_id" class="w-full border-gray-300 rounded px-3 py-2">
+                    <option value="">Todas</option>
+                    @foreach ($categories as $cat)
+                        <option value="{{ $cat->id }}">{{ $cat->name }}</option>
+                    @endforeach
+                </select>
+            </div>
+            <div class="flex-1">
+                <label class="block text-xs font-semibold text-gray-700 mb-1">Tipo de cantidad</label>
+                <select wire:model="quantity_type" class="w-full border-gray-300 rounded px-3 py-2">
+                    <option value="">Todos</option>
+                    <option value="kg">Kg</option>
+                    <option value="unidad">Unidad</option>
+                    <option value="l">Litro</option>
+                </select>
+            </div>
+            <div class="flex-1">
+                <label class="block text-xs font-semibold text-gray-700 mb-1">Precio mínimo</label>
+                <input type="number" wire:model="min_price" min="0"
+                    class="w-full border-gray-300 rounded px-3 py-2" placeholder="0">
+            </div>
+            <div class="flex-1">
+                <label class="block text-xs font-semibold text-gray-700 mb-1">Precio máximo</label>
+                <input type="number" wire:model="max_price" min="0"
+                    class="w-full border-gray-300 rounded px-3 py-2" placeholder="999">
+            </div>
+            <button
+                wire:click="$set('category_id', ''); $set('quantity_type', ''); $set('min_price', ''); $set('max_price', '');"
+                class="bg-gray-200 text-gray-700 px-4 py-2 rounded font-semibold hover:bg-gray-300 transition">
+                Limpiar filtros
+            </button>
+        </div>
         <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6">
             @foreach ($products as $product)
                 <a href="{{ route('product.show', $product->id) }}"
@@ -24,12 +60,16 @@
                         <img src="{{ $product->user ? $product->user->profile_photo_url : 'https://ui-avatars.com/api/?name=Vendedor+desconocido&background=cccccc&color=555555&size=64' }}"
                             alt="{{ $product->user->name ?? 'Vendedor desconocido' }}"
                             class="w-7 h-7 sm:w-8 sm:h-8 rounded-full mr-2 border border-gray-300">
-                        <span class="text-gray-700 text-xs sm:text-sm">{{ $product->user->name ?? 'Vendedor desconocido' }}</span>
+                        <span
+                            class="text-gray-700 text-xs sm:text-sm">{{ $product->user->name ?? 'Vendedor desconocido' }}</span>
                     </div>
 
-                    <h2 class="text-base sm:text-lg font-bold text-gray-800 mb-1 sm:mb-2 truncate">{{ $product->name }}</h2>
-                    <p class="text-gray-700 font-semibold mb-1 sm:mb-2 text-sm sm:text-base">Cantidad: {{ $product->formatted_quantity }}</p>
-                    <p class="text-gray-700 font-semibold mb-1 sm:mb-2 text-sm sm:text-base">Precio: {{ $product->price }}€</p>
+                    <h2 class="text-base sm:text-lg font-bold text-gray-800 mb-1 sm:mb-2 truncate">{{ $product->name }}
+                    </h2>
+                    <p class="text-gray-700 font-semibold mb-1 sm:mb-2 text-sm sm:text-base">Cantidad:
+                        {{ $product->formatted_quantity }}</p>
+                    <p class="text-gray-700 font-semibold mb-1 sm:mb-2 text-sm sm:text-base">Precio:
+                        {{ $product->price }}€</p>
                 </a>
             @endforeach
         </div>

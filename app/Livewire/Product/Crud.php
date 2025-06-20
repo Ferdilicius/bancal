@@ -160,8 +160,9 @@ class Crud extends Component
         // Borrar imágenes marcadas
         if (!empty($this->imagesToDelete)) {
             foreach ($this->imagesToDelete as $imagePath) {
-                if (Storage::disk('local')->exists($imagePath)) {
-                    Storage::disk('local')->delete($imagePath);
+                $fullPath = 'model_images/' . $imagePath;
+                if (Storage::disk('local')->exists($fullPath)) {
+                    Storage::disk('local')->delete($fullPath);
                 }
                 $product->images()->where('path', $imagePath)->delete();
             }
@@ -195,8 +196,9 @@ class Crud extends Component
         if ($this->productId) {
             $product = Product::findOrFail($this->productId);
             foreach ($product->images as $img) {
-                if (Storage::disk('local')->exists($img->path)) {
-                    Storage::disk('local')->delete($img->path);
+                $fullPath = 'model_images/' . $img->path;
+                if (Storage::disk('local')->exists($fullPath)) {
+                    Storage::disk('local')->delete($fullPath);
                 }
             }
             $product->images()->delete();

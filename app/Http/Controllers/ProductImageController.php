@@ -20,12 +20,12 @@ class ProductImageController extends Controller
         $filename = $image->path;
         $path = 'model_images/' . $filename;
 
-        if (!\Storage::disk('local')->exists($path)) {
+        if (!Storage::disk('local')->exists($path)) {
             abort(404);
         }
 
-        $file = \Storage::disk('local')->get($path);
-        $type = \Storage::disk('local')->mimeType($path);
+        $file = Storage::disk('local')->get($path);
+        $type = Storage::disk('local')->mimeType($path);
 
         return response($file, 200)->header('Content-Type', $type);
     }

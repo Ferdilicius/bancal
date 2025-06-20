@@ -118,11 +118,15 @@
                     this.drawnLayer = e.layer;
                     drawnItems.addLayer(this.drawnLayer);
                     $wire.set('geometry', JSON.stringify(this.drawnLayer.toGeoJSON()));
+    
+                    // Calcula el centroide y actualiza lat/lng en Livewire
                     if (this.drawnLayer.getBounds) {
-                        this.map.fitBounds(this.drawnLayer.getBounds());
+                        let center = this.drawnLayer.getBounds().getCenter();
+                        $wire.set('latitude', center.lat);
+                        $wire.set('longitude', center.lng);
+    
                         // Actualiza el marcador al centroide de la nueva figura
                         if (this.marker) this.map.removeLayer(this.marker);
-                        let center = this.drawnLayer.getBounds().getCenter();
                         this.marker = L.marker(center, {
                             icon: L.icon({
                                 iconUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png',
@@ -141,11 +145,15 @@
                     e.layers.eachLayer((layer) => {
                         this.drawnLayer = layer;
                         $wire.set('geometry', JSON.stringify(layer.toGeoJSON()));
+    
                         if (layer.getBounds) {
+                            let center = layer.getBounds().getCenter();
+                            $wire.set('latitude', center.lat);
+                            $wire.set('longitude', center.lng);
+    
                             this.map.fitBounds(layer.getBounds());
                             // Actualiza el marcador al centroide de la figura editada
                             if (this.marker) this.map.removeLayer(this.marker);
-                            let center = layer.getBounds().getCenter();
                             this.marker = L.marker(center, {
                                 icon: L.icon({
                                     iconUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png',
@@ -164,6 +172,8 @@
                 this.map.on(L.Draw.Event.DELETED, (e) => {
                     this.drawnLayer = null;
                     $wire.set('geometry', null);
+                    $wire.set('latitude', null);
+                    $wire.set('longitude', null);
                     if (this.marker) {
                         this.map.removeLayer(this.marker);
                         this.marker = null;
@@ -240,7 +250,7 @@
                 <div id="map" class="w-full h-72 rounded border border-gray-300"></div>
             </div>
 
-            {{-- Imágenes --}}
+            {{-- Imágenes
             <div class="mb-8" x-data="{ dragIndex: null }">
                 <label for="images-upload"
                     class="block text-base font-semibold text-gray-800 mb-3 flex items-center gap-2">
@@ -291,6 +301,84 @@
                             </div>
                         @endforeach
                     </div>
+                @endif
+            </div> --}}
+
+            {{-- Imágenes --}}
+            <div>
+                <label for="images-upload" class="flex text-base font-semibold text-gray-800 mb-2 items-center gap-3">
+                    Imágenes de la dirección
+                    <span class="relative group text-indigo-500 cursor-pointer" tabindex="0"
+                        aria-label="Información sobre las imágenes de la dirección">
+                        <i class="fas fa-info-circle" aria-hidden="true"></i>
+                        <div class="absolute left-7 top-1/2 -translate-y-1/2 z-20 hidden group-hover:block group-focus:block bg-white border border-gray-300 rounded shadow px-5 py-3 text-base text-gray-700 w-80"
+                            role="tooltip">
+                            Añade imágenes claras y representativas de la dirección para una mejor identificación.
+                        </div>
+                    </span>
+                </label>
+                <label for="images-upload" class="block w-full cursor-pointer mb-3">
+                    <input id="images-upload" type="file" wire:model="newImages" multiple
+                        accept="image/png, image/jpeg, image/jpg, image/webp, image/gif" class="hidden" />
+                    <span
+                        class="inline-block bg-indigo-50 text-indigo-700 font-semibold text-base px-5 py-3 rounded border border-gray-300 hover:bg-indigo-100 transition">
+                        Seleccionar imágenes
+                    </span>
+                </label>
+                @error('images.*')
+                    <span class="text-sm text-red-500 mt-2 block">{{ $message }}</span>
+                @enderror
+
+                @if ($images && count($images) > 0)
+                    <div class="mt-4 flex flex-wrap gap-4" x-data="{
+                        dragging: null,
+                        dragOver: null,
+                        startDrag(index) { this.dragging = index },
+                        endDrag() {
+                            this.dragging = null;
+                            this.dragOver = null
+                        },
+                        onDrop(index) {
+                            if (this.dragging !== null && this.dragging !== index) {
+                                $wire.moveImage(this.dragging, index);
+                            }
+                            this.endDrag();
+                        }
+                    }">
+                        @foreach ($images as $key => $image)
+                            @php
+                                $imageId = null;
+                                if (is_string($image) && isset($addressModel)) {
+                                    $imgModel = $addressModel->images->where('path', $image)->first();
+                                    $imageId = $imgModel ? $imgModel->id : null;
+                                }
+                            @endphp
+                            <div class="relative group flex items-center justify-center bg-gray-100 border border-indigo-200 rounded shadow"
+                                style="width: 180px; height: 180px;" draggable="true"
+                                @dragstart="startDrag({{ $key }})" @dragend="endDrag()"
+                                @dragover.prevent="dragOver = {{ $key }}" @dragleave="dragOver = null"
+                                @drop.prevent="onDrop({{ $key }})"
+                                :class="{
+                                    'ring-2 ring-indigo-400': dragOver === {{ $key }},
+                                    'opacity-60': dragging === {{ $key }}
+                                }">
+                                @if ($imageId)
+                                    <img src="{{ route('address.image', ['addressId' => $addressModel->id, 'imageId' => $imageId]) }}"
+                                        class="object-cover w-full h-full rounded" style="width: 100%; height: 100%;"
+                                        alt="Imagen de la dirección {{ $key + 1 }}">
+                                @elseif (is_object($image) && method_exists($image, 'temporaryUrl'))
+                                    <img src="{{ $image->temporaryUrl() }}" class="object-cover w-full h-full rounded"
+                                        style="width: 100%; height: 100%;" alt="Imagen nueva {{ $key + 1 }}">
+                                @endif
+                                <button type="button" wire:click="removeImage({{ $key }})"
+                                    class="absolute top-1 right-1 bg-red-600 text-white rounded-full w-6 h-6 flex items-center justify-center text-base font-bold shadow hover:bg-red-700 transition"
+                                    title="Quitar imagen {{ $key + 1 }}">
+                                    <i class="fas fa-times" aria-hidden="true"></i>
+                                </button>
+                            </div>
+                        @endforeach
+                    </div>
+                    <p class="text-xs text-gray-500 mt-2">Arrastra y suelta las imágenes para reordenarlas.</p>
                 @endif
             </div>
 

@@ -104,12 +104,12 @@ Route::middleware(['auth', AdminMiddleware::class])->get('/admin', AdminCrud::cl
 // Socialite
 use App\Http\Controllers\SocialiteController;
 
-
 Route::get('/auth/{provider}/redirect', [SocialiteController::class, 'redirect'])->name('socialite.redirect');
 Route::get('/auth/{provider}/callback', [SocialiteController::class, 'callback'])->name('socialite.callback');
 
 Route::get('/profile-photo/{filename}', function ($filename) {
-    $path = storage_path('app/public/' . $filename);
+    // Cambia 'public' por 'private/profile-photos'
+    $path = storage_path('app/private/profile-photos/' . $filename);
 
     if (!file_exists($path)) {
         abort(404);

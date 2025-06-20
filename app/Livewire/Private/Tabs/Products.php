@@ -22,8 +22,9 @@ class Products extends Component
         $product = Product::findOrFail($productId);
 
         foreach ($product->images as $img) {
-            if (Storage::disk('public')->exists($img->path)) {
-                Storage::disk('public')->delete($img->path);
+            $fullPath = 'model_images/' . $img->path;
+            if (Storage::disk('local')->exists($fullPath)) {
+                Storage::disk('local')->delete($fullPath);
             }
         }
         $product->images()->delete();
@@ -38,8 +39,9 @@ class Products extends Component
 
         foreach ($products as $product) {
             foreach ($product->images as $img) {
-                if (Storage::disk('public')->exists($img->path)) {
-                    Storage::disk('public')->delete($img->path);
+                $fullPath = 'model_images/' . $img->path;
+                if (Storage::disk('local')->exists($fullPath)) {
+                    Storage::disk('local')->delete($fullPath);
                 }
             }
             $product->images()->delete();
@@ -68,15 +70,17 @@ class Products extends Component
         $copy->push();
 
         foreach ($original->images as $image) {
-            $originalPath = $image->path;
-            $filename = pathinfo($originalPath, PATHINFO_FILENAME);
-            $extension = pathinfo($originalPath, PATHINFO_EXTENSION);
-            $newFilename = $filename . '_copy_' . uniqid() . '.' . $extension;
+            $originalPath = 'model_images/' . $image->path;
+            $extension = pathinfo($image->path, PATHINFO_EXTENSION);
+            $newFilename = pathinfo($image->path, PATHINFO_FILENAME) . '_copy_' . uniqid() . '.' . $extension;
             $newPath = 'model_images/' . $newFilename;
 
             if (Storage::disk('local')->exists($originalPath)) {
                 Storage::disk('local')->copy($originalPath, $newPath);
-                $copy->images()->create(['path' => $newPath]);
+                $copy->images()->create([
+                    'path' => $newFilename,
+                    'order' => $image->order ?? 0,
+                ]);
             }
         }
 

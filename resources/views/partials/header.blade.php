@@ -39,6 +39,17 @@
                         <i class="fa-solid fa-cart-shopping text-[#9E203F] text-xl md:text-3xl"></i>
                     </button>
                 </a>
+                <!-- Admin Button-->
+                @auth
+                    @if (Auth::user()->user_type === 'admin')
+                        <a href="{{ route('admin.index') }}">
+                            <button
+                                class="w-10 h-10 md:w-14 md:h-14 bg-white rounded-full flex items-center justify-center hover:shadow-[0_0_10px_rgba(158,32,63,0.75)] transition-all duration-200 hover:bg-[#F8E7EC]">
+                                <i class="fa-solid fa-user-tie text-[#9E203F] text-xl md:text-3xl"></i>
+                            </button>
+                        </a>
+                    @endif
+                @endauth
                 <!-- User Dropdown -->
                 <div x-data="{ dropdownOpen: false }" class="relative">
                     <button @click="dropdownOpen = !dropdownOpen"
@@ -65,7 +76,7 @@
                                 class="block px-6 py-3 text-base text-[#9E203F] hover:text-[#7A162E] hover:bg-[#F8E7EC] transition-colors duration-200">
                                 <i class="fa-solid fa-headset mr-2"></i> Soporte
                             </a>
-                            
+
                             <form method="POST" action="{{ route('logout') }}">
                                 @csrf
                                 <button type="submit"
@@ -89,19 +100,6 @@
                         @endauth
                     </div>
                 </div>
-                
-                <!-- Botón de admin (del archivo 1) -->
-                @auth
-                    @if (Auth::user()->user_type === 'admin')
-                        <a href="{{ route('admin.index') }}">
-                            <button
-                                class="w-10 h-10 md:w-14 md:h-14 bg-white rounded-full flex items-center justify-center hover:shadow-[0_0_10px_rgba(158,32,63,0.75)] transition-all duration-200 hover:bg-[#F8E7EC]">
-                                <i class="fa-solid fa-user-tie text-[#9E203F] text-xl md:text-3xl"></i>
-                            </button>
-                        </a>
-                        
-                    @endif
-                @endauth
             </div>
 
             <!-- Mobile menu -->

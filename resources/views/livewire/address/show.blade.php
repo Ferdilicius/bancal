@@ -180,18 +180,16 @@
                     </div>
                 </div>
             </a>
-            <div class="mb-6">
-                <div class="font-semibold text-gray-800 mb-1">Descripción:</div>
-                <div class="text-gray-700">{{ $address->description ?? 'Sin descripción disponible.' }}</div>
-            </div>
-            <div class="flex gap-4">
-                <a href="https://maps.google.com/?q={{ $address->latitude }},{{ $address->longitude }}"
-                    target="_blank"
-                    class="flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg shadow-md font-semibold transition">
-                    <i class="fas fa-map-marker-alt"></i>
-                    <span>Ver en el mapa</span>
-                </a>
-            </div>
+            @if (!empty($address->latitude) && !empty($address->longitude))
+                <div class="flex gap-4">
+                    <a href="https://maps.google.com/?q={{ $address->latitude }},{{ $address->longitude }}"
+                        target="_blank"
+                        class="flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg shadow-md font-semibold transition">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <span>Ver en el mapa</span>
+                    </a>
+                </div>
+            @endif
         </div>
     </div>
 </div>
