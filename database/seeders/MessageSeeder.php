@@ -20,7 +20,7 @@ class MessageSeeder extends Seeder
                 Message::create([
                     'user_id' => $user->id,
                     'message_type_id' => $messageTypes->random()->id,
-                    'content' => fake()->sentence(),
+                    'message' => fake()->sentence(),
                 ]);
             }
         }
@@ -31,7 +31,7 @@ class MessageSeeder extends Seeder
                 'user_id' => null,
                 'email' => fake()->email(),
                 'message_type_id' => $messageTypes->random()->id,
-                'content' => "Mensaje sin usuario {$i}",
+                'message' => "Mensaje sin usuario {$i}",
             ]);
         }
     }
