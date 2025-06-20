@@ -11,8 +11,9 @@ class Message extends Model
 
     protected $fillable = [
         'user_id',
+        'name',
         'email',
-        'content',
+        'message',
         'message_type_id'];
 
     public function user()
@@ -22,6 +23,6 @@ class Message extends Model
 
     public function messageType()
     {
-        return $this->belongsTo(MessageType::class);
+        return $this->belongsTo(MessageType::class, 'message_type_id');
     }
 }

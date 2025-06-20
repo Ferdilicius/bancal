@@ -14,5 +14,28 @@ class MessageSeeder extends Seeder
     {
         $users = User::all();
         $messageTypes = MessageType::all();
+<<<<<<< HEAD
+
+        foreach ($users as $user) {
+            for ($i = 0; $i < 3; $i++) {
+                Message::create([
+                    'user_id' => $user->id,
+                    'message_type_id' => $messageTypes->random()->id,
+                    'message' => fake()->sentence(),
+                ]);
+            }
+        }
+
+        // Crear 5 mensajes sin usuario
+        for ($i = 0; $i < 5; $i++) {
+            Message::create([
+                'user_id' => null,
+                'email' => fake()->email(),
+                'message_type_id' => $messageTypes->random()->id,
+                'message' => "Mensaje sin usuario {$i}",
+            ]);
+        }
+=======
+>>>>>>> 1981173d980d52139ff4b7700415768a27a72488
     }
 }

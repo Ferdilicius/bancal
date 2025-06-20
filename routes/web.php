@@ -42,7 +42,7 @@ Route::controller(RegisterController::class)->group(function () {
 
 // Public Pages
 Route::get('/', fn() => view('bancal.home'))->name('home');
-Route::get('/contacto', fn() => view('bancal.contacto'))->name('contact');
+Route::get('/contact', fn() => view('contact'))->name('contact');
 
 // Account Management
 Route::middleware('auth')->get('/perfil-privado', PrivateProfile::class)->name('private-profile');
