@@ -1,12 +1,19 @@
+<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
+
 <footer class="bg-[#9E203F] text-white py-8">
     <div class="container mx-auto flex flex-col md:flex-row justify-between items-start gap-8">
         <div class="text-left ml-4 md:ml-0">
-            <h2 class="text-3xl font-bold tracking-wide mb-2">BANCAL</h2>
+            <h2 class="text-3xl font-bold tracking-wide mb-2" onclick="lanzarConfeti()">BANCAL</h2>
             <p class="text-base md:text-lg">Cultivando una gran comunidad.</p>
         </div>
         <div class="text-left ml-4 md:ml-0">
             <h3 class="font-semibold mb-2 text-lg">Contacto</h3>
             <ul class="text-base md:text-lg space-y-1">
+                <li>
+                    <span class="inline-block w-5"><i class="fa-solid fa-question"></i></span>
+                    <a href="{{ route('contact') }}" class="hover:underline">Soporte</a>
+                </li>
                 <li>
                     <span class="inline-block w-5"><i class="fa fa-phone"></i></span>
                     <a href="tel:968713016" class="hover:underline">968 71 30 16</a>
@@ -37,3 +44,22 @@
         </div>
     </div>
 </footer>
+
+<script>
+    function lanzarConfeti() {
+    confetti({
+        particleCount: 100,
+        spread: 60,
+        angle: 60,
+        origin: { x: 0, y: 0.6 }
+    });
+
+    confetti({
+        particleCount: 100,
+        spread: 60,
+        angle: 120,
+        origin: { x: 1, y: 0.6 }
+    });
+}
+
+</script>

@@ -1,5 +1,6 @@
 <div class="flex min-h-screen bg-gray-50">
     <!-- Sidebar -->
+<<<<<<< HEAD
     <aside class="w-64 bg-[#9E203F] text-white flex-shrink-0 hidden md:block shadow-lg flex flex-col">
         <div class="p-6 flex-1 flex flex-col justify-between">
             <div>
@@ -36,6 +37,32 @@
                         class="h-16 w-16 md:h-20 md:w-auto">
                 </a>
             </div>
+=======
+    <aside class="w-64" style="background-color: #9E203F; color: white; flex-shrink: 0;" class="hidden md:block">
+        <div class="p-6">
+            <h2 class="text-2xl font-bold mb-6">Configuracion administrador</h2>
+            <nav>
+                <ul class="space-y-2">
+                    @php
+                        $sections = [
+                            'users' => ['icon' => 'fas fa-users', 'label' => 'Usuarios'],
+                            'products' => ['icon' => 'fas fa-bag-shopping', 'label' => 'Productos'],
+                            'addresses' => ['icon' => 'fas fa-location-dot', 'label' => 'Bancales'],
+                        ];
+                    @endphp
+
+                    @foreach ($sections as $key => $item)
+                        <li>
+                            <a href="{{ route('admin.index', ['section' => $key]) }}"
+                                class="flex items-center w-full text-left px-4 py-2 rounded transition
+                                            {{ $section === $key ? 'bg-[#C23A5C] font-semibold' : 'hover:bg-[#C23A5C]' }}">
+                                <i class="{{ $item['icon'] }} mr-3"></i> {{ $item['label'] }}
+                            </a>
+                        </li>
+                    @endforeach
+                </ul>
+            </nav>
+>>>>>>> 38225e3c83bac81c3a24c3ad4e6d11ae37ce2c31
         </div>
     </aside>
 
