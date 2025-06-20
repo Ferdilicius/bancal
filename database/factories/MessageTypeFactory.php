@@ -4,20 +4,19 @@ namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
 
-/**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\MessageType>
- */
 class MessageTypeFactory extends Factory
 {
-    /**
-     * Define the model's default state.
-     *
-     * @return array<string, mixed>
-     */
+    protected $messageTypesNames = [
+        'Configuración del perfil',
+        'Creación o modificación de producto',
+        'Creación o modificación de una dirección (bancal)',
+        'Proceso de compraventa'];
+    
+    
     public function definition(): array
     {
         return [
-            //
+            'name' => $this->faker->unique()->randomElement($this->messageTypesNames)
         ];
     }
 }
