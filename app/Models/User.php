@@ -84,4 +84,9 @@ class User extends Authenticatable
 
         return $this->defaultProfilePhotoUrl();
     }
+
+    public function paymentMethods()
+    {
+        return $this->hasMany(\App\Models\PaymentMethod::class);
+    }
 }

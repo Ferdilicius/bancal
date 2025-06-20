@@ -1,0 +1,74 @@
+<?php
+
+namespace App\Livewire\Private\Tabs;
+
+use Livewire\Component;
+use Illuminate\Support\Facades\Auth;
+use App\Models\PaymentMethod;
+use Illuminate\Support\Facades\Validator;
+
+class PaymentMethods extends Component
+{
+    public $paymentMethods;
+    public $selectedMethods = [];
+
+    public $types = ['card', 'paypal', 'bizum', 'bank_transfer'];
+
+    public $newMethod = [
+        'type' => '',
+        'details' => '',
+        'provider' => '',
+        'expiration_date' => '',
+        'is_default' => false,
+    ];
+
+    public $showAddForm = false;
+
+    public function addMethod()
+{
+    $this->validate([
+        'newMethod.type' => 'required|string',
+        'newMethod.details' => 'required|string|max:255',
+        'newMethod.provider' => 'required|string|max:255',
+        'newMethod.expiration_date' => 'required|date',
+        'newMethod.is_default' => 'boolean',
+    ]);
+
+    $data = $this->newMethod;
+    $data['user_id'] = Auth::id();
+
+    if (!empty($data['is_default'])) {
+        PaymentMethod::where('user_id', Auth::id())->update(['is_default' => false]);
+    }
+
+    PaymentMethod::create($data);
+
+    $this->reset('newMethod', 'showAddForm');
+    $this->paymentMethods = Auth::user()->paymentMethods()->get();
+
+    session()->flash('message', 'Método de pago añadido correctamente.');
+}
+
+
+
+    public function mount()
+    {
+        $this->paymentMethods = Auth::user()->paymentMethods()->get();
+    }
+
+    public function deleteMethod($methodId)
+    {
+        $method = PaymentMethod::findOrFail($methodId);
+        $method->delete();
+
+        $this->paymentMethods = Auth::user()->paymentMethods()->get();
+    }
+
+    public function render()
+    {
+        return view('livewire.private.tabs.payment-methods', [
+            'paymentMethods' => $this->paymentMethods,
+            'types' => $this->types,
+        ]);
+    }
+}
