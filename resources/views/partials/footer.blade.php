@@ -11,6 +11,10 @@
             <h3 class="font-semibold mb-2 text-lg">Contacto</h3>
             <ul class="text-base md:text-lg space-y-1">
                 <li>
+                    <span class="inline-block w-5"><i class="fa-solid fa-question"></i></span>
+                    <a href="{{ route('contact') }}" class="hover:underline">Soporte</a>
+                </li>
+                <li>
                     <span class="inline-block w-5"><i class="fa fa-phone"></i></span>
                     <a href="tel:968713016" class="hover:underline">968 71 30 16</a>
                 </li>

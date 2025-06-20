@@ -61,6 +61,11 @@
                                 class="block px-6 py-3 text-base text-[#9E203F] hover:text-[#7A162E] hover:bg-[#F8E7EC] transition-colors duration-200">
                                 <i class="fa-solid fa-gear mr-2"></i> Configuración
                             </a>
+                            <a href="{{ route('contact') }}"
+                                class="block px-6 py-3 text-base text-[#9E203F] hover:text-[#7A162E] hover:bg-[#F8E7EC] transition-colors duration-200">
+                                <i class="fa-solid fa-headset mr-2"></i> Soporte
+                            </a>
+                            
                             <form method="POST" action="{{ route('logout') }}">
                                 @csrf
                                 <button type="submit"
@@ -77,6 +82,10 @@
                                 class="block px-6 py-3 text-base text-[#9E203F] hover:text-[#7A162E] hover:bg-[#F8E7EC] transition-colors duration-200">
                                 <i class="fa-solid fa-user-plus mr-2"></i> Register
                             </a>
+                            <a href="{{ route('contact') }}"
+                                class="block px-6 py-3 text-base text-[#9E203F] hover:text-[#7A162E] hover:bg-[#F8E7EC] transition-colors duration-200">
+                                <i class="fa-solid fa-headset mr-2"></i> Soporte
+                            </a>
                         @endauth
                     </div>
                 </div>
@@ -90,6 +99,7 @@
                                 <i class="fa-solid fa-user-tie text-[#9E203F] text-xl md:text-3xl"></i>
                             </button>
                         </a>
+                        
                     @endif
                 @endauth
             </div>
