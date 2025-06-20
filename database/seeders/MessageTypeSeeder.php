@@ -2,8 +2,6 @@
 
 namespace Database\Seeders;
 
-use App\Models\Message;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use App\Models\MessageType;
 

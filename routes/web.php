@@ -1,8 +1,6 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use Illuminate\Support\Facades\Storage;
-use App\Models\User;
 
 use App\Http\Middleware\AdminMiddleware;
 
@@ -37,6 +35,9 @@ use App\Livewire\Sale\Crud as SaleCrud;
 // Admin
 use App\Livewire\Admin\Crud as AdminCrud;
 
+// Contact
+use App\Livewire\Contact\Contact as ContactPage;
+
 // Authentication Routes
 Route::controller(RegisterController::class)->group(function () {
     Route::get('/custom-register', 'show')->name('custom.register');
@@ -45,7 +46,7 @@ Route::controller(RegisterController::class)->group(function () {
 
 // Public Pages
 Route::get('/', fn() => view('bancal.home'))->name('home');
-Route::get('/contacto', fn() => view('bancal.contacto'))->name('contact');
+Route::get('/contacto', ContactPage::class)->name('contact');
 
 // Account Management
 Route::middleware('auth')->get('/perfil-privado', PrivateProfile::class)->name('private-profile');
@@ -102,6 +103,7 @@ Route::middleware(['auth', AdminMiddleware::class])->get('/admin', AdminCrud::cl
 
 // Socialite
 use App\Http\Controllers\SocialiteController;
+
 
 Route::get('/auth/{provider}/redirect', [SocialiteController::class, 'redirect'])->name('socialite.redirect');
 Route::get('/auth/{provider}/callback', [SocialiteController::class, 'callback'])->name('socialite.callback');

@@ -11,7 +11,7 @@ class MessageFactory extends Factory
     public function definition(): array
     {
         return [
-            'user_id' => User::factory(),
+            'user_id' => User::inRandomOrder()->first()->id,
             'email' => $this->faker->unique()->safeEmail(),
             'content' => $this->faker->paragraph(),
             'message_type_id' => MessageType::factory()
