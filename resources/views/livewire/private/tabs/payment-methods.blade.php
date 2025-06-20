@@ -34,10 +34,19 @@
             </div>
 
             <div>
-                <label class="block text-sm font-medium text-gray-700">Detalles</label>
-                <input type="text" wire:model="newMethod.details" class="mt-1 block w-full border-gray-300 rounded"
-                    placeholder="Ej: **** **** **** 1234 o IBAN" />
-                @error('newMethod.details')
+                <label class="block text-sm font-medium text-gray-700">Nombre de cuenta</label>
+                <input type="text" wire:model="newMethod.account_name" class="mt-1 block w-full border-gray-300 rounded"
+                    placeholder="Ej: Juan Pérez" />
+                @error('newMethod.account_name')
+                    <span class="text-red-500 text-xs">{{ $message }}</span>
+                @enderror
+            </div>
+
+            <div>
+                <label class="block text-sm font-medium text-gray-700">Número de cuenta</label>
+                <input type="text" wire:model="newMethod.account_number" class="mt-1 block w-full border-gray-300 rounded"
+                    placeholder="Ej: 1234567890 o IBAN" />
+                @error('newMethod.account_number')
                     <span class="text-red-500 text-xs">{{ $message }}</span>
                 @enderror
             </div>

@@ -16,7 +16,6 @@ class PaymentMethods extends Component
 
     public $newMethod = [
         'type' => '',
-        'details' => '',
         'provider' => '',
         'expiration_date' => '',
         'is_default' => false,
@@ -29,7 +28,6 @@ class PaymentMethods extends Component
     {
         $this->validate([
             'newMethod.type' => 'required|string',
-            'newMethod.details' => 'required|string|max:255',
             'newMethod.provider' => 'required|string|max:255',
             'newMethod.expiration_date' => 'required|date',
             'newMethod.is_default' => 'boolean',
