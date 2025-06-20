@@ -20,34 +20,37 @@ class PaymentMethods extends Component
         'provider' => '',
         'expiration_date' => '',
         'is_default' => false,
+        'account_name' => '',
+        'account_number' => '',
     ];
-
     public $showAddForm = false;
 
     public function addMethod()
-{
-    $this->validate([
-        'newMethod.type' => 'required|string',
-        'newMethod.details' => 'required|string|max:255',
-        'newMethod.provider' => 'required|string|max:255',
-        'newMethod.expiration_date' => 'required|date',
-        'newMethod.is_default' => 'boolean',
-    ]);
+    {
+        $this->validate([
+            'newMethod.type' => 'required|string',
+            'newMethod.details' => 'required|string|max:255',
+            'newMethod.provider' => 'required|string|max:255',
+            'newMethod.expiration_date' => 'required|date',
+            'newMethod.is_default' => 'boolean',
+            'newMethod.account_name' => 'required|string|max:255',
+            'newMethod.account_number' => 'required|string|max:50',
+        ]);
 
-    $data = $this->newMethod;
-    $data['user_id'] = Auth::id();
+        $data = $this->newMethod;
+        $data['user_id'] = Auth::id();
 
-    if (!empty($data['is_default'])) {
-        PaymentMethod::where('user_id', Auth::id())->update(['is_default' => false]);
+        if (!empty($data['is_default'])) {
+            PaymentMethod::where('user_id', Auth::id())->update(['is_default' => false]);
+        }
+
+        PaymentMethod::create($data);
+
+        $this->reset('newMethod', 'showAddForm');
+        $this->paymentMethods = Auth::user()->paymentMethods()->get();
+
+        session()->flash('message', 'Método de pago añadido correctamente.');
     }
-
-    PaymentMethod::create($data);
-
-    $this->reset('newMethod', 'showAddForm');
-    $this->paymentMethods = Auth::user()->paymentMethods()->get();
-
-    session()->flash('message', 'Método de pago añadido correctamente.');
-}
 
 
 
