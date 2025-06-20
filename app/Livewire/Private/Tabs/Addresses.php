@@ -22,9 +22,8 @@ class Addresses extends Component
         $address = Address::findOrFail($addressId);
 
         foreach ($address->images as $img) {
-            $fullPath = 'model_images/' . $img->path;
-            if (Storage::disk('local')->exists($fullPath)) {
-                Storage::disk('local')->delete($fullPath);
+            if (Storage::disk('public')->exists($img->path)) {
+                Storage::disk('public')->delete($img->path);
             }
         }
         $address->images()->delete();
@@ -39,9 +38,8 @@ class Addresses extends Component
 
         foreach ($addresses as $address) {
             foreach ($address->images as $img) {
-                $fullPath = 'model_images/' . $img->path;
-                if (Storage::disk('local')->exists($fullPath)) {
-                    Storage::disk('local')->delete($fullPath);
+                if (Storage::disk('public')->exists($img->path)) {
+                    Storage::disk('public')->delete($img->path);
                 }
             }
             $address->images()->delete();
@@ -69,14 +67,15 @@ class Addresses extends Component
         $copy->push();
 
         foreach ($original->images as $image) {
-            $originalPath = 'model_images/' . $image->path;
-            $extension = pathinfo($image->path, PATHINFO_EXTENSION);
-            $newFilename = pathinfo($image->path, PATHINFO_FILENAME) . '_copy_' . uniqid() . '.' . $extension;
+            $originalPath = $image->path;
+            $filename = pathinfo($originalPath, PATHINFO_FILENAME);
+            $extension = pathinfo($originalPath, PATHINFO_EXTENSION);
+            $newFilename = $filename . '_copy_' . uniqid() . '.' . $extension;
             $newPath = 'model_images/' . $newFilename;
 
             if (Storage::disk('local')->exists($originalPath)) {
                 Storage::disk('local')->copy($originalPath, $newPath);
-                $copy->images()->create(['path' => $newFilename]);
+                $copy->images()->create(['path' => $newPath]);
             }
         }
 

@@ -2,7 +2,6 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Contracts\Support\MessageBag;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Storage;
 
@@ -31,7 +30,7 @@ class DatabaseSeeder extends Seeder
         $this->call(PaymentSeeder::class);
         $this->call(OrderSeeder::class);
         $this->call(OrderProductSeeder::class);
-        $this->call(MessageTypeSeeder::class);
-        $this->call(MessageSeeder::class);
+        $this->call(PaymentMethodSeeder::class);
+
     }
 }

@@ -12,6 +12,7 @@ class MessageTypeFactory extends Factory
         'Creación o modificación de una dirección (bancal)',
         'Proceso de compraventa'];
     
+    
     public function definition(): array
     {
         return [

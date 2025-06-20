@@ -19,7 +19,8 @@
                             { key: 'productos', label: 'Productos' },
                             { key: 'terrenos', label: 'Bancales' },
                             { key: 'ventas', label: 'Ventas' },
-                            { key: 'compras', label: 'Compras' }
+                            { key: 'compras', label: 'Compras' },
+                            { key: 'metodos', label: 'Métodos de pago' }
                         ]"
                     :key="tabItem.key">
                     <button
@@ -44,7 +45,9 @@
             <div x-show="tab === 'ventas'" x-cloak>
                 <livewire:private.tabs.sales />
             </div>
-
+            <div x-show="tab === 'metodos'" x-cloak>
+                <livewire:private.tabs.payment-methods />
+            </div>
         </div>
     </div>
 </div>

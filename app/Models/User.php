@@ -63,11 +63,11 @@ class User extends Authenticatable
         $filename = Str::uuid() . '.' . $photo->getClientOriginalExtension();
 
         // Guarda la imagen en la carpeta privada
-        $photo->storeAs('profile-photos', $filename, 'local');
+        $photo->storeAs('private/profile-photos', $filename, 'local');
 
         // Elimina la anterior si existe
-        if ($this->profile_photo_path && Storage::exists('profile-photos/' . $this->profile_photo_path)) {
-            Storage::delete('profile-photos/' . $this->profile_photo_path);
+        if ($this->profile_photo_path && Storage::exists('private/profile-photos/' . $this->profile_photo_path)) {
+            Storage::delete('private/profile-photos/' . $this->profile_photo_path);
         }
 
         // Guarda solo el nombre del archivo
@@ -83,5 +83,10 @@ class User extends Authenticatable
         }
 
         return $this->defaultProfilePhotoUrl();
+    }
+
+    public function paymentMethods()
+    {
+        return $this->hasMany(\App\Models\PaymentMethod::class);
     }
 }

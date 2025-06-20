@@ -12,8 +12,7 @@ class AddressImageController extends Controller
         $address = Address::findOrFail($addressId);
         $image = $address->images()->where('id', $imageId)->firstOrFail();
 
-        // Cambia la ruta para apuntar a la carpeta privada
-        $path = 'model_images/' . $image->path;
+        $path = $image->path;
 
         if (!Storage::exists($path)) {
             abort(404);

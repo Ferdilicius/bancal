@@ -81,6 +81,7 @@ class Crud extends Component
             'allow_fractional' => 'required|boolean',
             'max_per_person' => 'nullable|numeric|min:0',
             'min_per_person' => 'nullable|numeric|min:0',
+            // 4. Valida el address_id
             'address_id' => 'required|exists:addresses,id',
         ];
     }
@@ -108,6 +109,7 @@ class Crud extends Component
         if (isset($this->images[$index])) {
             $image = $this->images[$index];
 
+            // Si es una imagen guardada, márcala para borrar después
             if (is_string($image) && $this->productId) {
                 $this->imagesToDelete[] = $image;
             }
@@ -160,23 +162,21 @@ class Crud extends Component
         // Borrar imágenes marcadas
         if (!empty($this->imagesToDelete)) {
             foreach ($this->imagesToDelete as $imagePath) {
-                $fullPath = 'model_images/' . $imagePath;
-                if (Storage::disk('local')->exists($fullPath)) {
-                    Storage::disk('local')->delete($fullPath);
+                if (Storage::disk('local')->exists($imagePath)) {
+                    Storage::disk('local')->delete($imagePath);
                 }
                 $product->images()->where('path', $imagePath)->delete();
             }
             $this->imagesToDelete = [];
         }
 
+        // Guardar imágenes nuevas y actualizar orden
         $order = 0;
         foreach ($this->images as $image) {
             if (is_object($image)) {
-
                 $path = $image->store('model_images', 'local');
-                $filename = basename($path);
                 $product->images()->create([
-                    'path' => $filename, // Solo el nombre
+                    'path' => $path,
                     'order' => $order++,
                 ]);
             } elseif (is_string($image)) {
@@ -196,9 +196,8 @@ class Crud extends Component
         if ($this->productId) {
             $product = Product::findOrFail($this->productId);
             foreach ($product->images as $img) {
-                $fullPath = 'model_images/' . $img->path;
-                if (Storage::disk('local')->exists($fullPath)) {
-                    Storage::disk('local')->delete($fullPath);
+                if (Storage::disk('local')->exists($img->path)) {
+                    Storage::disk('local')->delete($img->path);
                 }
             }
             $product->images()->delete();

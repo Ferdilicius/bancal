@@ -1,6 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Storage;
+use App\Models\User;
 
 use App\Http\Middleware\AdminMiddleware;
 
@@ -32,12 +34,6 @@ use App\Livewire\Purchase\Crud as PurchaseCrud;
 // Sale
 use App\Livewire\Sale\Crud as SaleCrud;
 
-// Admin
-use App\Livewire\Admin\Crud as AdminCrud;
-
-// Contact
-use App\Livewire\Contact\Contact as ContactPage;
-
 // Authentication Routes
 Route::controller(RegisterController::class)->group(function () {
     Route::get('/custom-register', 'show')->name('custom.register');
@@ -46,7 +42,7 @@ Route::controller(RegisterController::class)->group(function () {
 
 // Public Pages
 Route::get('/', fn() => view('bancal.home'))->name('home');
-Route::get('/contacto', ContactPage::class)->name('contact');
+Route::get('/contacto', fn() => view('bancal.contacto'))->name('contact');
 
 // Account Management
 Route::middleware('auth')->get('/perfil-privado', PrivateProfile::class)->name('private-profile');
@@ -99,7 +95,7 @@ Route::get('/perfil-publico/{user}', PublicProfile::class)->name('public.profile
 Route::get('/carrito-de-la-compra', ShoppingCart::class)->name('shopping-cart.index');
 
 // Admin Routes
-Route::middleware(['auth', AdminMiddleware::class])->get('/admin', AdminCrud::class)->name('admin.index');
+Route::middleware(['auth', AdminMiddleware::class])->get('/admin', \App\Livewire\Admin\Crud::class)->name('admin.index');
 
 // Socialite
 use App\Http\Controllers\SocialiteController;
@@ -107,8 +103,8 @@ use App\Http\Controllers\SocialiteController;
 Route::get('/auth/{provider}/redirect', [SocialiteController::class, 'redirect'])->name('socialite.redirect');
 Route::get('/auth/{provider}/callback', [SocialiteController::class, 'callback'])->name('socialite.callback');
 
+// Extra route for profile photo
 Route::get('/profile-photo/{filename}', function ($filename) {
-    // Cambia 'public' por 'private/profile-photos'
     $path = storage_path('app/private/profile-photos/' . $filename);
 
     if (!file_exists($path)) {
