@@ -34,6 +34,9 @@ use App\Livewire\Purchase\Crud as PurchaseCrud;
 // Sale
 use App\Livewire\Sale\Crud as SaleCrud;
 
+// Admin
+use App\Livewire\Admin\Crud as AdminCrud;
+
 // Authentication Routes
 Route::controller(RegisterController::class)->group(function () {
     Route::get('/custom-register', 'show')->name('custom.register');
@@ -95,7 +98,7 @@ Route::get('/perfil-publico/{user}', PublicProfile::class)->name('public.profile
 Route::get('/carrito-de-la-compra', ShoppingCart::class)->name('shopping-cart.index');
 
 // Admin Routes
-Route::middleware(['auth', AdminMiddleware::class])->get('/admin', \App\Livewire\Admin\Crud::class)->name('admin.index');
+Route::middleware(['auth', AdminMiddleware::class])->get('/admin', AdminCrud::class)->name('admin.index');
 
 // Socialite
 use App\Http\Controllers\SocialiteController;
@@ -103,9 +106,8 @@ use App\Http\Controllers\SocialiteController;
 Route::get('/auth/{provider}/redirect', [SocialiteController::class, 'redirect'])->name('socialite.redirect');
 Route::get('/auth/{provider}/callback', [SocialiteController::class, 'callback'])->name('socialite.callback');
 
-// Extra route for profile photo
 Route::get('/profile-photo/{filename}', function ($filename) {
-    $path = storage_path('app/private/profile-photos/' . $filename);
+    $path = storage_path('app/public/' . $filename);
 
     if (!file_exists($path)) {
         abort(404);

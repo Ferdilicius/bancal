@@ -81,7 +81,6 @@ class Crud extends Component
             'allow_fractional' => 'required|boolean',
             'max_per_person' => 'nullable|numeric|min:0',
             'min_per_person' => 'nullable|numeric|min:0',
-            // 4. Valida el address_id
             'address_id' => 'required|exists:addresses,id',
         ];
     }
@@ -109,7 +108,6 @@ class Crud extends Component
         if (isset($this->images[$index])) {
             $image = $this->images[$index];
 
-            // Si es una imagen guardada, márcala para borrar después
             if (is_string($image) && $this->productId) {
                 $this->imagesToDelete[] = $image;
             }
@@ -170,13 +168,14 @@ class Crud extends Component
             $this->imagesToDelete = [];
         }
 
-        // Guardar imágenes nuevas y actualizar orden
         $order = 0;
         foreach ($this->images as $image) {
             if (is_object($image)) {
+
                 $path = $image->store('model_images', 'local');
+                $filename = basename($path);
                 $product->images()->create([
-                    'path' => $path,
+                    'path' => $filename, // Solo el nombre
                     'order' => $order++,
                 ]);
             } elseif (is_string($image)) {

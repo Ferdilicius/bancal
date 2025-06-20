@@ -26,7 +26,7 @@ class ModelImageFactory extends Factory
 
         // Devuelve la ruta relativa para guardar en la base de datos
         return [
-            'path' => 'model_images/' . $filename,
+            'path' => $filename,
         ];
     }
 }

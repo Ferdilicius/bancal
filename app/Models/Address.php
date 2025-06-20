@@ -12,11 +12,10 @@ class Address extends Model
     protected $fillable = [
         'address',
         'name',
-        'image',          // Del primer modelo
         'status',
         'latitude',
         'longitude',
-        'geometry',      // Del segundo modelo
+        'geometry',
         'user_id',
         'address_type_id',
     ];

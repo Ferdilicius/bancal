@@ -12,19 +12,20 @@ class ProductImageController extends Controller
         $product = Product::findOrFail($productId);
         $image = $product->images()->where('id', $imageId)->firstOrFail();
 
-        $path = $image->path;
-
-        if (!Storage::exists($path)) {
-            abort(404);
-        }
-
         // Permitir si el producto está activo o si el usuario es el dueño
         if ($product->status !== 'activo' && auth()->id() !== $product->user_id) {
             abort(403);
         }
 
-        $file = Storage::get($path);
-        $type = Storage::mimeType($path);
+        $filename = $image->path;
+        $path = 'model_images/' . $filename;
+
+        if (!\Storage::disk('local')->exists($path)) {
+            abort(404);
+        }
+
+        $file = \Storage::disk('local')->get($path);
+        $type = \Storage::disk('local')->mimeType($path);
 
         return response($file, 200)->header('Content-Type', $type);
     }

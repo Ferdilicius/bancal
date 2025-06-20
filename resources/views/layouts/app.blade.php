@@ -29,13 +29,17 @@
 
     <main class="min-h-screen">
 
-        @include('partials.header')
+        @unless (request()->is('admin*'))
+            @include('partials.header')
+        @endunless
 
         {{ $slot }}
 
     </main>
 
-    @include('partials.footer')
+    @unless (request()->is('admin*'))
+        @include('partials.footer')
+    @endunless
 
     @include('partials.accessibility')
 

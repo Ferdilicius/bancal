@@ -3,51 +3,102 @@
 namespace App\Livewire\Admin;
 
 use Livewire\Component;
+use Illuminate\Database\Eloquent\Model;
 use App\Models\User;
 use App\Models\Product;
 use App\Models\Address;
-use Illuminate\Support\Facades\Auth;
+use App\Models\AddressType;
+use App\Models\Payment;
+
+use App\Models\ProductCategory;
+use App\Models\Order;
 
 
 class Crud extends Component
 {
-
+    public string $modelClass;
     public string $section;
     public $data;
     public $form = [];
     public $editingId = null;
     public $isEditing = false;
+    public array $fillable = [];
+    public array $validationRules = [];
 
-    protected $rules = [];
-
-    public function updatedSection()
-    {
-        $this->resetForm();
-        $this->loadData();
-    }
+    public $confirmingDeleteId = null;
 
     public function mount()
     {
         $this->section = request()->get('section', 'users');
+
+        $this->modelClass = $this->getModelClassBySection($this->section);
+
+        $this->fillable = $this->getFillableFromModel();
+
+        $this->validationRules = $this->generateValidationRules();
+
         $this->loadData();
     }
 
+    protected function getModelClassBySection(string $section): ?string
+    {
+        $map = [
+            'users' => User::class,
+            'products' => Product::class,
+            'product_categories' => ProductCategory::class,
+            'addresses' => Address::class,
+            'address_types' => AddressType::class,
+            'orders' => Order::class, // Assuming you have an Order model
+            'payments' => Payment::class,
+            'payments_types' => Payment::class, // Assuming you have a Payment model with types
+        ];
+
+        return $map[$section] ?? null;
+    }
+
+    protected function getFillableFromModel(): array
+    {
+        if (!$this->modelClass) return [];
+
+        /** @var Model $model */
+        $model = new $this->modelClass;
+
+        return $model->getFillable();
+    }
+
+    protected function generateValidationRules(): array
+    {
+        $rules = [];
+        foreach ($this->fillable as $field) {
+
+            $rules["form.$field"] = $this->editingId ? 'nullable|string' : 'required|string';
+        }
+
+        if (in_array('email', $this->fillable)) {
+            $rules['form.email'] = $this->editingId ? 'nullable|email' : 'required|email|unique:' . $this->getTableName() . ',email' . ($this->editingId ? ',' . $this->editingId : '');
+        }
+
+        if (in_array('password', $this->fillable)) {
+            $rules['form.password'] = $this->editingId ? 'nullable|string|min:6' : 'required|string|min:6';
+        }
+
+        return $rules;
+    }
+
+    protected function getTableName(): string
+    {
+        /** @var Model $model */
+        $model = new $this->modelClass;
+        return $model->getTable();
+    }
 
     public function loadData()
     {
-        switch ($this->section) {
-            case 'users':
-                $this->data = User::all();
-                break;
-            case 'products':
-                $this->data = Product::all();
-                break;
-            case 'addresses':
-                $this->data = Address::all();
-                break;
-            default:
-                $this->data = [];
+        if (!$this->modelClass) {
+            $this->data = collect();
+            return;
         }
+        $this->data = ($this->modelClass)::all();
     }
 
     public function create()
@@ -61,87 +112,62 @@ class Crud extends Component
         $this->editingId = $id;
         $this->isEditing = true;
 
-        switch ($this->section) {
-            case 'users':
-                $user = User::findOrFail($id);
-                $this->form = $user->toArray();
-                break;
-            case 'products':
-                $product = Product::findOrFail($id);
-                $this->form = $product->toArray();
-                break;
-            case 'addresses':
-                $address = Address::findOrFail($id);
-                $this->form = $address->toArray();
-                break;
+        $record = ($this->modelClass)::findOrFail($id);
+
+        $this->form = $record->only($this->fillable);
+
+        if (isset($this->form['password'])) {
+            $this->form['password'] = null;
         }
+    }
+
+    public function confirmDelete($id)
+    {
+        $this->confirmingDeleteId = $id;
+    }
+
+    public function delete()
+    {
+        if ($this->confirmingDeleteId) {
+            $record = ($this->modelClass)::findOrFail($this->confirmingDeleteId);
+            $record->delete();
+            $this->confirmingDeleteId = null;
+            $this->loadData();
+        }
+    }
+
+    public function cancelDelete()
+    {
+        $this->confirmingDeleteId = null;
     }
 
     public function save()
     {
-        switch ($this->section) {
-            case 'users':
-                $data = $this->validate([
-                    'form.name' => 'required|string',
-                    'form.email' => 'required|email',
-                    'form.password' => $this->editingId ? 'nullable|string|min:6' : 'required|string|min:6',
-                    'form.user_type' => 'required|in:admin,particular,empresa',
-                ])['form'];
+        $validated = $this->validate($this->validationRules)['form'];
 
-                // Asegurarse de que user_type solo sea uno de los permitidos
-                $allowedTypes = ['admin', 'particular', 'empresa'];
-                if (!in_array($data['user_type'], $allowedTypes)) {
-                    throw new \Exception('Tipo de usuario no válido.');
-                }
+        /** @var Model $model */
+        $model = new $this->modelClass;
 
-                if ($this->editingId) {
-                    $user = User::findOrFail($this->editingId);
-                    $user->user_type = $data['user_type'];
-                    $user->name = $data['name'];
-                    $user->email = $data['email'];
-                    if (!empty($data['password'])) {
-                        $user->password = bcrypt($data['password']);
-                    }
-                    $user->save();
+        if ($this->editingId) {
+            $record = $model->findOrFail($this->editingId);
+
+            // Si existe password, actualizar con bcrypt, sino eliminar del array para no modificar
+            if (array_key_exists('password', $validated)) {
+                if (!empty($validated['password'])) {
+                    $validated['password'] = bcrypt($validated['password']);
                 } else {
-                    $data['password'] = bcrypt($data['password']);
-                    User::create($data);
+                    unset($validated['password']);
                 }
-                break;
+            }
 
-            case 'products':
-                $data = $this->validate([
-                    'form.name' => 'required|string',
-                    'form.price' => 'required|numeric',
-                    'form.description' => 'required|string',
-                    'form.quantity' => 'required|integer',
-                    'form.status' => 'required|string',
-                    'form.category_id' => 'required|integer',
-                    'form.quantity_type' => 'required|string',
-                    'form.user_id' => 'required|string|exists:users,id',
-                ])['form'];
+            $record->fill($validated);
+            $record->save();
+        } else {
+            if (array_key_exists('password', $validated)) {
+                $validated['password'] = bcrypt($validated['password']);
+            }
 
-
-                if ($this->editingId) {
-                    Product::findOrFail($this->editingId)->update($data);
-                } else {
-                    Product::create($data);
-                }
-                break;
-
-            case 'addresses':
-                $data = $this->validate([
-                    'form.name' => 'required|string',
-                    'form.address' => 'required|string',
-                    'form.user_id' => 'required|string|exists:users,id',
-                    'form.address_type_id' => 'required|integer|exists:address_types,id',
-                    'form.status' => 'required|in:activo,inactivo',
-                ])['form'];
-
-                $this->editingId
-                    ? Address::findOrFail($this->editingId)->update($data)
-                    : Address::create($data);
-                break;
+            $model->create($validated);
         }
 
         $this->resetForm();
@@ -155,28 +181,13 @@ class Crud extends Component
         $this->isEditing = false;
     }
 
-    public function delete($id)
-    {
-        switch ($this->section) {
-            case 'users':
-                User::findOrFail($id)->delete();
-                break;
-            case 'products':
-                Product::findOrFail($id)->delete();
-                break;
-            case 'addresses':
-                Address::findOrFail($id)->delete();
-                break;
-        }
-        $this->loadData();
-    }
-
-
     public function render()
     {
         return view('livewire.admin.crud', [
             'data' => $this->data,
+            'fillable' => $this->fillable,
             'section' => $this->section,
+            'confirmingDeleteId' => $this->confirmingDeleteId,
         ])->layout('layouts.app');
     }
 }

@@ -6,7 +6,7 @@
     selectAll() {
         this.selectedProducts = this.allProductIds.slice();
     }
-}" x-show="tab === 'productos'">
+}" x-show="tab === 'productos'" class="">
 
     <!-- Cabecera: botón agregar y eliminar múltiple -->
     <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 sm:gap-6 mb-4">
@@ -111,7 +111,7 @@
                             <span class="sm:inline">Editar</span>
                         </a>
                         <div class="flex flex-col sm:flex-row gap-2 w-full">
-                                                        <!-- Borrar -->
+                            <!-- Borrar -->
                             <div x-data="{ open: false }" class="flex-1 w-full">
                                 <button type="button"
                                     class="w-full bg-red-600 hover:bg-red-700 text-white py-2 px-2 rounded-lg transition-colors duration-200 flex flex-row justify-center items-center text-xs sm:text-sm font-medium shadow-md focus:outline-none focus:ring-2 focus:ring-red-400"
