@@ -20,7 +20,7 @@
                     @endforeach
                 </select>
                 @error('newMethod.type')
-                    <span class="text-red-500 text-xs">{{ $message }}</span>
+                    <span class="text-red-500 text-xs">Elige uno de los tipos</span>
                 @enderror
             </div>
 
@@ -29,7 +29,7 @@
                 <input type="text" wire:model="newMethod.provider" class="mt-1 block w-full border-gray-300 rounded"
                     placeholder="Ej: Visa, BBVA, etc." />
                 @error('newMethod.provider')
-                    <span class="text-red-500 text-xs">{{ $message }}</span>
+                    <span class="text-red-500 text-xs">Proveedor no encontrado</span>
                 @enderror
             </div>
 
@@ -38,7 +38,7 @@
                 <input type="text" wire:model="newMethod.account_name" class="mt-1 block w-full border-gray-300 rounded"
                     placeholder="Ej: Juan Pérez" />
                 @error('newMethod.account_name')
-                    <span class="text-red-500 text-xs">{{ $message }}</span>
+                    <span class="text-red-500 text-xs">Nombre no encontrado</span>
                 @enderror
             </div>
 
@@ -47,7 +47,7 @@
                 <input type="text" wire:model="newMethod.account_number" class="mt-1 block w-full border-gray-300 rounded"
                     placeholder="Ej: 1234567890 o IBAN" />
                 @error('newMethod.account_number')
-                    <span class="text-red-500 text-xs">{{ $message }}</span>
+                    <span class="text-red-500 text-xs">Número de cuenta, teléfono o email no encontrado</span>
                 @enderror
             </div>
 
@@ -56,7 +56,7 @@
                 <input type="date" wire:model="newMethod.expiration_date"
                     class="mt-1 block w-full border-gray-300 rounded" />
                 @error('newMethod.expiration_date')
-                    <span class="text-red-500 text-xs">{{ $message }}</span>
+                    <span class="text-red-500 text-xs">Por favor, introduce una fecha válida.</span>
                 @enderror
             </div>
 
@@ -82,8 +82,18 @@
                     <p class="text-sm text-gray-500">{{ $method->details }}</p>
                 </div>
                 <div class="flex gap-2">
-                    <button wire:click="deleteMethod({{ $method->id }})"
-                        class="text-red-600 hover:underline">Eliminar</button>
+                    @if ($confirmingDelete === $method->id)
+                        <div class="flex gap-2 items-center">
+                            <span class="text-gray-700 text-sm">¿Seguro?</span>
+                            <button wire:click="confirmDelete({{ $method->id }})"
+                                class="px-2 py-1 bg-red-600 text-white rounded hover:bg-red-700 text-xs">Borrar</button>
+                            <button wire:click="$set('confirmingDelete', null)"
+                                class="px-2 py-1 bg-gray-300 rounded hover:bg-gray-400 text-xs">Cancelar</button>
+                        </div>
+                    @else
+                        <button wire:click="$set('confirmingDelete', {{ $method->id }})"
+                            class="text-red-600 hover:underline">Eliminar</button>
+                    @endif
                 </div>
             </div>
         @endforeach

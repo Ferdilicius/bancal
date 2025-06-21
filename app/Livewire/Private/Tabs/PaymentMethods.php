@@ -12,7 +12,12 @@ class PaymentMethods extends Component
     public $paymentMethods;
     public $selectedMethods = [];
 
-    public $types = ['card', 'paypal', 'bizum', 'bank_transfer'];
+    public $types = [
+        'card' => 'Tarjeta',
+        'paypal' => 'PayPal',
+        'bizum' => 'Bizum',
+        'bank_transfer' => 'Transferencia Bancaria',
+    ];
 
     public $newMethod = [
         'type' => '',
@@ -23,6 +28,19 @@ class PaymentMethods extends Component
         'account_number' => '',
     ];
     public $showAddForm = false;
+
+    public $confirmingDelete = null;
+
+    public function confirmDelete($id)
+{
+    $method = $this->paymentMethods->find($id) ?? \App\Models\PaymentMethod::find($id);
+    if ($method) {
+        $method->delete();
+        $this->paymentMethods = $this->paymentMethods->where('id', '!=', $id);
+        session()->flash('message', 'Método de pago eliminado correctamente.');
+    }
+    $this->confirmingDelete = null;
+}
 
     public function addMethod()
     {
@@ -70,6 +88,7 @@ class PaymentMethods extends Component
         return view('livewire.private.tabs.payment-methods', [
             'paymentMethods' => $this->paymentMethods,
             'types' => $this->types,
+            'confirmingDelete' => $this->confirmingDelete ?? null,
         ]);
     }
 }
