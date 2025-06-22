@@ -1,41 +1,46 @@
 <div class="flex min-h-screen bg-gray-50">
     <!-- Sidebar -->
     <aside class="w-64 bg-[#9E203F] text-white flex-shrink-0 hidden md:block shadow-lg flex flex-col">
-        <div class="p-6 flex-1 flex flex-col justify-between">
-            <div>
-                <h2 class="text-2xl font-bold mb-8">Configuración Administración</h2>
-                <nav>
-                    <ul class="space-y-2">
-                        @php
-                            $sections = [
-                                'users' => ['icon' => 'fas fa-users', 'label' => 'Usuarios'],
-                                'products' => ['icon' => 'fas fa-cogs', 'label' => 'Productos'],
-                                'product_categories' => ['icon' => 'fas fa-list', 'label' => 'Categorías de Producto'],
-                                'addresses' => ['icon' => 'fas fa-map-marker-alt', 'label' => 'Direcciones'],
-                                'address_types' => ['icon' => 'fas fa-tags', 'label' => 'Tipos de Dirección'],
-                                'payments' => ['icon' => 'fas fa-credit-card', 'label' => 'Pagos'],
-                                'payment_types' => ['icon' => 'fas fa-money-check-alt', 'label' => 'Tipos de Pago'],
-                                'orders' => ['icon' => 'fas fa-shopping-cart', 'label' => 'Órdenes'],
-                            ];
-                        @endphp
-                        @foreach ($sections as $key => $item)
-                            <li>
-                                <a href="{{ route('admin.index', ['section' => $key]) }}"
-                                    class="flex items-center w-full text-left px-4 py-2 rounded-lg transition
-                                    {{ $section === $key ? 'bg-[#C23A5C] font-semibold shadow' : 'hover:bg-[#C23A5C]' }}">
-                                    <i class="{{ $item['icon'] }} mr-3"></i> {{ $item['label'] }}
-                                </a>
-                            </li>
-                        @endforeach
-                    </ul>
-                </nav>
-            </div>
-            <div class="mt-auto pt-8 flex justify-center">
+        <div class="flex flex-col h-full p-6">
+            <!-- Logo -->
+            <div class="flex justify-center mb-8">
                 <a href="{{ route('home') }}">
-                    <img src="{{ asset('static/img/iconFresa.svg') }}" alt="Bancal"
-                        class="h-16 w-16 md:h-20 md:w-auto">
+                    <span
+                        class="inline-flex items-center justify-center rounded-full bg-white h-20 w-20 md:h-24 md:w-24 shadow-lg">
+                        <img src="{{ asset('static/img/iconFresa.svg') }}" alt="Bancal"
+                            class="h-16 w-16 md:h-20 md:w-20 transition-transform hover:scale-105">
+                    </span>
                 </a>
             </div>
+            <!-- Title -->
+            <h2 class="text-xl md:text-2xl font-bold mb-6 text-center">Configuración Administración</h2>
+            <!-- Navigation -->
+            <nav class="flex-1">
+                <ul class="space-y-2">
+                    @php
+                        $sections = [
+                            'users' => ['icon' => 'fas fa-users', 'label' => 'Usuarios'],
+                            'products' => ['icon' => 'fas fa-cogs', 'label' => 'Productos'],
+                            'product_categories' => ['icon' => 'fas fa-list', 'label' => 'Categorías de Producto'],
+                            'addresses' => ['icon' => 'fas fa-map-marker-alt', 'label' => 'Direcciones'],
+                            'address_types' => ['icon' => 'fas fa-tags', 'label' => 'Tipos de Dirección'],
+                            'payments' => ['icon' => 'fas fa-credit-card', 'label' => 'Pagos'],
+                            'payment_types' => ['icon' => 'fas fa-money-check-alt', 'label' => 'Tipos de Pago'],
+                            'orders' => ['icon' => 'fas fa-shopping-cart', 'label' => 'Órdenes'],
+                        ];
+                    @endphp
+                    @foreach ($sections as $key => $item)
+                        <li>
+                            <a href="{{ route('admin.index', ['section' => $key]) }}"
+                                class="flex items-center w-full text-left px-4 py-2 rounded-lg transition
+                                {{ $section === $key ? 'bg-[#C23A5C] font-semibold shadow-lg' : 'hover:bg-[#C23A5C]/80' }}">
+                                <i class="{{ $item['icon'] }} mr-3 text-lg"></i>
+                                <span>{{ $item['label'] }}</span>
+                            </a>
+                        </li>
+                    @endforeach
+                </ul>
+            </nav>
         </div>
     </aside>
     <!-- Main Content -->

@@ -11,8 +11,8 @@ class OrderProductFactory extends Factory
 	public function definition()
 	{
 		return [
-			'order_id' => Order::factory(),
-			'product_id' => Product::factory(),
+			'order_id' => Order::inRandomOrder()->first()->id,
+			'product_id' => Product::inRandomOrder()->first()->id,
 		];
 	}
 }

@@ -8,6 +8,6 @@ class PrivateProfile extends Component
 {
     public function render()
     {
-        return view('livewire.private.private-profile')->layout('layouts.app');
+        return view('livewire.private.profile')->layout('layouts.app');
     }
 }

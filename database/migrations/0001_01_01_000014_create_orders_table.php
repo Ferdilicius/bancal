@@ -10,8 +10,10 @@ return new class extends Migration
     {
         Schema::create('orders', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->nullable()->constrained()->onDelete('set null');
             $table->enum('status', ['pendiente', 'pagado', 'cancelado'])->default('pendiente');
+            $table->foreignId('user_id')->nullable()->constrained()->onDelete('set null');
+            $table->foreignId('address_id')->nullable()->constrained()->onDelete('set null');
+            $table->foreignId('payment_method_id')->nullable()->constrained()->onDelete('set null');
             $table->timestamps();
         });
     }

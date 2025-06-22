@@ -13,7 +13,7 @@ return new class extends Migration
             $table->string('email')->nullable();
             $table->string('message');
             $table->foreignId('user_id')->nullable()->constrained('users');
-            $table->foreignId('message_type_id')->nullable()->constrained('message_types')->onDelete('cascade');
+            $table->foreignId('message_type_id')->nullable()->constrained()->onDelete('cascade');
             $table->timestamps();
         });
     }

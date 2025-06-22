@@ -27,28 +27,41 @@ class Crud extends Component
     public $geometry = null;
     public $otherAddresses = [];
 
-
     public function mount($addressId = null)
     {
-        $this->addressTypes = AddressType::all();
+        // Ignora AddressType "privado"d
+        $this->addressTypes = AddressType::where('name', '!=', 'privado')->get();
         $this->status = false;
 
+        $privadoType = AddressType::where('name', 'privado')->first();
+
         if ($addressId) {
+            $address = Address::with('images')->findOrFail($addressId);
+
+            // No permitir cargar address con tipo "privado"
+            if ($privadoType && $address->address_type_id == $privadoType->id) {
+                abort(403);
+            }
+
             $this->addressId = $addressId;
-            $this->addressModel = Address::with('images')->findOrFail($addressId);
-            $this->name = $this->addressModel->name;
-            $this->address = $this->addressModel->address;
-            $this->latitude = $this->addressModel->latitude;
-            $this->longitude = $this->addressModel->longitude;
-            $this->status = $this->addressModel->status === 'activo';
-            $this->address_type_id = $this->addressModel->address_type_id;
-            $this->images = $this->addressModel->images->pluck('path')->toArray();
-            $this->geometry = $this->addressModel->geometry ? json_encode($this->addressModel->geometry) : null;
+            $this->addressModel = $address;
+            $this->name = $address->name;
+            $this->address = $address->address;
+            $this->latitude = $address->latitude;
+            $this->longitude = $address->longitude;
+            $this->status = $address->status === 'activo';
+            $this->address_type_id = $address->address_type_id;
+            $this->images = $address->images->pluck('path')->toArray();
+            $this->geometry = $address->geometry ? json_encode($address->geometry) : null;
         }
-        // Otras addresses del usuario, excluyendo la actual y solo con geometría
+
+        // Excluir addresses con tipo "privado" y la actual, solo con geometría
         $query = Address::where('user_id', auth()->id());
         if ($addressId) {
             $query->where('id', '!=', $addressId);
+        }
+        if ($privadoType) {
+            $query->where('address_type_id', '!=', $privadoType->id);
         }
         $this->otherAddresses = $query->whereNotNull('geometry')->get(['geometry', 'name']);
     }
@@ -57,7 +70,7 @@ class Crud extends Component
     {
         return [
             'name' => 'required|string|max:255',
-            'address' => 'required|string|max:255',
+            'address' => 'nullable|string|max:255',
             'latitude' => 'nullable|numeric',
             'longitude' => 'nullable|numeric',
             'images.*' => 'nullable',
@@ -102,6 +115,13 @@ class Crud extends Component
     {
         $this->validate();
 
+        // Evitar guardar address con address_type "privado"
+        $privadoType = AddressType::where('name', 'privado')->first();
+        if ($privadoType && $this->address_type_id == $privadoType->id) {
+            session()->flash('error', 'No se puede guardar una dirección con tipo "privado".');
+            return;
+        }
+
         if ($this->addressId) {
             $address = Address::findOrFail($this->addressId);
             $address->update([
@@ -111,7 +131,7 @@ class Crud extends Component
                 'longitude' => $this->longitude,
                 'status' => $this->status ? 'activo' : 'inactivo',
                 'address_type_id' => $this->address_type_id,
-                'geometry' => $this->geometry ? json_decode($this->geometry, true) : null, // <-- añade esto
+                'geometry' => $this->geometry ? json_decode($this->geometry, true) : null,
             ]);
         } else {
             $address = Address::create([
@@ -122,7 +142,7 @@ class Crud extends Component
                 'status' => $this->status ? 'activo' : 'inactivo',
                 'user_id' => auth()->user() ? auth()->user()->id : null,
                 'address_type_id' => $this->address_type_id,
-                'geometry' => $this->geometry ? json_decode($this->geometry, true) : null, // <-- añade esto
+                'geometry' => $this->geometry ? json_decode($this->geometry, true) : null,
             ]);
             $this->addressId = $address->id;
         }
@@ -158,7 +178,7 @@ class Crud extends Component
             }
         }
 
-        return redirect()->route('private-profile');
+        return redirect()->route('private.profile');
     }
 
     public function delete()
@@ -174,7 +194,7 @@ class Crud extends Component
             $address->images()->delete();
             $address->delete();
         }
-        return redirect()->route('private-profile');
+        return redirect()->route('private.profile');
     }
 
     public function render()

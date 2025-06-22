@@ -1,6 +1,5 @@
 <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
 
-
 <footer class="bg-[#9E203F] text-white py-8">
     <div class="container mx-auto flex flex-col md:flex-row justify-between items-start gap-8">
         <div class="text-left ml-4 md:ml-0">
@@ -42,6 +41,14 @@
                 <a href="{{ route('terms.show') }}" class="hover:underline">Términos de Uso</a>
             </div>
         </div>
+    </div>
+    <hr class="my-8 border-t-2 border-white/40 rounded-full shadow-md w-3/4 mx-auto">
+    <div class="container mx-auto mt-6 text-center text-lg text-gray-200">
+        Este proyecto de fin de grado de DAW está bajo la licencia 
+        <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noopener noreferrer" class="underline hover:text-white">
+            Creative Commons Attribution 4.0 International
+        </a>
+        <br> Desarrollado por Álvaro Martínez Penín, Gabriel Martínez Perl y Fernando Martínez Conesa.
     </div>
 </footer>
 

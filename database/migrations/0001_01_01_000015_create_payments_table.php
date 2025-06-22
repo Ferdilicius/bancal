@@ -10,11 +10,10 @@ class CreatePaymentsTable extends Migration
     {
         Schema::create('payments', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('order_id')->constrained()->onDelete('cascade');
-            $table->enum('method', ['stripe', 'paypal', 'bizum', 'transferencia']);
-            $table->string('payment_intent_id')->nullable();
             $table->enum('status', ['pendiente', 'completado', 'fallido'])->default('pendiente');
             $table->decimal('amount', 10, 2);
+            $table->foreignId('order_id')->constrained()->onDelete('cascade');
+            $table->foreignId('payment_method_id')->nullable()->constrained()->onDelete('cascade');
             $table->timestamps();
         });
     }

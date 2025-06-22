@@ -10,14 +10,14 @@ return new class extends Migration
     {
         Schema::create('addresses', function (Blueprint $table) {
             $table->id();
-            $table->string('address');
+            $table->string('address')->nullable();
             $table->string('name');
             $table->enum('status', ['inactivo', 'activo'])->default('inactivo');
             $table->decimal('latitude', 10, 7)->nullable();
             $table->decimal('longitude', 10, 7)->nullable();
             $table->json('geometry')->nullable();
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
-            $table->foreignId('address_type_id')->constrained('address_types')->onDelete('cascade');
+            $table->foreignId('address_type_id')->constrained()->onDelete('cascade');
             $table->timestamps();
         });
     }

@@ -72,11 +72,6 @@
                 locales.
             </p>
 
-            <p class="text-lg leading-relaxed">
-                Para conocer más sobre el proyecto, haz clic <a href="#"
-                    class="text-[#9E203F] font-semibold underline hover:text-[#7c1a32] transition-colors">aquí</a>.
-            </p>
-
             <div class="flex justify-end mt-6">
                 <i
                     class="fa-solid fa-seedling text-6xl bg-gradient-to-b from-[#a9213f] to-[#5a1706] bg-clip-text text-transparent"></i>

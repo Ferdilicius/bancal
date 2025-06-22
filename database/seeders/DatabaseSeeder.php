@@ -22,16 +22,16 @@ class DatabaseSeeder extends Seeder
         @chmod(Storage::disk('local')->path('profile-photos'), 0755);
         @chmod(Storage::disk('local')->path('livewire-tmp'), 0755);
 
-        $this->call(UserSeeder::class);
-        $this->call(ProductCategorySeeder::class);
-        $this->call(ProductSeeder::class);
-        $this->call(ModelImageSeeder::class);
-        $this->call(AddressTypeSeeder::class);
-        $this->call(AddressSeeder::class);
-        $this->call(PaymentSeeder::class);
-        $this->call(OrderSeeder::class);
-        $this->call(OrderProductSeeder::class);
-        $this->call(MessageTypeSeeder::class);
-        $this->call(MessageSeeder::class);
+        // $this->call(UserSeeder::class);
+        // $this->call(ProductCategorySeeder::class);
+        // $this->call(ProductSeeder::class);
+        // $this->call(ModelImageSeeder::class);
+        // $this->call(AddressTypeSeeder::class);
+        // $this->call(AddressSeeder::class);
+        // $this->call(PaymentSeeder::class);
+        // $this->call(OrderSeeder::class);
+        // $this->call(OrderProductSeeder::class);
+        // $this->call(MessageTypeSeeder::class);
+        // $this->call(MessageSeeder::class);
     }
 }

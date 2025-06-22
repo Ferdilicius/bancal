@@ -58,6 +58,11 @@ class User extends Authenticatable
         return $this->hasMany(Address::class);
     }
 
+    public function paymentMethods()
+    {
+        return $this->hasMany(PaymentMethod::class);
+    }
+
     public function updateProfilePhoto(UploadedFile $photo): void
     {
         $filename = Str::uuid() . '.' . $photo->getClientOriginalExtension();

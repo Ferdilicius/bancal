@@ -3,7 +3,7 @@
     <div class="container mx-auto flex justify-between items-center">
         <!-- Logo -->
         <a href="{{ route('home') }}">
-            <img src="{{ asset('static/img/iconFresa.svg') }}" alt="Bancal" class="h-16 w-16 md:h-20 md:w-auto mr-4">
+            <img src="{{ asset('static/img/iconFresa.svg') }}" alt="Bancal" class="h-16 w-16 md:h-20 md:w-auto sm:mr-4">
         </a>
 
         <!-- Search Bar -->
@@ -33,7 +33,7 @@
                         <i class="fa-solid fa-box text-[#9E203F] text-xl md:text-3xl"></i>
                     </button>
                 </a>
-                <a href="{{ route('shopping-cart.index') }}">
+                <a href="{{ route('cart.show') }}">
                     <button
                         class="w-10 h-10 md:w-14 md:h-14 bg-white rounded-full flex items-center justify-center hover:shadow-[0_0_10px_rgba(158,32,63,0.75)] transition-all duration-200 hover:bg-[#F8E7EC]">
                         <i class="fa-solid fa-cart-shopping text-[#9E203F] text-xl md:text-3xl"></i>
@@ -64,7 +64,7 @@
                     <div x-show="dropdownOpen" x-cloak @click.away="dropdownOpen = false"
                         class="absolute right-0 mt-3 w-48 md:w-56 bg-white rounded-xl shadow-xl z-20 overflow-hidden">
                         @auth
-                            <a href="{{ route('private-profile') }}"
+                            <a href="{{ route('private.profile') }}"
                                 class="block px-6 py-3 text-base text-[#9E203F] hover:text-[#7A162E] hover:bg-[#F8E7EC] transition-colors duration-200">
                                 <i class="fa-solid fa-user-circle mr-2"></i> Mi Perfil
                             </a>
@@ -109,7 +109,7 @@
                     @auth
                         <!-- Sección de cuenta -->
                         <div class="border-b border-[#F8E7EC] pb-2 mb-2">
-                            <a href="{{ route('private-profile') }}"
+                            <a href="{{ route('private.profile') }}"
                                 class="flex items-center space-x-3 px-4 py-3 rounded text-base text-[#9E203F] hover:bg-[#F8E7EC] hover:text-[#7A162E] transition-colors duration-200">
                                 <img src="{{ Auth::user()->profile_photo_url }}" alt="{{ Auth::user()->name }}"
                                     class="w-7 h-7 rounded-full object-cover border-2 border-[#9E203F]">
@@ -175,17 +175,30 @@
                             </a>
                         </div>
                     @endauth
-                    <!-- Sección de navegación -->
                     <div>
                         <a href="{{ route('product.index') }}"
                             class="flex items-center space-x-3 px-4 py-3 rounded transition-all duration-200 hover:bg-[#F8E7EC] hover:text-[#7A162E] ">
                             <i class="fa-solid fa-box text-[#9E203F] text-xl"></i>
                             <span class="text-[#9E203F] font-semibold text-base">Productos</span>
                         </a>
-                        <a href="{{ route('shopping-cart.index') }}"
+                        <a href="{{ route('cart.show') }}"
                             class="flex items-center space-x-3 px-4 py-3 rounded transition-all duration-200 hover:bg-[#F8E7EC] hover:text-[#7A162E]">
                             <i class="fa-solid fa-cart-shopping text-[#9E203F] text-xl"></i>
                             <span class="text-[#9E203F] font-semibold text-base">Carrito</span>
+                        </a>
+                        @auth
+                            @if (Auth::user()->user_type === 'admin')
+                                <a href="{{ route('admin.index') }}"
+                                    class="flex items-center space-x-3 px-4 py-3 rounded transition-all duration-200 hover:bg-[#F8E7EC] hover:text-[#7A162E]">
+                                    <i class="fa-solid fa-user-tie text-[#9E203F] text-xl"></i>
+                                    <span class="text-[#9E203F] font-semibold text-base">Admin</span>
+                                </a>
+                            @endif
+                        @endauth
+                        <a href="{{ route('contact') }}"
+                            class="flex items-center space-x-3 px-4 py-3 rounded transition-all duration-200 hover:bg-[#F8E7EC] hover:text-[#7A162E]">
+                            <i class="fa-solid fa-headset text-[#9E203F] text-xl"></i>
+                            <span class="text-[#9E203F] font-semibold text-base">Soporte</span>
                         </a>
                     </div>
                 </div>

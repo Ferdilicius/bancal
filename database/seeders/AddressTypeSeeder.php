@@ -8,9 +8,6 @@ use App\Models\AddressType;
 
 class AddressTypeSeeder extends Seeder
 {
-    /**
-     * Run the database seeds.
-     */
     public function run(): void
     {
         AddressType::create(['name' => 'Bancal']);

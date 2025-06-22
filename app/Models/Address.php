@@ -23,8 +23,7 @@ class Address extends Model
     protected $casts = [
         'geometry' => 'array', // Del segundo modelo
     ];
-
-    // Relaciones (comunes a ambos modelos)
+    
     public function addressType()
     {
         return $this->belongsTo(AddressType::class);
@@ -38,5 +37,10 @@ class Address extends Model
     public function images()
     {
         return $this->morphMany(ModelImage::class, 'imageable')->orderBy('order');
+    }
+
+    public function product()
+    {
+        return $this->hasOne(Product::class);
     }
 }

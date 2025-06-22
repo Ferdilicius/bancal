@@ -1,0 +1,15 @@
+[33m45a7bab[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmain[m[33m, [m[1;31morigin/main[m[33m, [m[1;31morigin/HEAD[m[33m)[m HEAD@{0}: reset: moving to 45a7bab
+[33m3540eff[m[33m ([m[1;32mbackup-before-reset[m[33m)[m HEAD@{1}: pull --tags origin main: Fast-forward
+[33m45a7bab[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmain[m[33m, [m[1;31morigin/main[m[33m, [m[1;31morigin/HEAD[m[33m)[m HEAD@{2}: reset: moving to 45a7bab
+[33m3540eff[m[33m ([m[1;32mbackup-before-reset[m[33m)[m HEAD@{3}: pull --tags origin main: Fast-forward
+[33m45a7bab[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmain[m[33m, [m[1;31morigin/main[m[33m, [m[1;31morigin/HEAD[m[33m)[m HEAD@{4}: reset: moving to 45a7bab
+[33m3540eff[m[33m ([m[1;32mbackup-before-reset[m[33m)[m HEAD@{5}: pull --tags origin main: Fast-forward
+[33m825a788[m HEAD@{6}: reset: moving to HEAD~5
+[33m3540eff[m[33m ([m[1;32mbackup-before-reset[m[33m)[m HEAD@{7}: pull --tags origin main: Fast-forward
+[33m825a788[m HEAD@{8}: reset: moving to HEAD~5
+[33m3540eff[m[33m ([m[1;32mbackup-before-reset[m[33m)[m HEAD@{9}: commit: Apañao
+[33m65ae288[m HEAD@{10}: commit (merge): Merge branch 'main' of https://github.com/Ferdilicius/bancal
+[33m2b50181[m HEAD@{11}: commit: ihonop
+[33m1981173[m HEAD@{12}: pull --tags origin main: Fast-forward
+[33m87c47a6[m HEAD@{13}: commit: ya van
+[33md917ba0[m HEAD@{14}: clone: from https://github.com/Ferdilicius/bancal.git

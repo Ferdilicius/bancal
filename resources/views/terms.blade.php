@@ -11,21 +11,22 @@
     </div>
 
     <!-- Fondo general del cuerpo -->
-    <div class="min-h-screen flex flex-col items-center pt-6 sm:pt-0 bg-[#f0f0f0]">
+    <div class="min-h-screen flex flex-col items-center sm:pt-0 bg-[#f0f0f0]">
         <div class="w-full sm:max-w-4xl mt-6 p-6 bg-[#f0f0f0] overflow-hidden sm:rounded-lg">
 
             {{-- Sección 1: Introducción y Aceptación --}}
-            
+
             <section class="border border-[#080303] bg-white shadow-sm rounded-lg p-4 mb-6">
                 <h2 class="text-lg font-semibold mb-2">1. Introducción y Aceptación</h2>
                 <div class="pl-6">
-                Bienvenido a Bancal, plataforma con el objetivo de conectar productores, agricultores y
-                comerciantes de frutas y verduras frescas con consumidores que buscan productos de calidad directamente
-                del campo.
+                    Bienvenido a Bancal, plataforma con el objetivo de conectar productores, agricultores y
+                    comerciantes de frutas y verduras frescas con consumidores que buscan productos de calidad
+                    directamente
+                    del campo.
 
-                Al acceder y utilizar nuestros servicios, ya sea como comprador o vendedor, aceptas automáticamente
-                estas Políticas de Uso. Si no estás de acuerdo con alguna de estas condiciones, te pedimos que no
-                utilices la plataforma y busques otra alternativa que cumpla con tus necesidades.
+                    Al acceder y utilizar nuestros servicios, ya sea como comprador o vendedor, aceptas automáticamente
+                    estas Políticas de Uso. Si no estás de acuerdo con alguna de estas condiciones, te pedimos que no
+                    utilices la plataforma y busques otra alternativa que cumpla con tus necesidades.
                 </div>
             </section>
 
@@ -33,12 +34,12 @@
             <section class="border border-[#080303] bg-white shadow-sm rounded-lg p-4 mb-6">
                 <h2 class="text-lg font-semibold mb-2">2. Definiciones Específicas</h2>
                 <div class="pl-6">
-                <ul class="list-disc list-inside space-y-1">
-                    <li><strong>Plataforma:</strong> El sitio web y aplicación Bancal.</li>
-                    <li><strong>Vendedor:</strong> Agricultor, comerciante o particular que ofrece productos.</li>
-                    <li><strong>Comprador:</strong> Usuario que adquiere productos.</li>
-                    <li><strong>Bancal:</strong> Espacio virtual para exponer productos.</li>
-                </ul>
+                    <ul class="list-disc list-inside space-y-1">
+                        <li><strong>Plataforma:</strong> El sitio web y aplicación Bancal.</li>
+                        <li><strong>Vendedor:</strong> Agricultor, comerciante o particular que ofrece productos.</li>
+                        <li><strong>Comprador:</strong> Usuario que adquiere productos.</li>
+                        <li><strong>Bancal:</strong> Espacio virtual para exponer productos.</li>
+                    </ul>
                 </div>
             </section>
 
@@ -411,7 +412,7 @@
                     </ul>
                 </div>
             </section>
-        
+
 
             {{-- Sección 14: Modificaciones y Actualizaciones --}}
             <section class="border border-[#080303] bg-white shadow-sm rounded-lg p-4 mb-6">
@@ -437,7 +438,7 @@
                     </ul>
                 </div>
             </section>
-          
+
             {{-- Sección 15: Contacto y Soporte --}}
             <section class="border border-[#080303] bg-white shadow-sm rounded-lg p-4 mb-6">
                 <h2 class="text-lg font-semibold mb-2">15. Contacto y Soporte</h2>
@@ -445,21 +446,23 @@
                 <div class="pl-6">
                     <p class="font-medium mt-4">15.1 Atención al Cliente</p>
                     <ul class="list-disc list-inside space-y-1">
-                        <li><strong>Correo electrónico:</strong> <a href="mailto:soporte@bancal.es" class="text-blue-600 underline">soporte@bancal.es</a></li>
+                        <li><strong>Correo electrónico:</strong> <a href="mailto:soporte@bancal.es"
+                                class="text-blue-600 underline">soporte@bancal.es</a></li>
                         <li><strong>Teléfono:</strong> +34 123 456 789</li>
                     </ul>
                 </div>
-                
+
                 <div class="pl-6">
                     <p class="font-medium mt-4">15.2 Soporte Técnico</p>
                     <ul class="list-disc list-inside space-y-1">
-                        <li><strong>Correo electrónico:</strong> <a href="mailto:soporte@bancal.es" class="text-blue-600 underline">tec@bancal.es</a></li>
+                        <li><strong>Correo electrónico:</strong> <a href="mailto:soporte@bancal.es"
+                                class="text-blue-600 underline">tec@bancal.es</a></li>
                         <li>Futuros vídeotutoriales y otros vídeos de soporte.</li>
                         <li>Horario interrumpido (24/7) para incidencias críticas.</li>
                     </ul>
                 </div>
 
-    
+
             </section>
 
             {{-- Sección 16: Jurisdicción y Ley Aplicable --}}
@@ -475,13 +478,15 @@
         </div>
 
         <div class="w-full bg-[#fdfdfd] border-b border-gray-200">
-        <div class="max-w-4xl mx-auto px-6 py-6 text-center">
-           <a href="{{ route('home') }}">
-                <img src="{{ asset('static/img/iconFresa.svg') }}" alt="Logo" class="w-20 h-20 mx-auto mb-4" />
-            </a>
-            
-            <p class="mt-1 text-sm text-gray-600">Al utilizar Bancal, confirmas que has leído, entendido y aceptado estos Términos de Uso.</p>
+            <div class="max-w-4xl mx-auto px-6 py-6 text-center">
+                <a href="{{ route('home') }}">
+                    <img src="{{ asset('static/img/iconFresa.svg') }}" alt="Logo"
+                        class="w-20 h-20 mx-auto mb-4" />
+                </a>
+
+                <p class="mt-1 text-sm text-gray-600">Al utilizar Bancal, confirmas que has leído, entendido y aceptado
+                    estos Términos de Uso.</p>
+            </div>
         </div>
-    </div>
     </div>
 </x-guest-layout>

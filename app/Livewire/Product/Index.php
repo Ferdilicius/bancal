@@ -13,11 +13,13 @@ class Index extends Component
 
     public $searchTerm = '';
     public $category_id = '';
-    public $min_price = '';
-    public $max_price = '';
     public $quantity_type = '';
+    public $orderBy = 'created_at_desc';
 
-    protected $listeners = ['searchUpdated' => 'setSearchTerm'];
+    protected $listeners = [
+        'searchUpdated' => 'setSearchTerm',
+        'filtersChanged' => 'setFilters',
+    ];
 
     public function setSearchTerm($term)
     {
@@ -30,11 +32,19 @@ class Index extends Component
         $this->resetPage();
     }
 
-    public function updating($name)
+    public function setFilters($filters)
     {
-        if (in_array($name, ['category_id', 'min_price', 'max_price', 'quantity_type'])) {
-            $this->resetPage();
-        }
+        $this->category_id = $filters['category_id'] ?? '';
+        $this->quantity_type = $filters['quantity_type'] ?? '';
+        $this->orderBy = $filters['orderBy'] ?? 'created_at_desc';
+        $this->resetPage();
+    }
+
+    public function resetFilters()
+    {
+        $this->reset(['searchTerm', 'category_id', 'quantity_type', 'orderBy']);
+        $this->orderBy = 'created_at_desc';
+        $this->resetPage();
     }
 
     public function render()
@@ -42,25 +52,32 @@ class Index extends Component
         $categories = ProductCategory::all();
 
         $products = Product::where('status', 'activo')
-            ->when($this->searchTerm, function ($query) {
-                $query->where('name', 'like', '%' . $this->searchTerm . '%');
+            ->when($this->searchTerm, fn($q) => $q->where('name', 'like', $this->searchTerm . '%'))
+            ->when($this->category_id, fn($q) => $q->where('category_id', $this->category_id))
+            ->when($this->quantity_type, fn($q) => $q->where('quantity_type', $this->quantity_type))
+            ->when($this->orderBy, function ($q) {
+                switch ($this->orderBy) {
+                    case 'created_at_asc':
+                        $q->orderBy('created_at', 'asc');
+                        break;
+                    case 'price_asc':
+                        $q->orderBy('price', 'asc');
+                        break;
+                    case 'price_desc':
+                        $q->orderBy('price', 'desc');
+                        break;
+                    case 'name_asc':
+                        $q->orderBy('name', 'asc');
+                        break;
+                    case 'name_desc':
+                        $q->orderBy('name', 'desc');
+                        break;
+                    default:
+                        $q->orderBy('created_at', 'desc');
+                }
             })
-            ->when($this->category_id, function ($query) {
-                $query->where('category_id', $this->category_id);
-            })
-            ->when($this->quantity_type, function ($query) {
-                $query->where('quantity_type', $this->quantity_type);
-            })
-            ->when($this->min_price !== '', function ($query) {
-                $query->where('price', '>=', $this->min_price);
-            })
-            ->when($this->max_price !== '', function ($query) {
-                $query->where('price', '<=', $this->max_price);
-            })
-            ->orderBy('created_at', 'desc')
             ->paginate(10);
 
-        return view('livewire.product.index', compact('products', 'categories'))
-            ->layout('layouts.app');
+        return view('livewire.product.index', compact('products', 'categories'))->layout('layouts.app');
     }
 }

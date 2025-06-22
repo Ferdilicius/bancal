@@ -15,7 +15,8 @@ class AddressFactory extends Factory
         'Finquica',
         'Barraquica',
         'El Monasterio',
-        'Villa Paloma'
+        'Villa Paloma',
+        'privado',
     ];
     
     public function definition(): array

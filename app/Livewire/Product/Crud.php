@@ -37,10 +37,14 @@ class Crud extends Component
     public function mount($productId = null)
     {
         $this->categories = ProductCategory::all();
-        $this->quantityTypes = ['litro', 'kilo', 'unidad', 'bolsa', 'caja'];
+        $this->quantityTypes = ['gramo', 'kilo', 'unidad', 'litro', 'bolsa', 'caja'];
         $this->status = false;
-        // 2. Carga las direcciones del usuario autenticado
-        $this->addresses = auth()->user() ? auth()->user()->addresses : collect();
+        // Solo direcciones cuyo address_type no sea 'privado'
+        $this->addresses = auth()->user()
+            ? auth()->user()->addresses()->whereHas('addressType', function ($q) {
+                $q->where('name', '!=', 'privado');
+            })->get()
+            : collect();
 
         if ($productId) {
             $this->productId = $productId;
@@ -67,7 +71,7 @@ class Crud extends Component
             'name' => 'required|string|max:255',
             'description' => 'nullable|string',
             'quantity' => 'required|integer|min:0',
-            'quantity_type' => 'required|in:litro,kilo,unidad,bolsa,caja',
+            'quantity_type' => 'required|in:gramo,kilo,unidad,litro,bolsa,caja',
             'price' => [
                 'required',
                 'numeric',
@@ -117,9 +121,67 @@ class Crud extends Component
         }
     }
 
+    public function updatedMinPerPerson($value)
+    {
+        // Si es null, vacío o menor que 0, poner null. Si es 0, poner 1.
+        if ($value === null || $value === '') {
+            $this->min_per_person = null;
+        } elseif ($value <= 0) {
+            $this->min_per_person = 1;
+        } elseif ($value > $this->quantity) {
+            $this->min_per_person = $this->quantity;
+        } else {
+            $this->min_per_person = $value;
+        }
+
+        // Si max_per_person es menor que min, ajústalo
+        if ($this->max_per_person !== null && $this->max_per_person < $this->min_per_person) {
+            $this->max_per_person = $this->min_per_person;
+        }
+    }
+
+    public function updatedMaxPerPerson($value)
+    {
+        // No puede ser negativo, menor que min, ni mayor que cantidad
+        if ($value === null || $value === '' || $value <= 0) {
+            $this->max_per_person = null;
+        } elseif ($this->min_per_person !== null && $value < $this->min_per_person) {
+            $this->max_per_person = $this->min_per_person;
+        } elseif ($value > $this->quantity) {
+            $this->max_per_person = $this->quantity;
+        } else {
+            $this->max_per_person = $value;
+        }
+    }
+
+    public function updatedQuantity($value)
+    {
+        // Si cambias la cantidad, ajusta min y max si hace falta
+        if ($this->min_per_person !== null && $this->min_per_person > $value) {
+            $this->min_per_person = $value;
+        }
+        if ($this->max_per_person !== null && $this->max_per_person > $value) {
+            $this->max_per_person = $value;
+        }
+    }
+
     public function save()
     {
         $this->validate();
+
+        // Validación extra por si acaso
+        if ($this->min_per_person !== null && $this->min_per_person > $this->quantity) {
+            $this->addError('min_per_person', 'El mínimo por persona no puede ser mayor que la cantidad total.');
+            return;
+        }
+        if ($this->max_per_person !== null && $this->max_per_person > $this->quantity) {
+            $this->addError('max_per_person', 'El máximo por persona no puede ser mayor que la cantidad total.');
+            return;
+        }
+        if ($this->max_per_person !== null && $this->min_per_person !== null && $this->max_per_person < $this->min_per_person) {
+            $this->addError('max_per_person', 'El máximo por persona no puede ser menor que el mínimo.');
+            return;
+        }
 
         $maxPerPerson = $this->allow_fractional && $this->max_per_person !== '' ? $this->max_per_person : null;
         $minPerPerson = $this->allow_fractional && $this->min_per_person !== '' ? $this->min_per_person : null;
@@ -188,7 +250,7 @@ class Crud extends Component
             }
         }
 
-        return redirect()->route('private-profile');
+        return redirect()->route('private.profile');
     }
 
     public function delete()
@@ -204,7 +266,7 @@ class Crud extends Component
             $product->images()->delete();
             $product->delete();
         }
-        return redirect()->route('private-profile');
+        return redirect()->route('private.profile');
     }
 
     public function render()

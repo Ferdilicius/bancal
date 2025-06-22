@@ -17,8 +17,8 @@ class Product extends Model
         'quantity_type',
         'status',
         'allow_fractional',
-        'max_per_person',
         'min_per_person',
+        'max_per_person',
         'address_id',
         'user_id',
         'category_id',
@@ -34,14 +34,36 @@ class Product extends Model
             return "{$quantity} {$pluralType}";
         }
 
-        if ($type === 'kilo' && $quantity < 1) {
-            $grams = $quantity * 1000;
-            $pluralType = $grams == 1 ? 'gramo' : 'gramos';
-            return "{$grams} {$pluralType}";
-        }
-
         $pluralType = $quantity == 1 ? $type : $type . 's';
         return "{$quantity} {$pluralType}";
+    }
+
+    public function getFormattedMinPerPersonAttribute()
+    {
+        $min = $this->min_per_person;
+        $type = $this->quantity_type;
+
+        if ($type === 'unidad') {
+            $pluralType = $min == 1 ? 'unidad' : 'unidades';
+            return "{$min} {$pluralType}";
+        }
+
+        $pluralType = $min == 1 ? $type : $type . 's';
+        return "{$min} {$pluralType}";
+    }
+
+    public function getFormattedMaxPerPersonAttribute()
+    {
+        $max = $this->max_per_person;
+        $type = $this->quantity_type;
+
+        if ($type === 'unidad') {
+            $pluralType = $max == 1 ? 'unidad' : 'unidades';
+            return "{$max} {$pluralType}";
+        }
+
+        $pluralType = $max == 1 ? $type : $type . 's';
+        return "{$max} {$pluralType}";
     }
 
     public function getFormattedPriceAttribute()
@@ -62,5 +84,10 @@ class Product extends Model
     public function images()
     {
         return $this->morphMany(ModelImage::class, 'imageable')->orderBy('order');
+    }
+
+    public function category()
+    {
+        return $this->belongsTo(ProductCategory::class);
     }
 }

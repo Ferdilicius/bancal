@@ -46,6 +46,6 @@ class SocialiteController extends Controller
         Auth::login($user, true); // true = recordar sesión
 
         // Redirige a la zona privada
-        return redirect()->route('private-profile');
+        return redirect()->route('private.profile');
     }
 }

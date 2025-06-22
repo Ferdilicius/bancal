@@ -3,7 +3,6 @@
 namespace App\Livewire\Private\Tabs;
 
 use Livewire\Component;
-use Illuminate\Support\Facades\Auth;
 
 class Sales extends Component
 {

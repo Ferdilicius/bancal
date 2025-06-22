@@ -1,8 +1,16 @@
 @section('title', 'Perfil Público de ' . $user->name)
 
-<div class="max-w-5xl mx-auto py-10 px-4 sm:px-8">
-    <a href="{{ url()->previous() }}" class="flex items-center text-gray-600 hover:text-gray-900 mb-6">
-        <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+<div class="max-w-6xl mx-auto py-6 px-6 sm:px-12 text-lg">
+    @php
+        $previousUrl = url()->previous();
+        $currentUrl = url()->current();
+
+        if ($previousUrl === $currentUrl && request()->headers->has('referer')) {
+            $previousUrl = request()->headers->get('referer');
+        }
+    @endphp
+    <a href="{{ $previousUrl }}" class="flex items-center text-gray-600 hover:text-gray-900 mb-8 text-lg">
+        <svg class="w-6 h-6 mr-3" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" />
         </svg>
         Volver atrás

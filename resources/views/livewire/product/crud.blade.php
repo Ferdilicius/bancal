@@ -1,7 +1,7 @@
 @section('title', $productId ? 'Editar Producto' : 'Crear Producto')
 
-<div class="max-w-6xl mx-auto py-16 px-6 sm:px-12 text-lg">
-    <a href="{{ url()->previous() }}" class="flex items-center text-gray-600 hover:text-gray-900 mb-8 text-lg">
+<div class="max-w-6xl mx-auto py-6 px-6 sm:px-12 text-lg">
+    <a href="{{ route('private.profile') }}" class="flex items-center text-gray-600 hover:text-gray-900 mb-8 text-lg">
         <svg class="w-6 h-6 mr-3" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" />
         </svg>
@@ -113,12 +113,13 @@
                         class="flex text-base font-semibold text-gray-800 mb-2 items-center gap-3">
                         <span class="text-red-600">*</span> Tipo de Unidad
                         <span class="relative group text-indigo-500 cursor-pointer" tabindex="0"
-                            aria-label="Información sobre el tipo de unidad">
+                            aria-label="Información sobre el tipo de cantidad">
                             <i class="fas fa-info-circle" aria-hidden="true"></i>
                             <div class="absolute left-7 top-1/2 -translate-y-1/2 z-20 hidden group-hover:block group-focus:block bg-white border border-gray-300 rounded shadow px-5 py-3 text-base text-gray-700 w-80"
                                 role="tooltip">
-                                Indica la unidad de medida (por ejemplo: kg, unidad, caja) en la que se vende el
-                                producto.
+                                Indica el tipo de cantidad en la que se vende el producto. Ejemplo:
+                                {{ $product->formatted_quantity ?? '5 kg, 1 caja, 12 aunidades, etc.' }}
+                                <br>
                             </div>
                         </span>
                     </label>
@@ -313,9 +314,10 @@
                                     </div>
                                 </span>
                             </label>
-                            <input type="number" id="min_per_person" wire:model="min_per_person" min="0"
-                                step="any"
-                                class="mt-2 block w-full border border-gray-300 rounded px-5 py-3 text-base focus:ring-indigo-400 focus:border-indigo-400">
+                            <input type="number" id="min_per_person" wire:model="min_per_person" min="1"
+                                :max="Number(@js($quantity ?? 0))" step="1"
+                                class="mt-2 block w-full border border-gray-300 rounded px-5 py-3 text-base focus:ring-indigo-400 focus:border-indigo-400"
+                                oninput="this.value = this.value.replace(/[^0-9]/g, '').replace(/^0+/, ''); if(this.value !== '') this.value = Math.max(1, parseInt(this.value));">
                             @error('min_per_person')
                                 <span class="text-sm text-red-500 mt-2 block">{{ $message }}</span>
                             @enderror
@@ -333,9 +335,10 @@
                                     </div>
                                 </span>
                             </label>
-                            <input type="number" id="max_per_person" wire:model="max_per_person" min="0"
-                                step="any"
-                                class="mt-2 block w-full border border-gray-300 rounded px-5 py-3 text-base focus:ring-indigo-400 focus:border-indigo-400">
+                            <input type="number" id="max_per_person" wire:model="max_per_person"
+                                min="{{ $min_per_person ?? 1 }}" max="{{ $quantity ?? 0 }}" step="1"
+                                class="mt-2 block w-full border border-gray-300 rounded px-5 py-3 text-base focus:ring-indigo-400 focus:border-indigo-400"
+                                oninput="this.value = this.value.replace(/[^0-9]/g, '').replace(/^0+/, ''); if(this.value !== '') this.value = Math.max({{ $min_per_person ?? 1 }}, parseInt(this.value));">
                             @error('max_per_person')
                                 <span class="text-sm text-red-500 mt-2 block">{{ $message }}</span>
                             @enderror
@@ -410,7 +413,7 @@
                         </div>
                     </div>
                 @endif
-                <a href="{{ route('private-profile') }}"
+                <a href="{{ route('private.profile') }}"
                     class="flex-1 flex items-center justify-center gap-3 bg-gray-100 text-gray-700 py-3 px-6 rounded shadow hover:bg-gray-200 font-bold text-lg transition border border-gray-300"
                     aria-label="Cancelar y volver al perfil privado">
                     <i class="fas fa-arrow-left" aria-hidden="true"></i>

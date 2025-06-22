@@ -1,16 +1,25 @@
 @section('title', "$address->name - Detalles Bancal")
 
-<div class="max-w-5xl mx-auto py-10 px-4 sm:px-8">
-    <a href="{{ url()->previous() }}" class="flex items-center text-gray-600 hover:text-gray-900 mb-6">
-        <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+<div class="max-w-6xl mx-auto py-6 px-6 sm:px-12 text-lg">
+    @php
+        $previousUrl = url()->previous();
+        $currentUrl = url()->current();
+
+        if ($previousUrl === $currentUrl && request()->headers->has('referer')) {
+            $previousUrl = request()->headers->get('referer');
+        }
+    @endphp
+    <a href="{{ $previousUrl }}" class="flex items-center text-gray-600 hover:text-gray-900 mb-8 text-lg">
+        <svg class="w-6 h-6 mr-3" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" />
         </svg>
         Volver atrás
     </a>
+
     <div class="bg-white shadow-lg rounded-xl flex flex-col md:flex-row overflow-hidden">
         {{-- Imagen principal --}}
-        <div class="md:w-1/2 w-full h-80 bg-gray-100 flex items-center justify-center relative cursor-pointer group"
-            x-data="{
+        <div class="md:w-1/2 w-full bg-gray-100 flex items-center justify-center relative cursor-pointer group"
+            style="height: auto; min-height: 20rem;" x-data="{
                 images: @js($address->images->map(fn($img) => ['id' => $img->id])->toArray()),
                 current: 0,
                 prev: 0,
@@ -36,16 +45,17 @@
                     this.startX = null;
                 },
                 get hasImages() { return this.images.length > 0 },
-            }" x-effect="direction = current > prev ? 'right' : 'left'; prev = current">
+            }"
+            x-effect="direction = current > prev ? 'right' : 'left'; prev = current">
 
             <div class="w-full h-full flex items-center justify-center" @click="if(hasImages) showModal = true"
                 title="Ampliar imágenes" @touchstart="handleTouchStart($event)" @touchend="handleTouchEnd($event)">
 
                 <div class="w-full h-full flex items-center justify-center">
-                    <div x-show="hasImages" class="relative w-full h-80 overflow-hidden">
+                    <div x-show="hasImages" class="relative w-full h-full min-h-[20rem] overflow-hidden">
                         <template x-for="(img, idx) in images" :key="img.id">
                             <img x-show="current === idx" :src="'{{ url('/bancales') }}/{{ $address->id }}/' + img.id"
-                                class="w-full h-80 object-cover absolute inset-0 transition-all duration-400 ease-[cubic-bezier(.4,2,.6,1)]"
+                                class="w-full h-full object-cover absolute inset-0 transition-all duration-400 ease-[cubic-bezier(.4,2,.6,1)]"
                                 :class="{
                                     'opacity-0 -translate-x-6 scale-95': current !== idx && direction === 'right',
                                     'opacity-0 translate-x-6 scale-95': current !== idx && direction === 'left',
@@ -53,17 +63,17 @@
                                 }">
                         </template>
                         <button type="button"
-                            class="absolute left-2 top-1/2 -translate-y-1/2 bg-white/80 hover:bg-white shadow rounded-full p-2 flex items-center justify-center transition opacity-80 hover:opacity-100"
+                            class="absolute left-2 top-1/2 -translate-y-1/2 bg-white/80 hover:bg-white shadow rounded-full p-3 flex items-center justify-center transition opacity-80 hover:opacity-100"
                             x-show="current > 0" @click.stop="current--; direction = 'left'" aria-label="Anterior">
-                            <svg class="w-5 h-5 text-gray-700" fill="none" stroke="currentColor" stroke-width="2"
+                            <svg class="w-8 h-8 text-gray-700" fill="none" stroke="currentColor" stroke-width="2"
                                 viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" />
                             </svg>
                         </button>
                         <button type="button"
-                            class="absolute right-2 top-1/2 -translate-y-1/2 bg-white/80 hover:bg-white shadow rounded-full p-2 flex items-center justify-center transition opacity-80 hover:opacity-100"
-                            x-show="current < images.length - 1" @click.stop="current++; direction = 'right'"
-                            aria-label="Siguiente">
+                            class="absolute right-2 top-1/2 -translate-y-1/2 bg-white/80 hover:bg-white shadow rounded-full p-3 flex items-
+                            x-show="current
+                            < images.length - 1" @click.stop="current++; direction = 'right'" aria-label="Siguiente">
                             <svg class="w-5 h-5 text-gray-700" fill="none" stroke="currentColor" stroke-width="2"
                                 viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
@@ -80,7 +90,7 @@
                         </div>
                     </div>
                     <div x-show="!hasImages"
-                        class="flex items-center justify-center w-full h-80 bg-gray-100 text-gray-400 text-lg font-semibold">
+                        class="flex items-center justify-center w-full h-full min-h-[20rem] bg-gray-100 text-gray-400 text-lg font-semibold">
                         Sin imagen
                     </div>
                 </div>
@@ -180,6 +190,12 @@
                     </div>
                 </div>
             </a>
+            @if (!empty($address->address))
+                <div class="mb-6">
+                    <div class="font-semibold text-gray-800 mb-1">Dirección:</div>
+                    <div class="text-gray-600">{{ $address->address }}</div>
+                </div>
+            @endif
             @if (!empty($address->latitude) && !empty($address->longitude))
                 <div class="flex gap-4">
                     <a href="https://maps.google.com/?q={{ $address->latitude }},{{ $address->longitude }}"
@@ -192,4 +208,34 @@
             @endif
         </div>
     </div>
+
+    @if ($products && $products->count())
+        <div class="mt-12">
+            <h2 class="text-2xl font-bold mb-4 text-gray-800">Productos en este bancal</h2>
+            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6">
+                @foreach ($products as $product)
+                    <a href="{{ route('product.show', $product->id) }}"
+                        class="bg-white border border-gray-200 rounded-lg shadow-md p-3 hover:shadow-lg transition-shadow duration-200 flex flex-col">
+                        @php
+                            $firstImage = $product->images->first();
+                        @endphp
+                        @if ($firstImage)
+                            <img src="{{ route('product.image', ['productId' => $product->id, 'imageId' => $firstImage->id]) }}"
+                                alt="Imagen producto"
+                                class="w-full h-28 object-cover rounded-t-lg mb-2 transition-transform duration-200 hover:scale-105">
+                        @else
+                            <div
+                                class="w-full h-28 bg-gray-300 flex items-center justify-center rounded-t-lg mb-2 text-gray-500">
+                                Sin imagen
+                            </div>
+                        @endif
+                        <h3 class="text-base font-bold text-gray-800 mb-1 truncate">{{ $product->name }}</h3>
+                        <p class="text-gray-700 font-semibold mb-1 text-sm">Cantidad:
+                            {{ $product->formatted_quantity }}</p>
+                        <p class="text-gray-700 font-semibold text-sm">Precio: {{ $product->price }}€</p>
+                    </a>
+                @endforeach
+            </div>
+        </div>
+    @endif
 </div>
