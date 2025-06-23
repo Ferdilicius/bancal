@@ -48,9 +48,10 @@ class Crud extends Component
             'product_categories' => ProductCategory::class,
             'addresses' => Address::class,
             'address_types' => AddressType::class,
-            'orders' => Order::class, // Assuming you have an Order model
+            'orders' => Order::class,
+            'order_products' => Order::class, // Assuming OrderProduct is a relationship in Order
             'payments' => Payment::class,
-            'payments_types' => Payment::class, // Assuming you have a Payment model with types
+            'payments_types' => Payment::class,
         ];
 
         return $map[$section] ?? null;

@@ -130,4 +130,4 @@ Route::get('/profile-photo/{filename}', function ($filename) {
     }
 
     return response()->file($path);
-})->middleware('auth')->name('profile.photo');
+})->name('profile.photo');

@@ -27,6 +27,7 @@
                             'payments' => ['icon' => 'fas fa-credit-card', 'label' => 'Pagos'],
                             'payment_types' => ['icon' => 'fas fa-money-check-alt', 'label' => 'Tipos de Pago'],
                             'orders' => ['icon' => 'fas fa-shopping-cart', 'label' => 'Órdenes'],
+                            'order_products' => ['icon' => 'fas fa-box', 'label' => 'Productos de Órdenes'],
                         ];
                     @endphp
                     @foreach ($sections as $key => $item)

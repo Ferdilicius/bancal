@@ -19,7 +19,7 @@
 
                     <div class="flex items-center gap-3 sm:gap-6 min-w-0 w-full sm:w-auto">
                         <div class="flex-shrink-0">
-                            @if ($image && \Illuminate\Support\Facades\Storage::disk('local')->exists($image->path))
+                            @if ($image)
                                 <img src="{{ route('product.image', ['productId' => $product->id, 'imageId' => $image->id]) }}"
                                     alt="Imagen del producto"
                                     class="w-14 h-14 sm:w-24 sm:h-24 md:w-28 md:h-28 object-cover rounded-lg border-2 border-[#9E203F]/20 shadow-sm group-hover:scale-105 transition" />

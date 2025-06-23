@@ -12,14 +12,12 @@ class AddressImageController extends Controller
         $address = Address::findOrFail($addressId);
         $image = $address->images()->where('id', $imageId)->firstOrFail();
 
-        // Cambia la ruta para apuntar a la carpeta privada
         $path = 'model_images/' . $image->path;
 
         if (!Storage::exists($path)) {
             abort(404);
         }
 
-        // Permitir si la dirección está activa o si el usuario es el dueño
         if ($address->status !== 'activo' && auth()->id() !== $address->user_id) {
             abort(403);
         }
